@@ -391,3 +391,5 @@
 \usepackage{ltablex} 
 \keepXColumns 
 \DeclareSIUnit{\fuel}{fuel}
+\usepackage[gen]{eurosym}
+\DeclareSIUnit{\EUR}{\text{\euro}}
