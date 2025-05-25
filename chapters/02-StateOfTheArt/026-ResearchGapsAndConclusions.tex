@@ -1,0 +1,24 @@
+\section{Literature Synthesis and Research Gap}
+\label{sec:research_gap}
+
+This section integrates findings across the preceding state-of-the-art review and identifies the key research gaps that motivate this thesis.
+
+\paragraph{Synthesis of Existing Work}  
+Most studies agree that GLOSA—whether flow-oriented or eco-oriented—can reduce stops and lower fuel consumption under low-density, idealised conditions. However, reported fuel-savings vary widely (2\,\%–15\,\%), reflecting differences in optimization objectives, vehicle-following models, and assumed penetration rates. Methodologically, Dynamic Programming (DP) approaches yield analytically optimal speed profiles but do not account for interactions among multiple equipped vehicles, whereas Reinforcement Learning (RL) methods adapt to complex traffic dynamics at the expense of high data and training requirements.
+
+\paragraph{Identified Research Gaps}  
+\begin{enumerate}
+  \item \textbf{Penetration–Density Interaction:} Very few works jointly vary GLOSA penetration rate and traffic density on a realistically calibrated urban intersection.  
+  \item \textbf{Fuel-Model Sensitivity:} No systematic comparison of emission models (e.g., HBEFA vs.\ PHEMlight) under identical simulation conditions.  
+  \item \textbf{Driver-Heterogeneity Representation:} Most evaluations rely on default IDM parameters rather than a calibrated \ac{eidm} suitable for start-stop dynamics.  
+  \item \textbf{Eco vs.\ Flow Trade-off at Network Level:} The network-level impact of multiple eco-driving vehicles (egoistic versus cooperative behavior) remains underexplored.  
+  \item \textbf{Benchmark Intersection Realism:} High-pollution corridors such as Stuttgart–Neckartor have not been used as standardized testbeds in the literature.
+\end{enumerate}
+
+\paragraph{Thesis Contribution Anchor}  
+To address these gaps, this thesis will:
+\begin{itemize}
+  \item Develop and implement an eco-GLOSA controller based on DP, calibrated with the \ac{eidm} at the Stuttgart–Neckartor intersection.
+  \item Systematically analyse penetration–density thresholds at which eco-GLOSA yields net fuel benefits or adverse traffic impacts.
+  \item Deliver a fully reproducible SUMO scenario and open-source codebase to support future DP and RL benchmarking in urban traffic control research.
+\end{itemize}

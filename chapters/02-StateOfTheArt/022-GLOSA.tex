@@ -1,0 +1,121 @@
+\section{Principles and Architectures of GLOSA Systems}
+\label{sec:glosa}
+
+Building upon the preceding discussion of \ac{sumo} and its capabilities for microscopic traffic simulation, this section introduces the fundamental concepts and overall system architecture of \ac{glosa} systems, laying the groundwork for subsequent exploration of algorithmic approaches and deployment considerations.
+
+\subsection{Fundamental Concepts and System Architecture}
+\label{subsec:glosa_concepts_architecture}
+
+\ac{glosa} systems are an \ac{adas} that advises the driver to adopt an optimal speed, computed via an objective function balancing total energy consumption and travel time, based on traffic signal phase and timing information. By doing so, they minimise stops at red lights, thereby reducing idling and re-acceleration events, and decrease overall trip duration. \cite{RealTimeGLOSA2020}
+\mynewline
+At the core of \ac{glosa} operational principles is the utilisation of \ac{spat} messages, which provide dynamic signal phase status and timing information, including current signal states and forthcoming phase transitions, enabling in-vehicle applications to optimise speed recommendations. These messages are standardised in the United States under SAE J2735 (Society of Automotive Engineers) \cite{USDOTSPaT2022} and in Europe under ETSI TS 102 724 (European Telecommunications Standards Institute) \cite{ETSI1027242012}, ensuring interoperability across diverse vendors and deployments. \ac{glosa} algorithms solve a moving-horizon dynamic optimisation problem to compute the remaining \ac{ttg} and to identify when the current green interval will end, thereby determining if a deceleration phase is required, to derive dynamic \acp{asl} which enable vehicles to traverse intersections during green phases with minimal idling and re-acceleration. To enhance safety and compliance, these systems may also integrate red-light-running prevention strategies by issuing warnings when recommended speed profiles would violate red phase boundaries. \cite{BusesGLOSA2022}
+
+\begin{figure}[htbp]
+  \centering
+  % Placeholder for architecture diagram
+  \fbox{\parbox[t][4cm][c]{0.8\textwidth}{\centering Architecture diagram placeholder}}
+  \caption{Zeit bis grün}
+  \label{fig:glosa_architecture}
+\end{figure}
+
+\ac{glosa} systems can be categorised along two primary dimensions: communication types and levels of automation. In terms of communication, \ac{glosa} may rely on \ac{i2v} broadcasts from \acp{rsu}, \ac{v2i} reporting for vehicle position and speed feedback, and optionally \ac{v2v} exchanges to support cooperative speed harmonisation among neighbouring vehicles. \cite{Seredynski2013} With respect to automation, \ac{glosa} systems are typically classified into two main categories. Manual advisory systems present speed recommendations to the driver via a \ac{hmi}, without any direct influence on vehicle control \cite{BusesGLOSA2022}. In contrast, semi-automated and fully automated systems embed \ac{glosa} logic within higher-level \acp{adas}, allowing the vehicle to adjust its speed autonomously—either with limited driver oversight or entirely without driver involvement. \cite{Almannaa2019}
+\mynewline
+The system architecture of a typical \ac{glosa} deployment splits into two parts: infrastructure\=/side components and vehicle-side components. On the infrastructure side, traffic signal controllers generate \ac{spat} messages. These messages are broadcast by \acp{rsu} over the 5 GHz band using either IEEE 802.11p (ITS-G5) or \ac{c-v2x} technologies. Often, \acp{rsu} sit alongside adaptive signal controllers and link to a \ac{tmc}. The \ac{tmc} aggregates data from loop detectors and \ac{fcd} sources. This setup enables predictive signal timing and centralised control strategies.
+On the vehicle side, \acp{obu} receive the \ac{spat} broadcasts. They then perform map matching, localisation and velocity estimation to compute energy-optimal speed advisories. \cite{Sambeek2015} Low-cost smartphone apps can also collect \ac{spat} and other V2X messages via cellular or Bluetooth links, offering a cheaper alternative to dedicated \acp{obu} \cite{Gao2016}. Some deployments add a cloud-based V2X platform—such as the \ac{v2x} Hub—to relay messages over redundant paths, extend coverage beyond short-range broadcasts, and enrich advisories with contextual data (e.g.\ weather or incident alerts). \cite{Hadi2023}
+\mynewline
+The data flow in a \ac{glosa} system follows a defined sequence of operations:
+
+\begin{enumerate}[leftmargin=*, label=\textbf{Step \arabic*:}]
+  \item The traffic signal controller forecasts upcoming phase timings and emits \ac{spat} messages.
+  \item \acp{rsu} broadcast the \ac{spat} messages to all approaching vehicles.
+  \item Each \ac{obu} or compatible mobile device map-matches the received data and estimates its current position and speed.
+  \item The advisory algorithm combines \ac{ttg}, \ac{ttr}, and a vehicle dynamics model to compute an energy-optimal speed profile.
+  \item The resulting advisory is delivered through the \ac{hmi}, for example via head-up display, dashboard indicator, or audio prompt.
+\end{enumerate}
+
+Together, these steps form a seamless end-to-end pipeline that provides drivers with accurate, timely speed recommendations to enhance safety, traffic flow and environmental performance. In fully or semi-autonomous vehicles, the computed advisory bypasses the human–machine interface and is fed directly into the vehicle’s longitudinal control system, enabling automatic speed adjustment in response to signal timing information.
+
+\begin{figure}[htbp]
+  \centering
+  % Placeholder for architecture diagram
+  \fbox{\parbox[t][4cm][c]{0.8\textwidth}{\centering Architecture diagram placeholder}}
+  \caption{Data Flow}
+  \label{fig:glosa_architecture}
+\end{figure}
+
+Vehicle-side components in \ac{glosa} systems typically rely on advanced multi-rate sensor fusion techniques. This approach integrates GNSS Real-Time Kinematic (RTK), inertial measurement units (IMU), map matching algorithms, and vehicle kinematic models via Kalman filtering, achieving highly accurate, decimetre-level positioning and precise velocity estimations. Accurate and reliable positioning data are essential for \ac{glosa} applications, as even slight inaccuracies can significantly degrade the quality of speed recommendations and reduce the potential fuel-saving benefits of the system. \cite{Vignarca2023} Computed advisories are presented through carefully engineered \acp{hmi}, designed specifically to convey information clearly, promptly, and with minimal driver distraction. Typical interface elements include graphical speed bars, countdown timers indicating upcoming signal phase changes, and auditory alerts activated when the vehicle significantly deviates from recommended speeds. The clarity and effectiveness of the \ac{hmi} directly influence driver compliance with speed recommendations, thus impacting the overall efficiency and safety benefits of the \ac{glosa} system.
+
+Collectively, these components constitute an integrated and precise information pipeline that enables \ac{glosa} to achieve its core objectives of reducing vehicle stops, smoothing traffic flow, and lowering emissions, while simultaneously maintaining or improving intersection throughput and safety.
+
+
+\subsection{Algorithmic Approaches and Deployment Challenges}
+\label{subsec:glosa_algorithms_challenges}
+
+Algorithmic approaches to \ac{glosa} range from cooperative, network-level optimisation to egoistic, single-vehicle strategies, employing methods from simple heuristics to advanced optimisation and learning techniques. The following discussion examines the infrastructure-side inputs required, highlights representative field implementations, outlines standard evaluation metrics, and identifies principal deployment challenges --- such as phase synchronisation, communication reliability, privacy, and scalability --- before surveying emerging trends in connected and automated traffic systems.
+
+\subsubsection{Classification of Algorithmic Strategies}
+\label{subsubsec:classification_algorithms}
+
+Two principal orientations characterise advisory algorithms for signal‐based speed recommendation. In the cooperative orientation, vehicles and infrastructure collaborate to optimise metrics at the network level. Each vehicle receives \ac{spat} and state information from adjacent intersections and neighbouring vehicles. A centralised or distributed optimiser then computes a set of speed advisories that collectively minimise aggregate fuel consumption, emissions, and delay across multiple traffic streams. This approach benefits from high penetration rates and reliable communication, but incurs overhead in data exchange and requires synchronisation among optimisation agents.
+By contrast, the egoistic orientation treats each vehicle as an independent decision‐maker. Advisories are derived solely from local \ac{spat} messages and individual vehicle dynamics models. Algorithms determine the speed profile that minimises the single vehicle’s fuel use or travel time, without regard for effects on other road users. Egoistic methods scale efficiently to low penetration scenarios and impose minimal demands on communication infrastructure. However, they cannot exploit potential synergies offered by coordinated control and may yield suboptimal network performance when adoption reaches critical mass.
+Both orientations involve trade‐offs between global optimality, scalability, communication requirements and robustness to partial system participation.  
+\mynewline
+Shifting to decision‐making paradigms, rule‐based heuristics derive advisory speeds using explicit decision rules at each control interval. For example, Masera et al. \cite{Masera2019} implement a mean‐green method that computes a constant speed by dividing the distance to the intersection by the remaining green phase duration, constrained within vehicle acceleration limits and legal speed bounds. Katsaros et al. \cite{Katsaros2011} using polynomial smoothing techniques to fit a continuous speed trajectory through predicted phase transition times, thereby enforcing smooth acceleration and deceleration to limit jerk. Additional heuristics trigger adjustments only when \ac{ttr} falls below a fixed threshold or when distance‐to‐signal exceeds a preset margin, further reducing computational and communication overhead. These schemes require only basic inputs --- \ac{ttg}, \ac{ttr} and current vehicle state --- and execute with low latency, enabling deployment on lightweight, resource‐constrained devices. Their simplicity, however, can lead to conservative or suboptimal advisories under highly variable traffic conditions or inaccurate signal predictions, motivating the development of more advanced methods.
+
+
+
+
+
+
+
+
+
+\begin{itemize}
+    \item \textbf{Classification of Algorithmic Strategies:}
+    \begin{itemize}
+        \item \textit{Decision-Making Paradigms:} Overview of rule-based methods versus advanced optimisation and learning-based techniques, including Heuristic and Dynamic Programming (DP) (further elaborated in Sections~\ref{sec:flow_glosa} and \ref{sec:eco_glosa}), Mixed Integer Linear Programming (MILP), and Reinforcement Learning (RL) approaches (see Section~\ref{sec:rl_eco_glosa}).
+    \end{itemize}
+
+    \item \textbf{Infrastructure-Side Functionalities and Integration:}
+    \begin{itemize}
+        \item Adaptive signal timing algorithms as dynamic input providers, facilitating real-time adjustments of signal phases for enhanced GLOSA efficiency.
+        \item Integration and coordination with centralised traffic management platforms to enable holistic optimisation of intersection-level and network-wide traffic performance.
+        \item Real-time data fusion and predictive analytics capabilities to support proactive traffic control and GLOSA recommendations.
+    \end{itemize}
+
+    \item \textbf{Practical Implementations and Case Studies:}
+    \begin{itemize}
+        \item Audi Traffic Light Information system demonstrating consumer-level deployment of GLOSA technology within production vehicles.
+        \item European C-ROADS initiatives, exemplifying large-scale field implementations across multiple countries, showcasing interoperability and standardisation efforts.
+        \item Selected US-based Vehicle-to-Infrastructure (V2I) projects illustrating diverse deployment scenarios and region-specific adaptations.
+        \item \textbf{Interdependencies with Other Intelligent Transport Systems (ITS):}
+        \begin{itemize}
+            \item Integration potential with Eco-Approach and Departure (EAD) strategies for seamless intersection traversal, reducing emissions further beyond isolated intersection optimisation.
+            \item Synergistic integration with Adaptive Cruise Control (ACC) systems, enhancing driving comfort and safety through automated speed adjustments based on GLOSA advisories.
+            \item Compatibility and potential enhancements with safety-oriented ITS applications, such as collision avoidance systems at intersections and dynamic traffic-jam warnings, improving overall driver awareness and proactive safety measures.
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Performance Evaluation and Benchmarking:}
+    \begin{itemize}
+        \item Frequently utilised metrics in GLOSA studies, including fuel consumption, emissions (CO\textsubscript{2}, NO\textsubscript{x}), traffic efficiency indicators (number of stops, delays), comfort measures (jerk, acceleration variance), and safety criteria.
+        \item Standardisation of evaluation procedures to enable comparability across different GLOSA implementations and algorithmic approaches.
+    \end{itemize}
+
+    \item \textbf{Challenges in Real-World Deployment:}
+    \begin{itemize}
+        \item Signal timing synchronisation complexities, including clock drift, latency in data transmission, and uncertainty in signal prediction accuracy.
+        \item Communication reliability issues, encompassing packet loss, latency variability, and dependency on vehicle penetration rates impacting overall system performance.
+        \item Privacy considerations, addressing data protection concerns and managing real-world driver compliance with advisory recommendations.
+        \item Economic and scalability factors influencing widespread adoption, including infrastructure investments, operational costs, and stakeholder coordination.
+    \end{itemize}
+
+    \item \textbf{Future Directions and Emerging Trends:}
+    \begin{itemize}
+        \item Exploration of connected and automated vehicle (CAV) integration scenarios, anticipating significant improvements in GLOSA efficacy and reliability through higher automation levels.
+        \item Utilisation of cloud-based predictive services to improve traffic forecasts, advisory accuracy, and overall network responsiveness.
+        \item Potential for artificial intelligence and advanced data analytics to dynamically optimise traffic signals and advisory systems in response to real-time and historical traffic patterns.
+    \end{itemize}
+
+\end{itemize}
+

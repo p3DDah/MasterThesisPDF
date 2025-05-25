@@ -1,0 +1,55 @@
+\documentclass[
+	language=en    ,
+	layout=twoside ,
+	titlepage=true ,
+	preamble=false ,
+	draftmode=true ,
+]{sbmthesis}
+\setlength\headheight{30pt} % required, do not delete
+
+% \hyphenation{
+%     % In some special cases LaTeX is unable to correctly hyphenate a term. Thus 		you have to define a custom hypenation rule here using minus signs. This is 		the case when a term overlaps with the page margins. Separate multiple 				entries with white space.
+%     % Examples: Doppel-kupplungs-ge-triebe Kupp-lungs-schlupf-reg-ler
+% }
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+
+% +-----------------------+
+% | Start of the document |
+% +-----------------------+
+\begin{document}
+    \preliminaries
+
+    % +----------------------------+
+    % | Include your chapters here |
+    % +----------------------------+
+    
+    \include{chapters/01_Introduction}
+    \cleardoublepage
+    
+    \include{chapters/02_State_of_the_Art}
+    \cleardoublepage
+
+    \include{chapters/03_Methodology_System_Design}
+    \cleardoublepage
+
+    \include{chapters/04_Simulation_Setup_Implemenation}
+    \cleardoublepage
+
+    \include{chapters/05_Results_Discussion}
+    \cleardoublepage
+
+    \include{chapters/06_Conclusion_Outlook}
+    \cleardoublepage
+
+    \appendix
+    % +---------------------------------------+
+    % | Include your appendix's chapters here |
+    % +---------------------------------------+
+    \include{appendix/tables}
+    \cleardoublepage
+    
+    \references
+    
+\end{document}

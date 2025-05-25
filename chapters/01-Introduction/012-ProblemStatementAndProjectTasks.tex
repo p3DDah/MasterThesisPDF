@@ -1,0 +1,22 @@
+\section{Problem Statement and Project Tasks}
+\label{sec:Problem_Statement_and_Project_Tasks}
+In the following, we first articulate the fundamental research gaps and limitations of current \ac{glosa} implementations that motivate this work. This problem statement will identify both conceptual and methodological shortcomings --- ranging from energy‐efficiency considerations to scalability in mixed‐traffic scenarios --- that the project tasks are designed to address.
+
+\subsection{Problem Statement}
+\label{subsec:Problem_Statement}
+Although numerous studies have demonstrated that \acp{glosa} can improve traffic flow, their impact on fuel consumption and emissions has received far less attention. Most existing implementations optimize for throughput—minimizing stops and delays --- without explicitly targeting energy efficiency \cite{COPPOLA2022103455}. Moreover, evaluations to date have been limited to small‐scale tests, often involving only a handful of equipped vehicles, which makes it difficult to generalize results to realistic penetration rates. The interaction between \ac{glosa} penetration rate and overall traffic density --- and how this interplay affects aggregate fuel savings --- remains unclear. In addition, many assessments rely on simplified car‐following models such as the \ac{idm} by Treiber et al., which may not capture driver heterogeneity or second‐order effects in mixed‐traffic scenarios. Previous work has tended to focus on the benefits for individual vehicles, rather than quantifying network‐level impacts when multiple vehicles adopt eco‐driving strategies such as \ac{eco-glosa} simultaneously. Consequently, meaningful comparison of reported savings is challenging, as the choice of fuel consumption model --- such as PHEMlight5, HBEFA4, or VT-Micro --- can significantly affect outcomes, yet few studies evaluate these models under standardized traffic and control conditions.
+
+\subsection{Project Tasks}
+\label{subsec:Project_Tasks}
+To address these gaps, this thesis will pursue the following tasks:
+\begin{enumerate}
+  \item \textbf{\ac{eco-glosa} algorithm design.}  Develop an extension of the standard GLOSA logic that explicitly minimizes fuel consumption using dynamic programming and eco‐driving principles.
+  \item \textbf{Implementation in SUMO.}  Translate the \ac{eco-glosa} algorithm into Python and integrate it with the \ac{sumo} via the TraCI interface.
+  \item \textbf{Scenario reconstruction.}  Recreate the Stuttgart–Neckartor reference scenario in \ac{sumo}, incorporating measured vehicle trajectories and the real signal‐timing plan.
+  \item \textbf{Parameter specification.}  Define a comprehensive set of simulation parameters, including \ac{glosa} penetration rates (0–100 \%) and traffic densities (\(\sim70\text{--}3\,500\,\text{veh/h}\)).
+  \item \textbf{Simulation experiments.}  Execute three simulation scenarios --- baseline (no \ac{glosa}), flow‐optimized \ac{glosa}, and eco‐optimized \ac{glosa} --- across the specified parameter grid.
+  \item \textbf{Data collection and metrics.}  Record key performance indicators such as average CO$_2$ and NO$_x$ emissions per kilometre, vehicle class–specific emission levels, average speed, acceleration, jerk, number of stops, and green phase flow efficiency.
+  \item \textbf{Statistical analysis.} Apply \ac{anova} to assess whether differences between experimental conditions (e.g., with and without GLOSA) are statistically significant. Where relevant, follow-up comparisons are conducted to identify which metrics differ across conditions.
+  \item \textbf{Sensitivity analysis.}  Evaluate how results vary when using different fuel‐consumption models (e.g.\ PHEMlight5 vs.\ HBEFA4).
+  \item \textbf{Guidelines and recommendations.}  Synthesize findings into practical deployment guidelines for \ac{eco-glosa}, highlighting conditions under which energy savings are maximized.
+\end{enumerate}

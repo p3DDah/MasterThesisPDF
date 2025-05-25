@@ -1,0 +1,38 @@
+\section{Dynamic Programming for Energy-Aware GLOSA}
+\label{sec:eco_glosa}
+
+\subsection{Fuel Efficiency and Multi-Objective Optimization}
+\label{subsec:eco_dp_objectives}
+\begin{itemize}
+    \item Extended optimization goals:
+    \begin{itemize}
+        \item Explicit minimization of fuel consumption and CO$_2$ emissions.
+        \item Trade-offs between delay, fuel, and driver comfort (multi-objective Pareto optimization).
+    \end{itemize}
+    \item Common fuel and emission modeling approaches:
+    \begin{itemize}
+        \item Integration with detailed fuel/emission models (PHEMlight5, HBEFA4).
+        \item Physics-based tractive-energy modeling.
+    \end{itemize}
+    \item Typical constraints in formulation:
+    \begin{itemize}
+        \item Vehicle dynamics constraints (speed, acceleration limits, legal speed boundaries).
+        \item Powertrain limitations (maximum engine power, battery state-of-charge for hybrids).
+    \end{itemize}
+\end{itemize}
+
+\subsection{Literature Results and Open Issues}
+\label{subsec:eco_dp_results_issues}
+\begin{itemize}
+    \item Key studies and typical outcomes:
+    \begin{itemize}
+        \item Notable research: Khodayari et al.\ (2018, DP+EMIT), Ma et al.\ (2020, DP applied to Audi A3 e-tron).
+        \item Additional fuel savings (3–7\,\%) over throughput-oriented DP at minor travel-time costs.
+    \end{itemize}
+    \item Remaining open issues and research gaps:
+    \begin{itemize}
+        \item Sensitivity to parameter uncertainty (engine characteristics, topography).
+        \item Lack of studies on platoon-level interactions (egoistic vs.\ cooperative behaviors).
+        \item Feasibility and computational demand for real-time applications in low-power embedded systems.
+    \end{itemize}
+\end{itemize}

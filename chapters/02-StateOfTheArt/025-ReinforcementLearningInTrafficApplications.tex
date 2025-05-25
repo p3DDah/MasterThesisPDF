@@ -1,0 +1,39 @@
+\section{Reinforcement Learning for Eco-GLOSA}
+\label{sec:rl_eco_glosa}
+
+\subsection{Motivation and Typical Reinforcement Learning Formulations}
+\label{subsec:rl_motivation_formulation}
+\begin{itemize}
+    \item Motivation for RL-based approaches:
+    \begin{itemize}
+        \item Ability to implicitly balance fuel-delay trade-offs through learned strategies.
+        \item Robustness to stochastic traffic conditions and communication disturbances.
+    \end{itemize}
+    \item Commonly employed RL formulations:
+    \begin{itemize}
+        \item Discrete action-space methods (Deep Q-Network, DQN).
+        \item Continuous control approaches (Twin-Delayed DDPG (TD3), Soft Actor-Critic (SAC)).
+        \item Typical reward functions: negative weighted sums of fuel use, jerk, and stop frequency.
+        \item Observational data: vehicle state, current traffic signal phase, queue information from CAMs.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Training Approaches, Challenges, and Potential Synergies}
+\label{subsec:rl_training_challenges_synergies}
+\begin{itemize}
+    \item Training methodologies and key findings:
+    \begin{itemize}
+        \item SUMO-gym environments for RL training.
+        \item Notable results: Wei et al.\ (2020, DQN achieving 8\,\% fuel saving), Li et al.\ (2022, multi-agent PPO stabilizing traffic flow).
+    \end{itemize}
+    \item Challenges associated with RL approaches:
+    \begin{itemize}
+        \item High sample inefficiency leading to extensive training epochs.
+        \item Transferability of learned policies to unseen intersections.
+        \item Necessity for explicit safety constraints (reward shaping, shields).
+    \end{itemize}
+    \item Potential for hybrid optimization strategies:
+    \begin{itemize}
+        \item Integration of RL for high-level decision making with DP for precise trajectory-level control.
+    \end{itemize}
+\end{itemize}

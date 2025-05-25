@@ -1,0 +1,34 @@
+\section{Dynamic Programming for Throughput-Oriented GLOSA}
+\label{sec:flow_glosa}
+
+\subsection{Objectives and Problem Formulation}
+\label{subsec:flow_dp_formulation}
+\begin{itemize}
+    \item Objective: Minimize cumulative delay, stop counts, or total travel time within traffic signal constraints.
+    \item Problem formulation details:
+    \begin{itemize}
+        \item State variables: vehicle position and speed.
+        \item Decision variables (actions): discrete acceleration set.
+        \item Cost definition: incremental delay per timestep.
+        \item Terminal constraint: vehicle must cross intersection during green signal window.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Algorithmic Approaches and Limitations}
+\label{subsec:flow_dp_algorithms_limitations}
+\begin{itemize}
+    \item Common solution methods:
+    \begin{itemize}
+        \item Backward dynamic programming on spatial grid.
+        \item A* search with heuristic pruning.
+        \item Real-time optimization via receding horizon approaches.
+        \item Co-optimization of signal timing (e.g., hierarchical DP).
+    \end{itemize}
+    \item Typical performance and limitations:
+    \begin{itemize}
+        \item Benchmark results: 20–50\,\% fewer stops, approx.\ 10\,\% travel-time savings.
+        \item Sensitivity to prediction errors of arrival times.
+        \item Ignorance of fuel efficiency, possible high-jerk trajectories.
+        \item Computational complexity grows rapidly with finer discretizations and longer horizons.
+    \end{itemize}
+\end{itemize}
