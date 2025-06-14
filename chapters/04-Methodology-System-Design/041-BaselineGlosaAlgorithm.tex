@@ -1,0 +1,66 @@
+\section{Baseline GLOSA Algorithm}
+\label{sec:Baseline_Glosa_Algorithm}
+
+The Baseline \ac{glosa} algorithm implemented in \ac{sumo} incorporates the enhancements proposed by Lenz \cite{Lenz2024}. These improvements have been integrated into the current \ac{sumo} version and serve as the throughput baseline against which the energy‐aware eco‐driving algorithm (see Section \ref{sec:EcoDrivingAlgorithm}) will later be compared.
+
+\subsection{Vehicle Speed Factor and Model}
+\label{sec:Glosa_Speed_Factor_Model}
+
+Within \ac{sumo}, each simulated vehicle possesses an individual $\gls{sf}$ (speed factor), which defines its desired cruising velocity relative to the link’s speed limit, denoted $\gls{vmax}$. Consequently, the instantaneous velocity of the ego vehicle, $\gls{vego}$, is computed according to
+\begin{equation}
+\gls{vego} \;=\; \gls{sf} \;\cdot\; \gls{vmax}.
+\end{equation}
+By default, the speed factor $\gls{sf}$ is drawn from the interval $[0.8,\,1.2]$. During operation, the Baseline \ac{glosa} algorithm adjusts $\gls{sf}$ within user‐configurable bounds, $\gls{minsf}$ and $\gls{maxsf}$, in order to recommend a velocity that synchronizes the vehicle’s arrival at the stop line with a future green phase. In the event that the newly computed $\gls{sf}$ lies outside the permissible interval $[\gls{minsf},\,\gls{maxsf}]$, no advisory is issued during that time step, and the ego vehicle retains its previous speed factor. Furthermore, a fixed safety correction of $2.1$ s is incorporated whenever the algorithm targets a future green onset. This temporal margin ensures that the vehicle arrives shortly \emph{after} the beginning of the green phase --- rather than exactly at the phase transition --- thereby mitigating the risk of unsafe, high‐speed approaches.
+
+\subsection{Signal Phase Timing and the Time to Switch}
+\label{sec:Glosa_Signal_Phase_Timing}
+
+Traffic signal operation in \ac{sumo} is modeled as a sequence of discrete micro‐phases. These micro‐phases can consist of multiple consecutive green intervals (each potentially of different duration), interspersed with yellow and red‐yellow intervals. The function \texttt{GetTimeToSwitch} is designed to return the accumulated time until a “relevant” signal transition, given the current micro‐phase index. Specifically, if \texttt{GetTimeToSwitch} is invoked during a red micro‐phase, it sums the durations of all subsequent micro‐phases until the next green onset is encountered, thereby returning the time remaining until green. Conversely, if the current micro‐phase is green, \texttt{GetTimeToSwitch} accumulates durations until the first non‐green micro‐phase appears, which corresponds to the time remaining until the end of the present green interval. In Lenz’s implementation, \texttt{GetTimeToSwitch} can be invoked \emph{iteratively} over multiple cycles: whenever no feasible speed advisory is found for the targeted phase, the reference micro‐phase index is advanced to the next micro‐phase and \texttt{GetTimeToSwitch} is called again. This procedure enables consideration of any reachable green phase across successive signal cycles, rather than restricting the advisory to the immediate cycle alone.
+
+\subsection{Iterative Multi‐Cycle Phase Consideration}
+\label{sec:Glosa_Iterative_Multi_Cycle}
+
+In contrast to the original \ac{sumo} \ac{glosa} implementation --- which considered only the current signal cycle --- Lenz’s version traverses subsequent micro‐phases iteratively until either a target green phase is found or the advisory horizon is exhausted. At each iteration, the following sequence of operations is performed:
+\mynewline
+First, the upstream distance from the ego vehicle’s current position to the stop line is measured and denoted by $\gls{dup}$ (in meters). Next, the vehicle’s current speed factor, $\gls{sf}$, is retrieved and multiplied by the link speed limit, $\gls{vmax}$, to calculate the instantaneous velocity, $\gls{vego}$. The estimated travel time to the junction, denoted by $\gls{ttj}$, is then computed as the ratio of the upstream distance to the instantaneous velocity:
+\begin{equation}
+\gls{ttj} \;=\; \frac{\gls{dup}}{\gls{vego}}.
+\end{equation}
+Subsequently, \texttt{GetTimeToSwitch} is invoked with the current reference micro‐phase index to obtain $\gls{tts}$, representing the accumulated duration until the considered signal transition. The algorithm then attempts to compute a feasible speed factor, $\gls{sf}$, that aligns the estimated arrival time, $\gls{ttj}$, with the time of the targeted green onset plus the safety correction. Formally, the synchronization condition can be stated as
+\begin{equation}
+\gls{ttj} \;\approx\; \gls{tts} \;+\; 2.1\,\text{s}.
+\end{equation}
+If no valid $\gls{sf}$ exists --- either because the theoretical optimal velocity, $\gls{vopt}$, exceeds the link speed limit $\gls{vmax}$, or because the resulting $\gls{sfi} = \frac{\gls{vopt}}{\gls{vmax}}$ lies outside the allowable range $[\gls{minsf},\,\gls{maxsf}]$ --- the reference micro‐phase index is incremented by one, and the remaining duration of that micro‐phase is added to the accumulated $\gls{tts}$. The iteration continues until a valid $\gls{sfi}$ is found, at which point the routine terminates and \texttt{adaptSpeed} is invoked; or until all signal cycles within the advisory horizon have been evaluated without yielding a feasible solution, in which case no speed advisory is applied. By considering multiple cycles in this manner, the algorithm extends its effective advisory range, allowing vehicles far upstream of the intersection to adjust their speeds based on green phases several cycles into the future.
+
+\subsection{Speed Adaptation}
+\label{sec:Glosa_Speed_Adaptation}
+
+The \texttt{adaptSpeed} function constitutes the core of the \ac{glosa} advisory mechanism. Its objective is to compute a theoretical optimal velocity, $\gls{vopt}$, such that the ego vehicle arrives at the stop line exactly at the time of green onset plus the safety correction. In order to derive $\gls{vopt}$, \texttt{adaptSpeed} decomposes the vehicle’s motion into three kinematic phases: deceleration, constant‐speed cruising, and acceleration. Let $\gls{vego}$ denote the vehicle’s current speed, and let $\gls{bmax}$ and $\gls{amax}$ represent the maximum deceleration and maximum acceleration magnitudes, respectively. The distance required to decelerate from $\gls{vego}$ down to the target velocity $\gls{vopt}$ is given by:
+\begin{equation}
+\gls{ddec} \;=\; \frac{\gls{vego}^2 \;-\; \gls{vopt}^2}{2\,\gls{bmax}}.
+\end{equation}
+Likewise, if $\gls{vopt} > \gls{vego}$, the distance required to accelerate from $\gls{vopt}$ back up to $\gls{vego}$ is expressed as:
+\begin{equation}
+\gls{dacc} \;=\; \frac{\gls{vopt}^2 \;-\; \gls{vego}^2}{2\,\gls{amax}}.
+\end{equation}
+Any residual distance, computed as $\gls{dup} \;-\; \gls{ddec} \;-\; \gls{dacc}$, is allocated to the constant‐speed cruising phase at velocity $\gls{vopt}$. By enforcing these kinematic constraints and solving for $\gls{vopt}$, one obtains:
+\begin{equation}
+\mathrm{arg} \;=\; \gls{amax}^2\,\gls{tts}_{eff}^2 \;-\; 2\,\gls{amax}\,\gls{vmax}\,\gls{tts\_corr} \;+\; 2\,\gls{amax}\,\gls{dup},
+\end{equation}
+\begin{equation}
+\gls{vopt} \;=\; \sqrt{\mathrm{arg}} \;-\; \gls{amax}\,\gls{tts\_corr} \;+\; \gls{vmax},
+\end{equation}
+where $\gls{tts}_{eff} = \gls{tts} + 2.1 \;\text{s}$ represents the effective time to switch including the safety correction. If the computed $\gls{vopt}$ yields a new speed factor $\gls{sfi} = \frac{\gls{vopt}}{\gls{vmax}}$ that lies outside the permissible interval $[\gls{minsf},\,\gls{maxsf}]$, the candidate is rejected, and the algorithm continues with the next cycle iteration. Once a valid $\gls{sfi}$ is identified, \texttt{adaptSpeed} immediately updates the vehicle’s chosen speed factor, and the simulation advances to the next time step. In this manner, the vehicle’s trajectory is optimally synchronized with the upcoming green phase while respecting acceleration/deceleration constraints.
+
+\subsection{Optional Queue Length Consideration}
+\label{sec:Glosa_Queue_Length}
+
+To account for the effect of vehicular queues upstream of the stop line, the Lenz version optionally incorporates real‐time measurements of queue length, denoted $\gls{ells}$, using lane‐area detectors. These virtual detectors directly measure the total queued distance (in meters), obviating any indirect estimation based on vehicle counts. The queue‐induced delay, $\gls{tadd}$, is computed as:
+\begin{equation}
+\gls{tadd} \;=\; \gls{ells} \times 0.21\;\frac{\text{s}}{\text{m}} \;+\; 3\;\text{s},
+\end{equation}
+where \(0.21\,\text{s/m}\) is an empirically derived coefficient relating queue length to the time required for the last queued vehicle to initiate motion, and the additive term of \(3\)\,s accounts for the acceleration time of that last vehicle. When the signal is in a green state, the algorithm first evaluates whether $\gls{tadd} > \gls{tts}$; if this condition holds, the queue is deemed too long to clear during the remaining green interval, and no queue adjustment is applied. Otherwise, an adjusted time to junction, denoted $\gls{ttj}'$, is computed as:
+\begin{equation}
+\gls{ttj}' \;=\; \gls{ttj} \;+\; \bigl(\gls{tadd} \;-\; \gls{telapsed}\bigr),
+\end{equation}
+where $\gls{telapsed}$ represents the elapsed time since the current green phase commenced. If $\gls{ttj}' \leq \gls{tts}$, then the vehicle can still clear the intersection during the ongoing green phase, and no modification to the base speed advisory is necessary. Conversely, if $\gls{ttj}' > \gls{tts}$, the current green phase cannot be utilized and the algorithm proceeds as if the signal were red in the next iteration. When the signal is red (or the existing green cannot be exploited), the total time to switch, $\gls{tts}$, is incremented by $\gls{tadd}$, thereby ensuring that any subsequent speed advisory accounts for the additional time required to clear the queue. This optional queue module can be toggled on or off to isolate and evaluate its impact on overall system performance.

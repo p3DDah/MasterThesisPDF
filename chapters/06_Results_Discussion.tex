@@ -1,0 +1,21 @@
+\chapter{Results and Discussion}
+\label{ch:ResultsDiscussion}
+
+The preceding chapters defined a rigorous simulation framework and parameter sweep for both flow-optimised and eco-driving \ac{glosa} controllers. We now explore how these algorithms perform under varying traffic loads and penetration rates, revealing their network-level and vehicle-level impacts.  
+We open with an analysis of green‐phase vehicle flow to understand discharge performance under connected control (\ref{sec:Results_GreenPhaseFlow}). From there, attention moves to vehicle dynamics: first average travel speed (\ref{sec:Results_MeanSpeed}), then stop frequency (\ref{sec:Results_Stops}), and finally driving smoothness via acceleration profiles (\ref{sec:Results_Smoothness}). Environmental consequences follow, as per-vehicle CO$_2$ and NO$_x$ emissions, quantify ecological benefit (\ref{sec:Results_Emissions}). A dedicated break-even analysis then pinpoints the critical penetration at which eco-driving gains outweigh flow-optimised advantages (\ref{sec:Results_BreakEven}). Computational viability comes next, comparing runtime overheads of the advisory loop and optimisation algorithm (\ref{sec:Results_Computational}). We conclude by synthesising these findings, discussing trade-offs and implications for real-world deployment (\ref{sec:Results_Discussion}).  
+
+\input{chapters/06-ResultsDiscussion/061-GreenPhaseVehicleFlow}
+
+\input{chapters/06-ResultsDiscussion/062-AverageVehicleSpeed}
+
+\input{chapters/06-ResultsDiscussion/063-VehicleStopFrequency}
+
+\input{chapters/06-ResultsDiscussion/064-DrivingSmoothness}
+
+\input{chapters/06-ResultsDiscussion/065-Emissions}
+
+\input{chapters/06-ResultsDiscussion/066-BreakEvenPenetrationAnalysis}
+
+\input{chapters/06-ResultsDiscussion/067-ComputationalViability}
+
+\input{chapters/06-ResultsDiscussion/068-Discussion}

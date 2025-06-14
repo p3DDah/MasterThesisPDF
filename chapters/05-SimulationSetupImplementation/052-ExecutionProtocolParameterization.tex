@@ -1,0 +1,35 @@
+\section{Execution Protocol and Parameterization}
+\label{sec:exec_protocol}
+
+The execution protocol translates the conceptual design into a reproducible set of simulation runs that sample all relevant boundary conditions while keeping computational cost within practical limits. Reproducibility is guaranteed by fixing the random seed to \texttt{12345}; thus every pseudo-random operation like route choice, lane assignment, and vehicle parameter draw, yields identical sequences across repeated executions. Each run evaluates one of two \ac{glosa} algorithm variants: (i) the \emph{baseline} or \emph{flow-optimised} controller, which targets minimum delay, and (ii) the \emph{eco-driving} controller, which minimises fuel use but ignores explicit queue effects. For every algorithm, the parameter sweep enumerates all combinations of traffic flow, market penetration, and communication range, leading to $176$ distinct scenarios per controller and hence $352$ in total. An overview of all the parameters is given in Table \ref{tab:ScenarioMatrix}. The three independent factors are detailed below.  
+
+\begin{enumerate}
+\item \textbf{Traffic flow.} Eight demand levels are enforced by limiting the number of inserted vehicles to 50, 100, 250, 500, 1000, 1500, 2000, and 2500, corresponding to 69, 138, 346, 692, 1385, 2077, 2769, and 3462\,veh\,h\(^{-1}\), respectively.  
+\item \textbf{Market penetration.} The \ac{glosa} \ac{mpr} varies from 0\,\% to 100\,\% in 10-percentage-point increments. A Bernoulli draw at spawn time classifies each vehicle as equipped or non-equipped, producing two statistically independent traffic streams within the same macroscopic flow.
+\item \textbf{Communication range.} Prior work by Lenz \cite{Lenz2024} found no statistically significant difference between 500\,m and 1000\,m communication horizons; therefore only the 500\,m radius is tested here but retained as a formal factor to keep the full Cartesian design consistent with earlier literature. The advisory is sent whenever an equipped vehicle’s distance to the stop line is $\gls{dup}\leq500\,\mathrm{m}$ and $\gls{ddown}\leq200\,\mathrm{m}$.
+\end{enumerate}
+
+All other settings are held constant across the sweep. The optimiser assumes an additional fixed switch time of 2.1\,s to capture actuation delays between the traffic controller and the actual signal head. Slack time \(\gls{tslack}\) is sampled uniformly in the closed interval \([0.1,5]\,\mathrm{s}\) at run time, reflecting uncertainty in residual phase duration. Downstream distance is clipped to 200\,m, matching the evaluation window specified in Section~\ref{sec:SimEnvironment}. A yellow-phase buffer of \(0.5\,\mathrm{s}\) prevents infeasible trajectories that might straddle the amber interval. The numerical search increment for the longitudinal optimiser, \(\Delta a\), is fixed to \(0.01\,\mathrm{m\,s^{-2}}\); preliminary tests confirmed that smaller steps add negligible accuracy but inflate computation time. Objective-function weights follow \(\alpha_{\text{speed}}=1.0\) and \(\alpha_{\text{reach}}=0.5\). Speed estimation downstream uses one-second velocity samples, which balances responsiveness with noise suppression.
+\mynewline
+Emissions and energy demand are assessed with two fuel models, \ac{hbefa} 4 and \textsc{PHEMlight} 5, specified in section \ref{subsubsec:detailed_emission_models}. Queue length is forcibly set to zero in all optimiser calls, thereby isolating pure speed-advice effects from more complex queue-estimation feedback loops.
+
+\begin{table}[tbp]
+  \centering
+  \caption{Scenario design matrix per algorithm.  Each cell is executed once with seed~\texttt{12345}.}
+  \label{tab:ScenarioMatrix}
+  \begin{tabular}{ccccc}
+    \toprule
+    Factor & Symbol & Levels & Values & Unit \\
+    \midrule
+    Traffic flow & \(Q\) & 8 & 69–3462 & veh\,h\(^{-1}\) \\
+    Market penetration & MPR & 11 & 0–100 (step 10) & \% \\
+    Comm.\ range & \(r_{\text{com}}\) & 2 & 500, 1000 & m \\
+    \midrule
+    \multicolumn{2}{c}{Total scenarios} & \multicolumn{3}{c}{\(8\times11\times2=176\)}\\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+The optimizer assesses potential speed profiles within the specified communication range of 500 meters prior to and 200 meters following the intersection during runtime. Upstream motion is constrained by the extended \ac{eidm} envelope described in Section~\ref{sec:SimEnvironment}. The controller solves a univariate line search over acceleration \(a_{\text{up}}\) with step \(\Delta a\). Terminal conditions are checked at the downstream horizon \(l=200\,\mathrm{m}\); trajectories violating \(\gls{vmin}\) or \(\gls{bmax}\) are discarded. 
+\mynewline
+The resulting dataset underpins all metrics specified in Section~\ref{sec:performance_evaluation}. Because the protocol controls every stochastic degree of freedom and stores exhaustive logs, future researchers can reproduce the study by re-running the same configuration files and seed. Any deviation, such as a different communication horizon or an additional queue-aware variant, would simply append new factors to the Cartesian design while preserving the core template documented here.

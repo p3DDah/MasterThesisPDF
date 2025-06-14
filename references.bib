@@ -940,3 +940,231 @@ isbn = {978-3-030-02304-1},
 doi = {10.1007/978-3-030-02305-8_22},
 publisher = {Springer},
 }
+
+@article{Cai2008,
+title = {Adaptive traffic signal control using approximate dynamic programming},
+journal = {Transportation Research Part C: Emerging Technologies},
+volume = {17},
+number = {5},
+pages = {456-474},
+year = {2009},
+note = {Artificial Intelligence in Transportation Analysis: Approaches, Methods, and Applications},
+issn = {0968-090X},
+doi = {https://doi.org/10.1016/j.trc.2009.04.005},
+url = {https://www.sciencedirect.com/science/article/pii/S0968090X09000321},
+author = {Chen Cai and Chi Kwong Wong and Benjamin G. Heydecker},
+keywords = {Traffic signal, Dynamic programming, Approximation, Adaptive, Reinforcement learning},
+abstract = {This paper presents a study on an adaptive traffic signal controller for real-time operation. The controller aims for three operational objectives: dynamic allocation of green time, automatic adjustment to control parameters, and fast revision of signal plans. The control algorithm is built on approximate dynamic programming (ADP). This approach substantially reduces computational burden by using an approximation to the value function of the dynamic programming and reinforcement learning to update the approximation. We investigate temporal-difference learning and perturbation learning as specific learning techniques for the ADP approach. We find in computer simulation that the ADP controllers achieve substantial reduction in vehicle delays in comparison with optimised fixed-time plans. Our results show that substantial benefits can be gained by increasing the frequency at which the signal plans are revised, which can be achieved conveniently using the ADP approach.}
+}
+
+@article{Guo2019,
+title = {Joint optimization of vehicle trajectories and intersection controllers with connected automated vehicles: Combined dynamic programming and shooting heuristic approach},
+journal = {Transportation Research Part C: Emerging Technologies},
+volume = {98},
+pages = {54-72},
+year = {2019},
+issn = {0968-090X},
+doi = {https://doi.org/10.1016/j.trc.2018.11.010},
+url = {https://www.sciencedirect.com/science/article/pii/S0968090X18303279},
+author = {Yi Guo and Jiaqi Ma and Chenfeng Xiong and Xiaopeng Li and Fang Zhou and Wei Hao},
+keywords = {Connected and automated vehicle (CAV), Dynamic programming (DP), Shooting heuristic (SH), Intersection control, Signal timing and phasing, Mobility and sustainability},
+abstract = {Connected and automated vehicle (CAV) technologies offer promising solutions to challenges that face today’s transportation systems. Vehicular trajectory control and intersection controller optimization based on CAV technologies are two approaches that have significant potential to mitigate congestion, lessen the risk of crashes, reduce fuel consumption, and decrease emissions at intersections. These two approaches should be integrated into a single process such that both aspects can be optimized simultaneously to achieve maximum benefits. This paper proposes an efficient DP-SH (dynamic programming with shooting heuristic as a subroutine) algorithm for the integrated optimization problem that can simultaneously optimize the trajectories of CAVs and intersection controllers (i.e., signal timing and phasing of traffic signals), and develops a two-step approach (DP-SH and trajectory optimization) to effectively obtain near-optimal intersection and trajectory control plans. Also, the proposed DP-SH algorithm can also consider mixed traffic stream scenarios with different levels of CAV market penetration. Numerical experiments are conducted, and the results prove the efficiency and sound performance of the proposed optimization framework. The proposed DP-SH algorithm, compared to the adaptive signal control, can reduce the average travel time by up to 35.72% and save the consumption by up to 31.5%. In mixed traffic scenarios, system performance improves with increasing market penetration rates. Even with low levels of penetration, there are significant benefits in fuel consumption savings. The computational efficiency, as evidenced in the case studies, indicates the applicability of DP-SH for real-time implementation.}
+}
+
+@article{Typaldos2023,
+title = {Modified dynamic programming algorithms for GLOSA systems with stochastic signal switching times},
+journal = {Transportation Research Part C: Emerging Technologies},
+volume = {157},
+pages = {104364},
+year = {2023},
+issn = {0968-090X},
+doi = {https://doi.org/10.1016/j.trc.2023.104364},
+url = {https://www.sciencedirect.com/science/article/pii/S0968090X23003546},
+author = {Panagiotis Typaldos and Markos Papageorgiou},
+keywords = {GLOSA, Stochastic Dynamic Programming, Discrete Differential Dynamic Programming (DDDP), Differential Dynamic Programming (DDP), Traffic light advisory},
+abstract = {A discrete-time stochastic optimal control problem was recently proposed to address the GLOSA (Green Light Optimal Speed Advisory) problem in cases where the next signal switching time is decided in real time and is therefore uncertain in advance. The corresponding numerical solution via SDP (Stochastic Dynamic Programming) calls for substantial computation time, which excludes problem solution in the vehicle’s on-board computer in real time. In this context, the present paper concentrates on the challenge of developing numerical algorithms to solve efficiently the stochastic GLOSA problem. As a first attempt to overcome the computation time bottleneck, a modified version of Dynamic Programming, known as Discrete Differential Dynamic Programming (DDDP) was recently employed for the numerical solution of the stochastic optimal control problem and was demonstrated to achieve results equivalent to those obtained with the ordinary SDP algorithm, albeit with significantly reduced computation times. After an outline of the DDDP approach, the present work considers a second modified version of Dynamic Programming, known as Differential Dynamic Programming (DDP). For the stochastic GLOSA problem, it is demonstrated that DDP achieves quasi-instantaneous (extremely fast) solutions in terms of CPU times, which allows for the proposed approach to be readily executable online, in an MPC (Model Predictive Control) framework, in the vehicle’s on-board computer. The novel numerical approach is tested and demonstrated by use of realistic examples and is compared to the SDP and DDDP solutions. It should be noted that DDP does not require discretization of variables, hence the obtained solutions may be slightly superior to the standard SDP solutions.}
+}
+
+@INPROCEEDINGS{Seredynski2013,
+  author={Seredynski, Marcin and Dorronsoro, Bernabe and Khadraoui, Djamel},
+  booktitle={16th International IEEE Conference on Intelligent Transportation Systems (ITSC 2013)}, 
+  title={Comparison of Green Light Optimal Speed Advisory approaches}, 
+  year={2013},
+  volume={},
+  number={},
+  pages={2187-2192},
+  keywords={Vehicles;Fuels;Timing;Schedules;Roads;Sociology;Statistics},
+  doi={10.1109/ITSC.2013.6728552}}
+
+@article{Typaldos2021,
+title = {Vehicle-Based Trajectory Specification in Presence of Traffic Lights with Stochastic Switching Times},
+journal = {IFAC-PapersOnLine},
+volume = {54},
+number = {2},
+pages = {298-305},
+year = {2021},
+note = {16th IFAC Symposium on Control in Transportation Systems CTS 2021},
+issn = {2405-8963},
+doi = {https://doi.org/10.1016/j.ifacol.2021.06.035},
+url = {https://www.sciencedirect.com/science/article/pii/S2405896321004742},
+author = {P. Typaldos and V. Volakakis and M. Papageorgiou and I. Papamichail},
+keywords = {GLOSA, Stochastic Dynamic Programming, Discrete Differential Dynamic Programming (DDDP), Traffic Light Advisory, Speed Advisory},
+abstract = {Vehicle-based GLOSA (Green Light Optimal Speed Advisory) systems use information about the next switching time of the traffic lights to calculate fuel-efficient position and velocity profiles for connected vehicles, according to their current state (position and speed). A stochastic optimal control problem was recently proposed to address the GLOSA problem in cases where the next switching time is decided in real time and is therefore uncertain in advance. The corresponding numerical solution via SDP (Stochastic Dynamic Programming) calls for substantial computational time (few minutes), which excludes problem solution in the vehicle’s computer in real time. This work considers the same stochastic problem of optimal trajectory specification for vehicles approaching a signalized junction with traffic signals operated in real-time (adaptive) mode, due to which the next switching time is stochastic. However, a modified version of Dynamic Programming, known as Discrete Differential Dynamic Programming (DDDP), is used for numerical solution of the stochastic optimal control problem. It is demonstrated, based on a realistic example, that the DDDP algorithm achieves results equivalent to those obtained with the ordinary SDP algorithm, albeit with significantly better performance in terms of computational time. Specifically, the solution is typically obtained in around 1 CPUs, which is real-time feasible and would allow for the DDDP calculations to be executed in the vehicle’s on-board computer.}
+}
+
+@INPROCEEDINGS{Suramardhana2014,
+  author={Suramardhana, Tommy Adhyasa and Jeong, Han-You},
+  booktitle={2014 IEEE Asia Pacific Conference on Wireless and Mobile}, 
+  title={A driver-centric green light optimal speed advisory (DC-GLOSA) for improving road traffic congestion at urban intersections}, 
+  year={2014},
+  volume={},
+  number={},
+  pages={304-309},
+  keywords={Vehicles;Acceleration;Roads;Computer aided software engineering;Fuels;Algorithm design and analysis;Schedules},
+  doi={10.1109/APWiMob.2014.6920310}}
+
+@ARTICLE{Samra2015,
+  author={Samra, Sameh and El-Mahdy, Ahmed and Wada, Yasutaka},
+  journal={IEEE Transactions on Intelligent Transportation Systems}, 
+  title={A Linear Time and Space Algorithm for Optimal Traffic-Signal Duration at an Intersection}, 
+  year={2015},
+  volume={16},
+  number={1},
+  pages={387-395},
+  keywords={Heuristic algorithms;Dynamic programming;Vehicles;Prediction algorithms;Aerospace electronics;Optimization;Real-time systems;Dynamic programming;optimization;traffic-signal control;Dynamic programming;optimization;traffic-signal control},
+  doi={10.1109/TITS.2014.2336657}}
+
+@article{Han2015,
+title = {Continuum signalized junction model for dynamic traffic networks: Offset, spillback, and multiple signal phases},
+journal = {Transportation Research Part B: Methodological},
+volume = {77},
+pages = {213-239},
+year = {2015},
+issn = {0191-2615},
+doi = {https://doi.org/10.1016/j.trb.2015.03.005},
+url = {https://www.sciencedirect.com/science/article/pii/S019126151500048X},
+author = {Ke Han and Vikash V. Gayah},
+keywords = {Traffic signal, Continuum approximation, LWR model, Offset, Spillback, Multiple stages},
+abstract = {This paper extends the continuum signalized intersection model exhaustively studied in Han et al. (2014) to more accurately account for three realistic complications: signal offsets, queue spillbacks, and complex signal phasing schemes. The model extensions are derived theoretically based on signal cycle, green split, and offset, and are shown to approximate well traffic operations at signalized intersections treated using the traditional (and more realistic) on-and-off model. We propose a generalized continuum signal model, which explicitly handles complex vehicle spillback patterns on signalized networks with provable error estimates. Under mild conditions, the errors are small and bounded by fixed values that do not grow with time. Overall, this represents a significant improvement over the original continuum model, which had errors that grew quickly with time in the presence of any queue spillbacks and for which errors were not explicitly derived for different offset cases. Thus, the new model is able to more accurately approximate traffic dynamics in large networks with multiple signals under more realistic conditions. We also qualitatively describe how this new model can be applied to several realistic intersection configurations that might be encountered in typical urban networks. These include intersections with multiple entry and exit links, complex signal phasing, all-red times, and the presence of dedicated turning lanes. Numerical tests of the models show remarkable consistency with the on-and-off model, as expected from the theory, with the added benefit of significant computational savings and higher signal control resolution when using the continuum model.}
+}
+
+@article{Wei2017,
+title = {Dynamic programming-based multi-vehicle longitudinal trajectory optimization with simplified car following models},
+journal = {Transportation Research Part B: Methodological},
+volume = {106},
+pages = {102-129},
+year = {2017},
+issn = {0191-2615},
+doi = {https://doi.org/10.1016/j.trb.2017.10.012},
+url = {https://www.sciencedirect.com/science/article/pii/S0191261517301078},
+author = {Yuguang Wei and Cafer Avcı and Jiangtao Liu and Baloka Belezamo and Nizamettin Aydın and Pengfei(Taylor) Li and Xuesong Zhou},
+keywords = {Traffic flow management, Autonomous vehicle, Vehicle trajectory optimization, Car-following model},
+abstract = {Jointly optimizing multi-vehicle trajectories is a critical task in the next-generation transportation system with autonomous and connected vehicles. Based on a space-time lattice, we present a set of integer programming and dynamic programming models for scheduling longitudinal trajectories, where the goal is to consider both system-wide safety and throughput requirements under supports of various communication technologies. Newell's simplified linear car following model is used to characterize interactions and collision avoidance between vehicles, and a control variable of time-dependent platoon-level reaction time is introduced in this study to reflect various degrees of vehicle-to-vehicle or vehicle-to-infrastructure communication connectivity. By adjusting the lead vehicle's speed and platoon-level reaction time at each time step, the proposed optimization models could effectively control the complete set of trajectories in a platoon, along traffic backward propagation waves. This parsimonious multi-vehicle state representation sheds new lights on forming tight and adaptive vehicle platoons at a capacity bottleneck. We examine the principle of optimality conditions and resulting computational complexity under different coupling conditions.}
+}
+
+@article{He2015,
+title = {Optimal vehicle speed trajectory on a signalized arterial with consideration of queue},
+journal = {Transportation Research Part C: Emerging Technologies},
+volume = {61},
+pages = {106-120},
+year = {2015},
+issn = {0968-090X},
+doi = {https://doi.org/10.1016/j.trc.2015.11.001},
+url = {https://www.sciencedirect.com/science/article/pii/S0968090X15003800},
+author = {Xiaozheng He and Henry X. Liu and Xiaobo Liu},
+keywords = {Fuel consumption reduction, Speed advisory, Optimal control, Signalized arterial, Intelligent transportation systems},
+abstract = {Vehicle speed trajectory significantly impacts fuel consumption and greenhouse gas emissions, especially for trips on signalized arterials. Although a large amount of research has been conducted aiming at providing optimal speed advisory to drivers, impacts from queues at intersections are not considered. Ignoring the constraints induced by queues could result in suboptimal or infeasible solutions. In this study, a multi-stage optimal control formulation is proposed to obtain the optimal vehicle trajectory on signalized arterials, where both vehicle queue and traffic light status are considered. To facilitate the real-time update of the optimal speed trajectory, a constrained optimization model is proposed as an approximation approach, which can be solved much quicker. Numerical examples demonstrate the effectiveness of the proposed optimal control model and the solution efficiency of the proposed approach.}
+}
+
+@INPROCEEDINGS{Zhu2021,
+  author={Zhu, Zhaoxuan and Gupta, Shobhit and Pivaro, Nicola and Deshpande, Shreshta Rajakumar and Canova, Marcello},
+  booktitle={2021 European Control Conference (ECC)}, 
+  title={A GPU Implementation of a Look-Ahead Optimal Controller for Eco-Driving Based on Dynamic Programming}, 
+  year={2021},
+  volume={},
+  number={},
+  pages={899-904},
+  keywords={Simulation;Graphics processing units;Optimal control;Programming;Real-time systems;Dynamic programming;Batteries},
+  doi={10.23919/ECC54610.2021.9655197}}
+
+@ARTICLE{Yang2017,
+  author={Yang, Hao and Rakha, Hesham and Ala, Mani Venkat},
+  journal={IEEE Transactions on Intelligent Transportation Systems}, 
+  title={Eco-Cooperative Adaptive Cruise Control at Signalized Intersections Considering Queue Effects}, 
+  year={2017},
+  volume={18},
+  number={6},
+  pages={1575-1585},
+  keywords={Vehicles;Fuels;Roads;Acceleration;Shock waves;Algorithm design and analysis;Eco-CACC;connected vehicles;automated vehicles;advisory speed limits;vehicle fuel consumption;queue length prediction},
+  doi={10.1109/TITS.2016.2613740}}
+
+@Article{Pulvirenti2023,
+AUTHOR = {Pulvirenti, Luca and Tresca, Luigi and Rolando, Luciano and Millo, Federico},
+TITLE = {Eco-Driving Optimization Based on Variable Grid Dynamic Programming and Vehicle Connectivity in a Real-World Scenario},
+JOURNAL = {Energies},
+VOLUME = {16},
+YEAR = {2023},
+NUMBER = {10},
+ARTICLE-NUMBER = {4121},
+URL = {https://www.mdpi.com/1996-1073/16/10/4121},
+ISSN = {1996-1073},
+ABSTRACT = {In a context in which the connectivity level of last-generation vehicles is constantly on the rise, the combined use of Vehicle-To-Everything (V2X) connectivity and autonomous driving can provide remarkable benefits through the synergistic optimization of the route and the speed trajectory. In this framework, this paper focuses on vehicle ecodriving optimization in a connected environment: the virtual test rig of a premium segment passenger car was used for generating the simulation scenarios and to assess the benefits, in terms of energy and time savings, that the introduction of V2X communication, integrated with cloud computing, can have in a real-world scenario. The Reference Scenario is a predefined Real Driving Emissions (RDE) compliant route, while the simulation scenarios were generated by assuming two different penetration levels of V2X technologies. The associated energy minimization problem was formulated and solved by means of a Variable Grid Dynamic Programming (VGDP), that modifying the variable state search grid on the basis of the V2X information allows to drastically reduce the DP computation burden by more than 95%. The simulations show that introducing a smart infrastructure along with optimizing the vehicle speed in a real-world urban route can potentially reduce the required energy by 54% while shortening the travel time by 38%. Finally, a sensitivity analysis was performed on the biobjective optimization cost function to find a set of Pareto optimal solutions, between energy and travel time minimization.},
+DOI = {10.3390/en16104121}
+}
+
+@article{Park2024,
+author = {Park, Dohyun and Lee, Woong and Jeong, Jongryeol and Karbowski, Dominik and Kim, Namwook},
+year = {2024},
+month = {07},
+pages = {},
+title = {Eco-driving Profile Optimization by Dynamic Programming for Battery Electric Vehicles},
+volume = {25},
+journal = {International Journal of Automotive Technology},
+doi = {10.1007/s12239-024-00105-8}
+}
+
+@article{Yang2021,
+author = {Yang, Hao and Almutairi, Fawaz},
+year = {2020},
+month = {03},
+pages = {1-13},
+title = {Eco-Driving at Signalized Intersections: A Multiple Signal Optimization Approach},
+volume = {PP},
+journal = {IEEE Transactions on Intelligent Transportation Systems},
+doi = {10.1109/TITS.2020.2978184}
+}
+
+@article{Ala2016,
+author = {Mani Venkat Ala and Hao Yang and Hesham Rakha},
+title ={Modeling Evaluation of Eco–Cooperative Adaptive Cruise Control in Vicinity of Signalized Intersections},
+journal = {Transportation Research Record},
+volume = {2559},
+number = {1},
+pages = {108-119},
+year = {2016},
+doi = {10.3141/2559-13},
+URL = {https://doi.org/10.3141/2559-13},
+eprint = {https://doi.org/10.3141/2559-13},
+}
+
+@INPROCEEDINGS{Kamalanathsharma2013,
+  author={Kamalanathsharma, Raj Kishore and Rakha, Hesham A.},
+  booktitle={16th International IEEE Conference on Intelligent Transportation Systems (ITSC 2013)}, 
+  title={Multi-stage dynamic programming algorithm for eco-speed control at traffic signalized intersections}, 
+  year={2013},
+  volume={},
+  number={},
+  pages={2094-2099},
+  keywords={Vehicles;Fuels;Acceleration;Mathematical model;Biological system modeling;Dynamic programming;Heuristic algorithms},
+  doi={10.1109/ITSC.2013.6728538}}
+
+@article{Dong2024,
+author = {Dong, Haoxuan and Zhuang, Weichao and Wu, Guoyuan and Li, Zhaojian and Yin, Guodong and Song, Ziyou},
+year = {2023},
+month = {11},
+pages = {},
+title = {Overtaking-Enabled Eco-Approach Control at Signalized Intersections for Connected and Automated Vehicles},
+volume = {PP},
+journal = {IEEE Transactions on Intelligent Transportation Systems},
+doi = {10.1109/TITS.2023.3328022}
+}

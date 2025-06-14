@@ -1,0 +1,23 @@
+\section{Literature Synthesis and Research Gap}
+\label{sec:research_gap}
+
+Having reviewed individual strands of the \ac{glosa} literature --- ranging from throughput-oriented to energy-aware \ac{dp} designs --- the present section consolidates the evidence and derives the open questions that direct this thesis.
+
+\subsection{Synthesis of Existing Work}
+Most studies concur that \ac{glosa} reduces the frequency of stops and, under light traffic, lowers energy use. Reported average fuel-savings span \(11\text{–}35\,\%\) for flow-focused controllers \cite{Guo2019,Typaldos2023,Cai2008} and \(25\text{–}68\,\%\) for eco-centric variants \cite{Park2024,Pulvirenti2023,Dong2024}. The spread reflects three factors. \emph{First}, objectives differ: flow studies weight delay, whereas eco studies minimise fuel. \emph{Second}, vehicle-following assumptions diverge significantly; most studies rely on default \ac{idm} parameters, which tend to underestimate real-world acceleration and deceleration behaviours in dense traffic. In contrast, calibrated \ac{eidm} parameters better reflect realistic driving dynamics, potentially leading to different performance outcomes. Consequently, an eco-driving model optimised using \ac{idm} may perform noticeably worse under realistic \ac{eidm} scenarios, and vice versa. \emph{Third}, market-penetration rate (\ac{mpr}) and demand levels vary significantly: many studies simulate with relatively low traffic volumes around \(500\,\mathrm{veh\,h^{-1}}\) \cite{Yang2017,Ala2016}, which do not adequately reflect conditions at heavily utilised urban intersections. Densities greater than \(1000\,\mathrm{veh\,h^{-1}}\) are frequently encountered at real intersections. These observations indicate that current evidence, while promising, is fragmented and context-specific.
+\mynewline
+The consolidated picture reveals the existence of biases that are systematic in nature, thus giving rise to the identification of the following research gaps.
+
+\subsection{Identified Research Gaps}
+\textbf{(i) Penetration–density interaction.}  Only a handful of studies sweep both \ac{mpr} and traffic density on a calibrated urban node; most keep demand at \(\approx500\,\mathrm{veh\,h^{-1}}\) and thus under-represent peak periods.  \par
+\textbf{(ii) Fuel-model sensitivity.}  No work compares emission maps such as HBEFA4, and the PHEMlight5 model under identical scenarios, impeding cross-study coherence.  \par
+\textbf{(iii) Driver-heterogeneity representation.}  Evaluations almost always apply default \ac{idm}; calibrated \ac{eidm} parameters for stop-and-go traffic remain unexplored, despite evidence that \ac{idm} underestimates queue discharge times at high demand.  \par
+\textbf{(iv) Eco–flow trade-off at network scale.}  The systemic impact of eco-driving vehicles operating in an egoistic manner on overall throughput is poorly quantified; existing results are limited to isolated junctions.  \par
+\textbf{(v) Benchmark realism.}  No standard intersection or openly shared SUMO scenario exists; most studies simulate stylised layouts, hindering replication. Field data are scarce outside small pilot trials.
+\mynewline
+Addressing these gaps frames the contribution of this thesis.
+
+\paragraph{Thesis Contribution Anchor}
+The thesis advances the field in three ways. First, it replicates flow-oriented results of Lenz \cite{Lenz2024} under identical conditions and volumes up to \(3500\,\mathrm{veh\,h^{-1}}\) by designing an \ac{eco-glosa} controller for the Stuttgart–-Neckartor intersection based on \ac{dp} and calibrated \ac{eidm}. Second, it maps the penetration–density surface, locating thresholds where eco guidance benefits or harms fuel use and flow, and quantifies collateral effects on non-equipped vehicles across \ac{mpr} bands. Finally, it makes available an open-source codebase and a fully reproducible \ac{sumo} package that can be used as a standard for \ac{dp} and even reinforcement-learning studies in the future.
+\mynewline
+The next chapter outlines the methodological framework that operationalises these goals.

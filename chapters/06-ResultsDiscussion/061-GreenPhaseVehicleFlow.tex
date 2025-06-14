@@ -1,0 +1,75 @@
+\section{Green‐Phase Vehicle Flow}
+\label{sec:Results_GreenPhaseFlow}
+
+Table~\ref{tab:GreenPhaseFlow} summarises the per‐cycle vehicle flow for demand levels from 69 to 3462 veh/h across \ac{mpr}, where \enquote{Standard} (0 \%) denotes no \ac{glosa}, \enquote{Baseline} denotes \ac{flow-glosa}, and \enquote{Eco} denotes \ac{eco-glosa}. Figures~\ref{fig:HBEFA4_Flow} and \ref{fig:PHEM_Flow} visualise these curves for HBEFA4 and PHEM-LIGHT5 at 1500, 2000 and 2500 veh/h. 
+At low to moderate demand (69–692 veh/h) both \ac{eco-glosa} and \ac{flow-glosa} remain within $\pm 0.04$ vehicles of the Standard across the full \ac{mpr} range, indicating that under light traffic densities speed advisories, whether emission‐ or flow‐optimised, do not materially affect green‐phase capacity. As demand rises to 1385 veh/h, a slight scatter appears in the \ac{eco-glosa} curve at low \ac{mpr} (10–30\%), yet maximum deviation stays under 0.13 vehicles, still within normal cycle‐to‐cycle variation. Crucially, this insensitivity of \ac{eco-glosa} extends only up to 2077 veh/h for PHEM-LIGHT5 and up to 2769 veh/h for HBEFA4, suggesting that the coarser emission factors in HBEFA4 delay the onset of aggressive speed changes. Beyond these breakpoints, \ac{eco-glosa} throughput declines sharply: for 2769 veh/h under PHEMlight5, flow drops from 46.03 vehicles at Standard to 35.9 vehicles at 90\% \ac{mpr} ($-22\,\%$), and for 3462 veh/h under HBEFA4, from 49.03 to 37.27 vehicles at full \ac{mpr}, clear evidence of queue formation and spill‐back within one green phase. In contrast, the \ac{flow-glosa} baseline curves remain essentially horizontal across all volumes and \ac{mpr}s, preserving 100\% of Standard throughput by design. These results confirm that while \ac{eco-glosa} can marginally modulate flow under low densities, its emission‐driven advisories incur significant capacity penalties under high demand, whereas \ac{flow-glosa} reliably maintains green‐phase capacity in all tested scenarios.
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.49\textwidth]{data/img/GreenPhaseVehicleFlow/GreenPhaseVehicleFlow_HBEFA4_Cars1500.pdf}
+  \includegraphics[width=0.49\textwidth]{data/img/GreenPhaseVehicleFlow/GreenPhaseVehicleFlow_HBEFA4_Cars2000.pdf}
+  \includegraphics[width=0.49\textwidth]{data/img/GreenPhaseVehicleFlow/GreenPhaseVehicleFlow_HBEFA4_Cars2500.pdf}
+  \caption{Green‐phase vehicle flow under HBEFA4 for 2077, 2769 and 3462 vehicles/h comparing standard, \ac{eco-glosa}, and \ac{flow-glosa}.}
+  \label{fig:HBEFA4_Flow}
+\end{figure}
+
+\begin{figure}[htb]
+  \centering
+  \includegraphics[width=0.49\textwidth]{data/img/GreenPhaseVehicleFlow/GreenPhaseVehicleFlow_PHEMLIGHT5_Cars1500.pdf}
+  \includegraphics[width=0.49\textwidth]{data/img/GreenPhaseVehicleFlow/GreenPhaseVehicleFlow_PHEMLIGHT5_Cars2000.pdf}
+  \includegraphics[width=0.49\textwidth]{data/img/GreenPhaseVehicleFlow/GreenPhaseVehicleFlow_PHEMLIGHT5_Cars2500.pdf}
+  \caption{Green‐phase vehicle flow under PHEMlight5 for 2077, 2769 and 3462 vehicles/h comparing standard, \ac{eco-glosa}, and \ac{flow-glosa}.}
+  \label{fig:PHEM_Flow}
+\end{figure}
+
+\begin{table}[htb]
+  \centering
+  \caption{Green‐phase vehicle flow (vehicles per green phase) for varying traffic volumes and \ac{mpr}. Standard refers to no \ac{glosa}, baseline refers to \ac{flow-glosa}.}
+  \label{tab:GreenPhaseFlow}
+  \resizebox{\textwidth}{!}{%
+  \begin{tabular}{r l l r *{10}{r}}
+    \toprule
+    Cars & Algorithm                   & Fuel Model       & \textbf{0\% (Standard)} & 10\%  & 20\%  & 30\%  & 40\%  & 50\%  & 60\%  & 70\%  & 80\%  & 90\%  & 100\% \\
+    \midrule
+    69   & \ac{eco-glosa}              & HBEFA4           & \textbf{1.17} & 1.17  & 1.17  & 1.17  & 1.17  & 1.13  & 1.17  & 1.17  & 1.13  & 1.17  & 1.17  \\
+    69   & Baseline (\ac{flow-glosa})  & HBEFA4           & \textbf{1.17} & 1.17  & 1.17  & 1.17  & 1.17  & 1.13  & 1.17  & 1.17  & 1.17  & 1.17  & 1.17  \\
+    69   & \ac{eco-glosa}              & PHEMLIGHT5       & \textbf{1.17} & 1.17  & 1.17  & 1.17  & 1.17  & 1.13  & 1.17  & 1.17  & 1.17  & 1.17  & 1.17  \\
+    69   & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{1.17} & 1.17  & 1.17  & 1.17  & 1.17  & 1.13  & 1.17  & 1.17  & 1.17  & 1.17  & 1.17  \\
+    \midrule
+    138  & \ac{eco-glosa}              & HBEFA4           & \textbf{2.30} & 2.30  & 2.30  & 2.27  & 2.27  & 2.27  & 2.27  & 2.30  & 2.30  & 2.27  & 2.27  \\
+    138  & Baseline (\ac{flow-glosa})  & HBEFA4           & \textbf{2.30} & 2.30  & 2.30  & 2.30  & 2.27  & 2.27  & 2.27  & 2.30  & 2.30  & 2.30  & 2.30  \\
+    138  & \ac{eco-glosa}              & PHEMLIGHT5       & \textbf{2.30} & 2.30  & 2.30  & 2.27  & 2.27  & 2.27  & 2.27  & 2.30  & 2.30  & 2.30  & 2.27  \\
+    138  & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{2.30} & 2.30  & 2.30  & 2.30  & 2.27  & 2.27  & 2.27  & 2.30  & 2.30  & 2.30  & 2.30  \\
+    \midrule
+    346  & \ac{eco-glosa}              & HBEFA4           & \textbf{5.73} & 5.70  & 5.77  & 5.73  & 5.73  & 5.77  & 5.73  & 5.73  & 5.73  & 5.70  & 5.73  \\
+    346  & Baseline (\ac{flow-glosa})  & HBEFA4           & \textbf{5.73} & 5.73  & 5.73  & 5.70  & 5.73  & 5.73  & 5.73  & 5.70  & 5.73  & 5.73  & 5.73  \\
+    346  & \ac{eco-glosa}              & PHEMLIGHT5       & \textbf{5.73} & 5.73  & 5.73  & 5.70  & 5.77  & 5.73  & 5.73  & 5.70  & 5.70  & 5.70  & 5.77  \\
+    346  & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{5.73} & 5.73  & 5.73  & 5.70  & 5.73  & 5.73  & 5.73  & 5.70  & 5.73  & 5.73  & 5.73  \\
+    \midrule
+    692  & \ac{eco-glosa}              & HBEFA4           & \textbf{11.57} & 11.60 & 11.57 & 11.57 & 11.60 & 11.57 & 11.57 & 11.57 & 11.57 & 11.53 & 11.63 \\
+    692  & Baseline (\ac{flow-glosa})  & HBEFA4           & \textbf{11.57} & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.57 \\
+    692  & \ac{eco-glosa}              & PHEMLIGHT5       & \textbf{11.57} & 11.57 & 11.53 & 11.53 & 11.57 & 11.57 & 11.60 & 11.57 & 11.50 & 11.53 & 11.63 \\
+    692  & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{11.57} & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.60 & 11.57 \\
+    \midrule
+    1385 & \ac{eco-glosa}              & HBEFA4           & \textbf{23.03} & 22.97 & 23.07 & 22.97 & 23.03 & 23.10 & 23.03 & 23.03 & 22.97 & 23.07 & 23.03 \\
+    1385 & Baseline (\ac{flow-glosa})  & HBEFA4           & \textbf{23.03} & 23.13 & 23.10 & 23.07 & 23.03 & 23.10 & 23.03 & 23.07 & 23.10 & 23.13 & 23.03 \\
+    1385 & \ac{eco-glosa}              & PHEMLIGHT5       & \textbf{23.03} & 23.07 & 23.03 & 23.03 & 23.10 & 23.07 & 23.07 & 22.93 & 22.93 & 23.00 & 23.03 \\
+    1385 & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{23.03} & 23.13 & 23.10 & 23.07 & 23.03 & 23.10 & 23.03 & 23.07 & 23.10 & 23.13 & 23.03 \\
+    \midrule
+    2077 & \ac{eco-glosa}              & HBEFA4           & \textbf{34.63} & 34.70 & 34.67 & 34.63 & 34.67 & 34.63 & 34.70 & 34.63 & 34.63 & 34.63 & 34.67 \\
+    2077 & Baseline (\ac{flow-glosa})  & HBEFA4           & \textbf{34.63} & 34.60 & 34.63 & 34.63 & 34.57 & 34.57 & 34.57 & 34.63 & 34.63 & 34.60 & 34.63 \\
+    2077 & \ac{eco-glosa}              & PHEMLIGHT5       & \textbf{34.63} & 34.70 & 34.60 & 34.63 & 34.73 & 34.63 & 34.77 & 34.67 & 34.67 & 34.63 & 34.70 \\
+    2077 & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{34.63} & 34.60 & 34.63 & 34.63 & 34.57 & 34.57 & 34.57 & 34.63 & 34.63 & 34.60 & 34.63 \\
+    \midrule
+    2769 & Eco-\ac{eco-glosa}           & HBEFA4         & \textbf{46.03} & 46.10 & 46.03 & 41.90 & 42.67 & 46.20 & 39.30 & 46.30 & 46.07 & 46.03 & 46.03 \\
+    2769 & Baseline (\ac{flow-glosa})   & HBEFA4         & \textbf{46.03} & 46.17 & 46.13 & 46.10 & 46.13 & 46.03 & 46.13 & 46.10 & 46.13 & 46.17 & 46.03 \\
+    \textbf{2769} & \textbf{\ac{eco-glosa}} & \textbf{PHEMLIGHT5} & \textbf{46.03} & \textbf{44.47} & \textbf{41.73} & \textbf{39.33} & \textbf{38.37} & \textbf{37.57} & \textbf{37.17} & \textbf{36.97} & \textbf{36.67} & \textbf{35.90} & \textbf{37.83} \\
+    2769 & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{46.03} & 46.17 & 46.13 & 46.10 & 46.13 & 46.03 & 46.13 & 46.10 & 46.13 & 46.17 & 46.03 \\
+    \midrule
+    \textbf{3462} & \textbf{\ac{eco-glosa}} & \textbf{HBEFA4}   & \textbf{49.03} & \textbf{46.03} & \textbf{44.47} & \textbf{42.80} & \textbf{42.27} & \textbf{41.27} & \textbf{39.33} & \textbf{39.17} & \textbf{38.13} & \textbf{38.00} & \textbf{37.27} \\
+    3462 & Baseline (\ac{flow-glosa})  & HBEFA4           & \textbf{49.03} & 49.07 & 48.83 & 49.53 & 48.97 & 49.23 & 48.97 & 49.53 & 48.83 & 49.07 & 49.03 \\
+    \textbf{3462} & \textbf{\ac{eco-glosa}} & \textbf{PHEMLIGHT5} & \textbf{49.03} & \textbf{44.07} & \textbf{41.33} & \textbf{39.50} & \textbf{38.77} & \textbf{37.53} & \textbf{37.03} & \textbf{36.67} & \textbf{36.47} & \textbf{36.33} & \textbf{36.17} \\
+    3462 & Baseline (\ac{flow-glosa})  & PHEMLIGHT5       & \textbf{49.03} & 49.07 & 48.83 & 49.53 & 48.97 & 49.23 & 48.97 & 49.53 & 48.83 & 49.07 & 49.03 \\
+    \bottomrule
+  \end{tabular}%
+  }
+\end{table}

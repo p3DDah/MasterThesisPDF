@@ -1,0 +1,143 @@
+\section{Proposed Eco‐Driving GLOSA Algorithm}
+\label{sec:Proposed_Eco_Driving_GLOSA_Algorithm}
+
+In this section, we present our proposed eco‐driving \ac{glosa} algorithm, which seamlessly integrates real‐time \ac{glosa} speed advisories with a fuel‐aware \ac{eco}–\ac{CACC}‐$Q$ optimization framework. Our primary objective is to minimize overall fuel consumption while ensuring that the equipped vehicle arrives at the stop line precisely in synchrony with an upcoming green phase. To achieve this, the controller combines (i) accurate signal‐timing prediction, (ii) kinematic trajectory planning, and (iii) a detailed emission‐lookup cost functional. Online advisory speed computation is made possible through the implementation of the algorithm through the use of the \ac{traci} interface within \ac{sumo}.
+\mynewline
+The core components of the proposed method are as follows:
+\begin{itemize}
+  \item \textbf{Signal‐Timing Prediction:} We leverage \texttt{getTimeToSwitch} to obtain precise micro‐phase durations and iteratively scan up to multiple cycles to identify a feasible green window, accounting for both red to green and green to non‐green transitions.
+  \item \textbf{Kinematic Planning:} A two‐phase structure --- comprising an \emph{upstream} segment (from the current position to the stop line) and a \emph{downstream} segment (extending a fixed distance $\gls{ddown}$ beyond the junction) --- is adopted. In each segment, a single constant acceleration ($\gls{aup}$ \text{ or } $\gls{adown}$) is selected to minimize the integral fuel cost over the corresponding time interval.
+  \item \textbf{Emission‐Lookup Cost Functional:} Instead of relying on simplified polynomial coefficients, we generalize the instantaneous fuel‐rate function $F_{\text{model}}(v,a)$ to support both the HBEFA4 polynomial model and the PHEMLIGHT5 surface lookup. Both were talked about in section \ref{subsubsec:detailed_emission_models}.
+\end{itemize}
+
+\subsection{Literature Foundation \& Innovations}
+\label{sec:EcoGlosa_Background}
+
+Our eco‐driving controller builds directly on the eco–\ac{CACC}‐$Q$ framework introduced by Ala, Yang, and Rakha \cite{Ala2016}, who showed that combining advisory speed control with adaptive cruise control and explicitly modelling queue dissipation in the optimizer yields up to 19\,\% fuel savings on isolated approaches. We preserve their fundamental two‐phase structure --- comprising an upstream trajectory planning segment and a downstream recovery segment --- but embed it within a \ac{glosa} advisory context and generalize the fuel‐cost optimizer to work with emission models such as HBEFA4 and PHEMLIGHT5. 
+\mynewline
+Unlike Ala et al., who used VT‐CPFM polynomial coefficients in their cost functional, we replace the single‐model integrand with a flexible emission lookup, supporting both HBEFA4’s polynomial representation and PHEMLIGHT5’s surface interpolation (see Section \ref{subsubsec:detailed_emission_models}). In the upstream and downstream segments, a single constant acceleration ($\gls{aup}$ or $\gls{adown}$) is chosen to minimize the integral of $F_{\mathrm{model}}(v,a)$ over each interval. To find the optimal pair $(\gls{aup},\gls{adown})$, we extend Ala’s \ac{dp} algorithm with a brute‐force plus local refinement approach into a joint two‐variable search with asymmetric acceleration bounds ($\gls{amin}\neq\gls{amax}$), followed by a local hill‐climbing step over the $(\gls{aup},\gls{adown})$ grid. This contrasts with Ala’s single‐variable refinement on the upstream acceleration only.
+\mynewline
+While Ala et al. incorporated queue dissipation implicitly via shock‐wave estimates, our implementation optionally uses real‐time lane‐area detector measurements ($\gls{ells}$) to compute queue‐induced delay $\gls{tadd} = 0.21\,\text{s/m} \cdot \gls{ells} + 3\,\text{s}$. In this thesis, however, we disable explicit queue modelling, focusing instead on fixed segmentation: the upstream segment ends at the stop line, and the downstream segment spans a constant recovery distance $\gls{ddown}$ beyond the junction. 
+\mynewline
+Embedding the optimizer within a \ac{glosa} setting requires advisory \textit{speedFactor} commands via \ac{traci} rather than direct acceleration inputs. We therefore introduce explicit \textit{speedFactor} bounds $[\gls{minsf},\,\gls{maxsf}]$ and integrate a 2.1\,s safety correction directly into the corrected time‐to‐switch variable $\gls{tts}_{\mathrm{corr}}$. Additionally, as previously mentioned in section \ref{sec:Baseline_Glosa_Algorithm}, our controller makes use of dynamic multi-cycle phase scanning. Real‐time signal information enables online computation of $\gls{tts}$ and dynamic adjustment of the optimization horizon.
+\newline
+Additional innovations include a fallback acceleration heuristic tailored for \ac{glosa} when the optimizer yields no feasible velocity; enforcement of a minimum advisory speed $\gls{vmin}$ post‐optimization (absent in Ala et al.); and the use of \ac{traci} functions exclusively, eliminating offline dynamic programming steps. Collectively, these enhancements allow our \ac{eco-glosa} algorithm to retain Ala’s methodological backbone while achieving greater flexibility, realism, and fuel‐efficiency in a real‐time simulation setting.
+
+
+\subsection{Algorithmic Framework}
+\label{sec:EcoGlosa_Framework}
+
+In this subsection, we detail the structural organization and execution logic of the proposed eco‐driving GLOSA controller. Building on the literature and innovations discussed previously, we first present a high‐level overview of how the controller acquires environmental context, and updates advisory speeds in each simulation step. Emphasis is placed on real‐time operation via the \ac{traci} interface, ensuring that signal timing information, vehicle kinematics, and emission costs are integrated seamlessly. The subsequent paragraphs describe the constructor’s static setup of vehicle and emission parameters, the per‐step invocation that locates the relevant traffic light and determines whether to issue speed advisories, and finally the core advisory routine that computes the optimal speedFactor or applies a fallback heuristic when necessary.
+
+\paragraph{Simulation‐Step Invocation and Junction Context Acquisition} 
+During each time step of the simulation, the controller checks whether the vehicle is approaching a traffic signal within its advisory range. If no relevant traffic light is detected, the controller assumes a post‐junction state and updates any residual downstream distance to ensure that, once the vehicle re‐enters control range of another signal, the advisory process can resume appropriately. When a traffic light does come into range and the vehicle has not yet crossed the stop line, the controller verifies whether the distance to the stop line lies within a predefined advisory threshold. The very first time this threshold is crossed, the current simulation time and vehicle speed are recorded to establish the starting conditions for trajectory optimization. As long as the vehicle remains within this advisory range and has not passed the junction, the controller repeatedly executes the speed advisory routine at each simulation step. Once the vehicle exits the advisory range or passes the intersection, no further advisories are generated until the next relevant traffic light is encountered.
+
+\paragraph{Advisory Speed Update Procedure} 
+When the vehicle enters the predefined advisory range and has not yet crossed the intersection, the controller executes the main speed‐update routine. First, it retrieves the current longitudinal speed, $\gls{vcur}$, and the current simulation time, $\gls{tcur}$. To estimate how quickly the vehicle could reach the downstream speed limit, the controller solves the kinematic equation
+\begin{equation}
+   \gls{ddown} \;=\; \gls{vcur}\,\gls{tcur} \;+\; \tfrac{1}{2}\,\gls{amax}\,\gls{tcur}^2, 
+\end{equation}
+where $\gls{ddown}$ denotes the remaining distance to the lane’s downstream limit. From this solution, the time required to accelerate to the allowed speed $\gls{vmax}$, if possible, is computed as
+\begin{equation}
+    \Delta \gls{tacc} 
+    \;=\; 
+    \min\Bigl(\,\tfrac{\gls{vmax} - \gls{vcur}}{\gls{amax}},\; 
+    \gls{tcontd}\Bigr),
+\end{equation}
+where $\gls{tcontd}$ is the positive root of the kinematic equation above. The earliest feasible downstream arrival time then follows as
+\begin{equation}
+    \Delta \gls{tearliest} 
+    \;=\; 
+    \Delta \gls{tacc} \;+\; 
+    \frac{\gls{ddown} - \gls{dacc}}{\,\gls{vmax}\,},
+\end{equation}
+in which $\gls{dacc}$ is the distance covered during $\Delta \gls{tacc}$. The end time of the downstream segment, $T_{\mathrm{end,down}}$, is defined as
+\begin{equation}
+    T_{\mathrm{end,down}} = \gls{tcur} + \Delta \gls{tearliest},
+\end{equation}
+where $T_{\mathrm{end,down}}$ represents the time at which the ego vehicle reaches the end of the downstream segment, i.e., the point beyond the intersection, based on the current simulation time and the earliest feasible arrival time.
+\mynewline
+Next, the controller predicts the next feasible green onset. For each candidate phase, the controller evaluates whether
+\begin{equation}
+    \gls{tttj} \;\le\; \Delta \gls{tswitch} + \gls{epsyellow},
+\end{equation}
+where $\gls{tttj}$ is the estimated time‐to‐junction, $\Delta \gls{tswitch}$ is the accumulated time until that phase switch, and $\gls{epsyellow}=0.5\,$s provides a safety buffer for yellow intervals. If the optional queue module is active, an additional delay
+\begin{equation}
+    \gls{tadd}
+    = 0.21\,\frac{\mathrm{s}}{\mathrm{m}} \cdot \gls{ells} + 3\,\mathrm{s}
+\end{equation}
+is included in $\Delta \gls{tswitch}$ for red phases to account for queue-dissipation time. Once a suitable green onset is found, the time to reach the intersection is calculated by
+\begin{equation}
+    \gls{tc}
+    = \gls{tcur} + \Delta\gls{tswitch} + \gls{epsyellow} + (\gls{tadd}).
+\end{equation}
+The controller determines the optimization horizon by computing the available slack time as
+\begin{equation}
+    \gls{tslack} = \min\Bigl[\, \gls{tslack}\,(\gls{tenddown} - \gls{tcur}),\; \gls{tslackmax} \Bigr],
+\end{equation}
+where $\gls{tslack}=0.1\,\mathrm{s}$ is the base slack parameter and $\gls{tslackmax}=5\,\mathrm{s}$ specifies the maximum allowable slack time. This approach guarantees a bounded yet adaptive time window for optimization.
+To finalize the temporal bounds for optimization, the controller distinguishes between vehicles located downstream (i.e., behind the intersection, having already crossed the stop line) and those upstream (i.e., in front of the intersection, still approaching). If the ego vehicle is already in the downstream segment, the total end time for the optimization interval is computed as
+\begin{equation}
+    T_{\mathrm{end}} = \gls{tenddown} + \gls{tslack},
+\end{equation}
+where $T_{\mathrm{end}}$ denotes the termination time of the optimization window. Conversely, if the vehicle remains upstream of the intersection, the end time is defined by
+\begin{equation}
+    T_{\mathrm{end}} = \gls{tenddown} + \gls{tslack} + \gls{tc},
+\end{equation}
+incorporating both the slack time and the predicted green phase onset ($\gls{tc}$) prior to intersection entry. This bifurcated approach ensures that the temporal optimization window is correctly adapted to the vehicle’s position with respect to the intersection, maintaining both feasibility and operational efficiency in the eco-driving control strategy.
+\mynewline
+Over the interval $\bigl[\gls{tenddown},\,\gls{tend}\bigr]$, the controller’s optimizer searches for the pair of constant accelerations, $(\gls{aup},\,\gls{adown})$, that minimize the total fuel‐and‐penalty cost:
+The total cost function for the eco-driving controller is defined as
+\begin{equation}
+\begin{aligned}
+    \gls{Jcost} =\;
+    &\underbrace{\int_{\gls{tcur}}^{\,\gls{tc}} F_{\mathrm{model}}\bigl(v(t),\,a(t)\bigr)\,dt}_{\text{upstream cost}}
+    \;+\;
+    \underbrace{\int_{\gls{tc}}^{\,\gls{tend}} F_{\mathrm{model}}\bigl(v(t),\,a(t)\bigr)\,dt}_{\text{downstream cost}} \\
+    &+\, \alpha_{\mathrm{speed}}\bigl(\gls{vallowed} - v_{\mathrm{end}}\bigr)^2
+    + \alpha_{\mathrm{time}}\bigl(t_{\mathrm{reach}} - \Delta \gls{tearliest}\bigr)^2,
+\end{aligned}
+\label{eq:costJ_highlevel}
+\end{equation}
+In this expression, $F_{\mathrm{model}}(v(t),\,a(t))$ denotes the instantaneous fuel consumption as a function of speed and acceleration. The first integral accumulates the upstream cost from the current time $\gls{tcur}$ to the predicted green phase onset $\gls{tc}$, while the second integral accounts for the downstream cost from $\gls{tc}$ to the end of the optimization interval $\gls{tend}$. The penalty terms weighted by $\gls{alphaspeed}$ and $\gls{alphatime}$ ensure that the terminal velocity $\gls{vend}$ remains close to the allowed cruising speed $\gls{vallowed}$ and that the arrival time $\gls{treach}$ is close to the earliest feasible time $\Delta\gls{tearliest}$, respectively.
+\mynewline
+In a two‐stage procedure, \textit{Stage 1} samples a uniform grid over
+\begin{equation}
+    \gls{aup},\;\gls{adown} \;\in\; \left[-\gls{amin},\,\gls{amax}\right],
+\end{equation}
+with step size $0.01$ to locate a coarse minimizer. \textit{Stage 2} then refines this solution by performing local hill‐climbing over the eight neighbouring acceleration pairs until no further reduction in $\gls{Jcost}$ is achieved. The optimizer returns the optimal accelerations, $\left(\gls{aup}^*,\,\gls{adown}^*\right)$, along with the corresponding advisory speeds $\gls{vc}$ and $\gls{vdown}$. Here, $\gls{v_c}$ denotes the recommended speed for approaching the intersection, while $\gls{vdown}$ specifies the advisory speed to be maintained in the downstream segment after crossing the intersection. If $\gls{vc}$ falls below the minimum allowed speed $\gls{vmin}$, it is raised to $\gls{vmin}$ to preserve safety.
+\mynewline
+Should no feasible acceleration pair be found --- an uncommon occurrence under light traffic but possible in dense conditions --- the controller resorts to a fallback heuristic. Defining $\Delta T = \gls{tc} - \gls{tcur}$ and $d = \gls{dup}$, it solves
+\begin{equation}
+    \gls{dup}
+    = \gls{vcur}\,\Delta T 
+    + \tfrac{1}{2}\,a_{\mathrm{up,fb}}\,(\Delta T)^2
+    \quad\Longrightarrow\quad
+    a_{\mathrm{up,fb}}
+    = \frac{2\,\bigl(\gls{dup} - \gls{vcur}\,\Delta T\bigr)}{(\Delta T)^2},
+\end{equation}
+clipping $a_{\mathrm{up,fb}}$ to $[-a_{\min},\,a_{\max}]$. The resulting single‐segment trajectory is then re‐evaluated for fuel cost, and its implied advisory speed is issued.
+\mynewline
+Finally, the valid advisory speed factor is computed as
+\begin{equation}
+\text{desired\_factor} =
+\begin{cases}
+\dfrac{\gls{vc}}{\,\gls{vmax}\,}, 
+& \text{if } \gls{tcur} \leq \gls{tc}, \\[6pt]
+\dfrac{\max\bigl(\gls{vdown},\,\gls{vmin}\bigr)}{\,\gls{vmax}\,}, 
+& \text{otherwise},
+\end{cases}
+\end{equation}
+and applied to the ego vehicle within the simulation environment. If, at any point, the estimated arrival time at $\gls{vc}$ would exceed $\gls{tc}$, the controller iteratively searches for a feasible green phase until a valid solution is obtained, or the advisory horizon is exhausted.
+
+\paragraph{Post‐Junction State Restoration}
+Subsequent to the ego vehicle's navigation of the controlled segment, the controller expeditiously withdraws any active speed advisories, thereby facilitating the resumption of normal driving behaviour. It is imperative to restore the original cruising parameters, such as the baseline speed factor, to ensure a seamless transition back to uninfluenced operation. The controller also updates its internal state to reflect that the vehicle is now downstream of the intersection, thus suspending further advisory computations until another relevant signalized junction is encountered.
+
+\paragraph{Emission Model Back‐Ends} 
+The controller is equipped with two distinct fuel-rate back-ends, selectable at runtime via the emission database loaded during the initialization process. The instantaneous fuel consumption of the HBEFA4 polynomial model is determined by the following equation:
+\begin{equation}
+   f_{\mathrm{HBEFA4}}(v,a) 
+    \,=\, 
+    \bigl[c_0 + c_1\,v + c_2\,a + c_3\,v^2 + c_4\,v^3 + c_5\,a\,v + c_6\,a\,v^2 \bigr] \,/\, \gls{rhofuel}, 
+\end{equation}
+where $c_0,\dots,c_6$ are coefficients specific to the vehicle’s emission class and $\gls{rhofuel}$ is the fuel density. In contrast, the PHEMlight5 lookup model utilises a two-dimensional grid of fuel consumption values, denoted by ${FC}(\gls{pkw},v)$, where $\gls{pkw}$ denotes the instantaneous engine power in kilowatts. The interpolated value is then corrected for both vehicle mass and rated power before being converted from milligrams per second to millilitres per second. In the event of the engine being inactive for a period exceeding 10 seconds, or if the vehicle is coasting ($a < \text{coast\_decel}(v)$), $f_{\mathrm{HBEFA4}}$ or $f_{\mathrm{PHEMlight5}}$ is set to zero. It is evident that both back-ends are invoked within the cost integral of Equation~\ref{eq:costJ_highlevel} with a view to computing accurate fuel consumption estimates for upstream and downstream segments.

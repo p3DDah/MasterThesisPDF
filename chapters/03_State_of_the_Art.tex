@@ -1,0 +1,22 @@
+\chapter{State of the Art}
+\label{ch:State_of_the_Art}
+
+Motorised road transport emitted nearly \SI{8}{\giga\tonne} of CO\textsubscript{2} in 2022—accounting for over one-third of all end-use emissions. \cite{IEATransport2024}  
+Reducing these emissions effectively requires an in-depth understanding of traffic dynamics and energy consumption at the individual vehicle trajectory level.   
+Contemporary research thus integrates  
+\begin{enumerate}[label=(\roman*)]
+  \item high-fidelity microscopic traffic simulation,
+  \item optimisation frameworks such as \ac{glosa},
+  \item data-driven or learning-based control strategies.
+\end{enumerate}
+This chapter reviews the fundamental components of that pipeline. Section~\ref{sec:SUMO} introduces \ac{sumo}, the open-source simulation platform employed throughout this thesis. Section~\ref{sec:glosa} describes the underlying principles and system architecture of \ac{glosa}.
+\mynewline
+The subsequent discussion is organised as follows. First, we present \ac{dp}–based approaches aimed at maximising traffic throughput (Section~\ref{sec:flow_glosa}). These methods compute optimal speed profiles that minimise stop‐and‐go behaviour and thus increase network capacity. Finally, we extend the \ac{dp} framework to incorporate energy considerations, formulating an \ac{eco-glosa} algorithm (Section~\ref{sec:eco_glosa}) that prioritises minimising fuel consumption through trajectory-level speed optimisation while still enhancing traffic throughput.
+\mynewline
+Section~\ref{sec:research_gap} then synthesises the remaining research gaps that motivate the contributions of this work.  
+
+\input{chapters/03-StateOfTheArt/031-DynamicProgrammingForSpeedOptimization}
+
+\input{chapters/03-StateOfTheArt/032-EcoDrivingAndFuelConsumptionReduction}
+
+\input{chapters/03-StateOfTheArt/033-ResearchGapsAndConclusions}

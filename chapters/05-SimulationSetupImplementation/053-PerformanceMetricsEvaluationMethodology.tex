@@ -1,0 +1,97 @@
+\section{Performance Metrics and Evaluation Methodology}
+\label{sec:performance_evaluation}
+
+The assessment framework is designed to expose the trade-off between smoother traffic flow and ecological benefit introduced by the two \ac{glosa} variants. All quantities are derived from the trajectory and emission logs produced by \ac{sumo}. Each scenario is executed exactly once and therefore yields a single deterministic outcome; confidence intervals are not applicable.
+
+\paragraph{Microscopic traffic efficiency.}
+Four indicators quantify longitudinal driving quality.
+
+\begin{enumerate}[label=\textbf{(\roman*)}]
+\item \emph{Stops per vehicle} $\gls{nstop}$ count transitions where the instantaneous speed falls below \(2\,\mathrm{m\,s^{-1}}\) after being above that threshold --- mirroring the empirical definition used in field studies:
+\begin{equation}
+    \gls{nstop}_{,i}= \sum_{k=2}^{K}{\mathbb I}\!\left(v_{i,k}<2 \land v_{i,k-1}\ge 2\right).
+\end{equation}
+Scenario means follow $\bar \gls{nstop} = \tfrac1N\sum_i \gls{nstop}_{,i}$.
+
+\item \emph{Mean speed} averages all time stamps of all vehicles,
+\begin{equation}
+    \bar v = \frac1{N K}\sum_{i=1}^{N}\sum_{k=1}^{K} v_{i,k},
+\end{equation}
+with \(K\) the number of stored steps per vehicle.
+
+\item \emph{Mean absolute acceleration} is computed likewise,
+\begin{equation}
+    \overline{|a|} = \frac1{N K}\sum_{i,k}|a_{i,k}|,
+\end{equation}
+and serves as a surrogate for passenger comfort and tyre wear.
+\end{enumerate}
+
+\paragraph{Macroscopic throughput.}
+Throughput is quantified as the mean number of vehicles exiting the study segment per signal cycle, rather than as an hourly rate. Each cycle of length $T_{\mathrm{cycle}}=120\,$s comprises two green‐phase intervals, $I_{1}=[2,35]\,$s and $I_{2}=[62,96]\,$s. For cycle $c$, let
+\begin{equation}
+    N_{c} \;=\; \#\bigl\{\,i : t_{i,\mathrm{exit}}\in I_{1}\cup I_{2}\bigr\},
+\end{equation}
+where $t_{i,\mathrm{exit}}$ is the exit timestamp of vehicle $i$. The average per-cycle throughput is then
+\begin{equation}
+    \overline{N}_{\mathrm{cycle}}\;=\;\frac{1}{C}\sum_{c=1}^{C}N_{c}.
+\end{equation}
+
+\paragraph{Energy demand and pollutant emissions.}
+Environmental impact is characterised by per‐vehicle pollutant rates, with $CO_{2}$ as the primary metric (fuel mass is proportional and thus not shown separately). Emissions are computed over the 1.2\,km evaluation corridor by summing the instantaneous rates in the log, multiplying by the time step $\Delta t = 0.1\,$s, converting to grams and normalising by distance:
+\begin{equation}
+    e_{i}
+    = \frac{1}{1000\,L} \sum_{k=s_i}^{e_i} \dot m^{CO_{2}}_{k}\,\Delta t,
+    \quad
+    L = 1.2\ \mathrm{km},
+    \quad
+    \Delta t = 0.1\ \mathrm{s}.
+\end{equation}
+The same form applies to $NO_{x}$ and $PM_{x}$, using $\dot m^{NO_{x}}_{k}$ and $\dot m^{PM_{x}}_{k}$ from the emission log. Two inventories, \ac{hbefa}~4 and \textsc{PHEMlight}~5, are processed in parallel, ensuring that any model‐specific bias appears consistently across all scenarios. 
+
+\paragraph{Relative performance baseline.}
+Each metric $y$ is expressed as a percentage deviation from the flow‐matched, 0\% penetration scenario:
+
+\begin{equation}
+    \Delta y(p) = \frac{y(p) - y(0)}{y(0)} \times 100\%.
+\end{equation}
+
+Separate traces $\Delta y_{\mathrm{flow}}$ and $\Delta y_{\mathrm{eco}}$ are plotted for the flow-optimised and eco-driving controllers, respectively. Negative values indicate an improvement.  
+
+\paragraph{Break-even penetration rate.}
+For each flow level the critical \ac{mpr} $p^{\star}$ is defined by the solution of
+\begin{equation}
+    \Delta y_{\mathrm{flow}}(p^{\star})
+    \;=\;
+    \Delta y_{\mathrm{eco}}(p^{\star}),
+\end{equation}
+where $\Delta y_{\mathrm{flow}}$ and $\Delta y_{\mathrm{eco}}$ are the percentage‐change curves for the flow-optimised and eco-driving controllers, respectively. Rather than simple linear interpolation, we fit continuous cubic splines $S_{\mathrm{flow}}(p)$ and $S_{\mathrm{eco}}(p)$ through the discrete penetration points $\{p_{k},\,\Delta y(p_{k})\}$. Then $p^{\star}$ is obtained by numerically solving
+\begin{equation}
+    S_{\mathrm{flow}}(p)\;-\;S_{\mathrm{eco}}(p)\;=\;0
+    \quad\text{for}\quad p\in[0,100]\%.
+\end{equation}
+The root‐finding (e.g.\ Brent’s method) ensures sub‐percent accuracy. We compute one $p^{\star}$ per demand level; the collection of eight values is summarised by its median and range.  
+
+\paragraph{Computational viability.}
+Feasibility is assessed by recording the wall‐clock time per scenario via \ac{traci}. Let $T_{\mathrm{traci,0}}$ and $T_{\mathrm{traci,eco}}$ be the runtimes for the baseline and eco‐driving controllers, respectively, and let $T_{\mathrm{sumo,0}}$ denote the pure \ac{sumo} execution time without any external interface. We define the Python‐interface overhead as
+\begin{equation}
+    \phi \;=\; \frac{T_{\mathrm{traci,0}}}{T_{\mathrm{sumo,0}}},
+\end{equation}
+which quantifies the relative slowdown introduced by the \ac{traci} loop. The incremental cost of the eco‐driving optimisation is then
+\begin{equation}
+    \delta_{\mathrm{eco}} 
+    \;=\; \frac{T_{\mathrm{traci,eco}} - T_{\mathrm{traci,0}}}{T_{\mathrm{traci,0}}},
+\end{equation}
+expressing the extra runtime as a fraction of the baseline. Both absolute runtimes (in $s \cdot h^{-1}$) and relative overheads (in \%) are reported to balance environmental gains against computational expense.
+
+\paragraph{Visualisation.}
+Results are conveyed using a harmonised set of graphical summaries that balance clarity and detail. 
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*]
+    \item Line charts depict mean speed $\bar v$, mean absolute acceleration $\overline{|a|}$, average stops per vehicle $\bar N_{\mathrm{stop}}$, per‐route travel time $t_{\mathrm{route}}$ and per‐vehicle CO$_2$ emissions as functions of market penetration. Each demand level occupies its panel to facilitate direct comparisons across flows.
+    \item Heat maps illustrate the percentage change in CO$_2$, $\Delta\mathrm{CO}_{2}$, over the two‐dimensional grid defined by traffic flow and penetration. This view highlights the region where eco‐driving achieves net environmental benefit.
+    \item Bar plots summarise computational overheads by displaying the interface factor $\phi$ and the eco‐optimisation cost $\delta_{\mathrm{eco}}$ for each scenario, making it easy to weigh runtime against performance gains.
+    \item Break‐even penetration rates $p^{\star}$ are marked as vertical dashed lines on the CO$_2$ line plots, directly annotating the threshold at which eco‐driving and flow‐optimised controllers perform equally.
+\end{enumerate}
+No error bars are shown, since each point is derived from a single deterministic run rather than a statistical ensemble.  
+
+\paragraph{Interpretation focus.}
+The ensuing discussion concentrates on two aspects: (i) the absolute and relative reduction of \(\mathrm{CO_{2}}\) emissions achieved by the eco-driving algorithm, and (ii) the penetration–demand corridor in which this reduction outweighs any throughput penalty. By presenting results normalised to the baseline and indexed by market penetration, the methodology yields transparent, scalable insights that remain valid even if additional algorithms or network geometries are appended in future work.

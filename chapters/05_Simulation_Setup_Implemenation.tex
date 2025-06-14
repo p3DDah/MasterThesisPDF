@@ -1,0 +1,12 @@
+\chapter{Simulation Setup and Configuration}
+\label{ch:SimulationSetupConfiguration}
+
+This chapter standardises the experimental frame used to test \ac{glosa} schemes at the signalised \emph{Neckartor} junction. A microscopic network in \ac{sumo} is driven via \ac{traci}. The digital twin mirrors lane geometry, \ac{spat} phases and the local diesel-ban rules. Measured flows feed the generator. Rate levels range from free to oversaturated, which means that demand is too high.
+\mynewline
+The material is split into three self-contained parts. Section~\ref{sec:SimEnvironment} states the simulation environment. It lists network size, vehicle mix, extended \ac{eidm} parameters and the emission logging set-up. Section~\ref{sec:exec_protocol} details the execution protocol. It sweeps flow, \ac{glosa} market penetration, communication range and other knobs such as \gls{tslack}. Section~\ref{sec:performance_evaluation} defines the evaluation metrics. Stop counts, mean speed, fuel use, emissions, and break-even penetration rates form the core. 
+
+\input{chapters/05-SimulationSetupImplementation/051-SimualtionArchitectureInitialization}
+
+\input{chapters/05-SimulationSetupImplementation/052-ExecutionProtocolParameterization}
+
+\input{chapters/05-SimulationSetupImplementation/053-PerformanceMetricsEvaluationMethodology}

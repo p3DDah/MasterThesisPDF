@@ -1,0 +1,53 @@
+% --------------------------------------------------------------------
+\section{Simulation Environment}
+\label{sec:SimEnvironment}
+% --------------------------------------------------------------------
+The experiments are executed in the open-source \ac{sumo} framework. The platform delivers microscale vehicle dynamics and deterministic reproducibility. All inputs are supplied through static configuration files, and no on-line calibration is performed. Numerical integration uses the default solver provided by \ac{sumo}.
+\mynewline
+The digital network represents the signalised \emph{Neckartor} junction in Stuttgart. Geometry, lane layout and dedicated turn pockets are reproduced exactly. Signal timing is encoded through fixed \gls{spat} and \gls{map} plans extracted from the roadside controller. The plans are assumed invariant over the entire run. Diesel vehicles that do not meet Euro 6 are excluded, because a local driving ban blocks Euro 5 and older classes. Vehicle counts measured in 2023 report a peak demand of 2800\,veh\,h\(^{-1}\).
+\mynewline
+Traffic demand is created synthetically but anchored to real loop data collected on the B14 corridor heading toward the city centre. Flow levels range from light to heavy congestion. Vehicles enter with uniform inter-arrival times within each scenario. Route assignment follows an equal probability rule across all legitimate movements, ensuring balanced saturation of every lane group. Market penetration of \ac{glosa} is treated as a categorical variable. Percentages from 0\% to 100\% are tested in 10\% steps. Two independent insertion streams keep \ac{glosa}-equipped and non-equipped vehicles statistically separate, while still sharing the same network conditions.
+\mynewline
+Longitudinal behaviour is governed by the \ac{eidm}. The choice reflects its proven ability to handle stop-and-go waves and queue discharge dynamics.  A heterogeneous fleet of 486 virtual vehicles is synthesised by combining five variable parameters with nine fixed ones. Tables \ref{tab:EIDMFixed} and \ref{tab:EIDMVar} list the settings. Variable parameters are sampled uniformly across the stated bounds for every vehicle instance at spawn time. The resulting population covers a plausible span of car sizes, aggressiveness levels and reaction times without biasing the results toward a single calibration point.
+\mynewline
+The temporal horizon of each simulation run is 43.33 min. The first 10-min act as a warm-up period, allowing queues and signal coordination to reach a stable regime. Only the remaining 33.33 min enter the statistical analysis. The simulation time step is fixed to 0.1 s, providing sufficient resolution for the \ac{eidm} equation set and for accurate emission integration. Data collection is spatially clipped to a 1 km upstream cordon and a 200 m downstream cordon centred at the stop line. Sampling outside this window is disabled to focus on the area most sensitive to speed advice.
+\mynewline
+Every vehicle writes a dedicated log that stores time stamp, position, speed, acceleration and instantaneous emission rates. All emission quantities are calculated by \ac{sumo}’s internal look-up tables. Logs are flushed at every simulation step, enabling post-processing with external statistical scripts. The same configuration governs every scenario, ensuring comparability across flow, penetration, and model parameter sweeps.
+
+\begin{table}[tbp]
+  \centering
+  \caption{Fixed \ac{eidm} parameters shared by all vehicles.}
+  \label{tab:EIDMFixed}
+  \begin{tabular}{lcc}
+    \toprule
+    Parameter & Symbol & Value \\
+    \midrule
+    Desired time headway           & \(T\)               & 1.50\,s \\
+    Comfortable deceleration       & \(\gls{bmax}\)      & 4.00\,m\,s\(^{-2}\) \\
+    Acceleration exponent          & \(\delta\)          & 4 \\
+    Vehicle length                 & \(\ell\)            & 4.50\,m \\
+    Minimum speed                  & \(\gls{vmin}\)      & 0.00\,m\,s\(^{-1}\) \\
+    Maximum deceleration jerk      & \(j_{\text{dec}}\)  & 1.50\,m\,s\(^{-3}\) \\
+    Maximum acceleration jerk      & \(j_{\text{acc}}\)  & 1.50\,m\,s\(^{-3}\) \\
+    Coolness factor upper bound    & \(c_{\max}\)        & 1.00\,– \\
+    Lane-change politeness         & \(p\)               & 0.50\,– \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{table}[tbp]
+  \centering
+  \caption{Variable \ac{eidm} parameters used to generate the 486-vehicle fleet.  Each parameter is drawn independently from a uniform distribution over the given range.}
+  \label{tab:EIDMVar}
+  \begin{tabular}{lccc}
+    \toprule
+    Parameter                    & Symbol         & Range        & Unit \\
+    \midrule
+    Maximum acceleration         & \(\gls{amax}\) & 1.0–3.5      & m\,s\(^{-2}\) \\
+    Minimum gap                  & \(s_{0}\)      & 1.0–3.0      & m \\
+    Reaction time                & \(\tau\)       & 0.8–1.4      & s \\
+    Coolness factor              & \(c\)          & 0.0–1.0      & – \\
+    Speed factor                 & \gls{sf}       & 0.8–1.2      & – \\
+    \bottomrule
+  \end{tabular}
+\end{table}

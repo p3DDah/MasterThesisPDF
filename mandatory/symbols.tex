@@ -1,0 +1,335 @@
+\newglossaryentry{sf}{
+  name={\ensuremath{S_{f}}},
+  description={Speed factor (desired speed relative to link speed limit)},
+  unit={}
+}
+
+\newglossaryentry{vmax}{
+  name={\ensuremath{v_{\max}}},
+  description={Maximum permitted speed on the current link},
+  unit={m\,s^{-1}}
+}
+
+\newglossaryentry{vego}{
+  name={\ensuremath{v_{\mathrm{ego}}}},
+  description={Instantaneous vehicle speed},
+  unit={m\,s^{-1}}
+}
+
+\newglossaryentry{minsf}{
+  name={\ensuremath{S_{f,min}}},
+  description={Lower bound for \gls{sf}},
+  unit={}
+}
+
+\newglossaryentry{a}{
+  name={\ensuremath{a}},
+  description={Average acceleration},
+  unit={m\,s^{-2}}
+}
+
+\newglossaryentry{j}{
+  name={\ensuremath{j}},
+  description={Jerk (rate of change of acceleration)},
+  unit={m\,s^{-3}}
+}
+
+\newglossaryentry{maxsf}{
+  name={\ensuremath{S_{f,max}}},
+  description={Upper bound for \gls{sf}},
+  unit={}
+}
+
+\newglossaryentry{dup}{
+  name={\ensuremath{d_{\mathrm{up}}}},
+  description={Upstream distance from vehicle to stop line},
+  unit={m}
+}
+
+\newglossaryentry{ttj}{
+  name={\ensuremath{\text{TTJ}}},
+  description={Time to junction (estimated travel time to stop line)},
+  unit={s}
+}
+
+\newglossaryentry{tts}{
+  name={\ensuremath{\text{TTS}}},
+  description={Time to switch (time until signal phase changes)},
+  unit={s}
+}
+
+\newglossaryentry{vopt}{
+  name={\ensuremath{v_{\mathrm{opt,th}}}},
+  description={Theoretical optimal speed to reach stop line at target time},
+  unit={m\,s^{-1}}
+}
+
+\newglossaryentry{ddec}{
+  name={\ensuremath{d_{\mathrm{dec}}}},
+  description={Distance required to decelerate from current speed to target speed},
+  unit={m}
+}
+
+\newglossaryentry{bmax}{
+  name={\ensuremath{b_{\max}}},
+  description={Maximum deceleration},
+  unit={m\,s^{-2}}
+}
+
+\newglossaryentry{dacc}{
+  name={\ensuremath{d_{\mathrm{acc}}}},
+  description={Distance required to accelerate from target speed to current speed},
+  unit={m}
+}
+
+\newglossaryentry{amin}{
+  name={\ensuremath{a_{\min}}},
+  unit={m\,s^{-2}},
+  description={Minimum allowable acceleration}
+}
+
+\newglossaryentry{amax}{
+  name={\ensuremath{a_{\max}}},
+  unit={m\,s^{-2}},
+  description={Maximum allowable acceleration}
+}
+
+\newglossaryentry{tts_corr}{
+  name={\ensuremath{t_{ts}}},
+  description={Effective time until switch, including safety correction},
+  unit={s}
+}
+
+\newglossaryentry{sfi}{
+  name={\ensuremath{S_{f,\mathrm{new}}}},
+  description={New speed factor computed by \texttt{adaptSpeed}},
+  unit={}
+}
+
+\newglossaryentry{ells}{
+  name={\ensuremath{\ell_{s}}},
+  description={Measured queue length at stop line},
+  unit={m}
+}
+
+\newglossaryentry{tadd}{
+  name={\ensuremath{t_{\mathrm{add}}}},
+  description={Additional delay induced by queue clearance},
+  unit={s}
+}
+
+\newglossaryentry{telapsed}{
+  name={\ensuremath{t_{\mathrm{elapsed}}}},
+  description={Elapsed time in current green phase},
+  unit={s}
+}
+
+\newglossaryentry{l}{
+  name={\ensuremath{l}},
+  description={Length of the downstream segment (distance after the stop line) for the optimizer},
+  unit={m}
+}
+
+\newglossaryentry{aup}{
+  name={\ensuremath{a_{\mathrm{up}}}},
+  description={Upstream (pre‐junction) constant acceleration chosen by the optimization},
+  unit={m\,s^{-2}}
+}
+
+\newglossaryentry{adown}{
+  name={\ensuremath{a_{\mathrm{down}}}},
+  description={Downstream (post‐junction) constant acceleration chosen by the optimization},
+  unit={m\,s^{-2}}
+}
+
+\newglossaryentry{deltaTearliest}{
+  name={\ensuremath{\Delta t_{\mathrm{earliest}}}},
+  description={Earliest possible travel time to the stop line under maximum‐speed conditions},
+  unit={s}
+}
+
+\newglossaryentry{Jcost}{
+  name={\ensuremath{J\!\bigl(a_{\mathrm{up}},\,a_{\mathrm{down}}\bigr)}},
+  description={Total cost function (integrated fuel consumption plus speed‐deviation and time‐reach penalties) for a given \(\,a_{\mathrm{up}},\,a_{\mathrm{down}}\)\,},
+  unit={}
+}
+
+\newglossaryentry{ddown}{
+  name={\ensuremath{d_{\mathrm{down}}}},
+  unit={m},
+  description={Fixed length of the downstream segment following the intersection}
+}
+
+\newglossaryentry{aup}{
+  name={\ensuremath{a_{\mathrm{up}}}},
+  unit={m\,s^{-2}},
+  description={Constant acceleration used for upstream motion planning}
+}
+
+\newglossaryentry{adown}{
+  name={\ensuremath{a_{\mathrm{down}}}},
+  unit={m\,s^{-2}},
+  description={Constant acceleration used for downstream motion planning}
+}
+
+\newglossaryentry{m}{
+  name={\ensuremath{m}},
+  unit={kg},
+  description={Vehicle mass}
+}
+
+\newglossaryentry{w}{
+  name={\ensuremath{w}},
+  unit={m},
+  description={Vehicle width}
+}
+
+\newglossaryentry{h}{
+  name={\ensuremath{h}},
+  unit={m},
+  description={Vehicle height}
+}
+
+\newglossaryentry{vcur}{
+  name={\ensuremath{v_{\mathrm{cur}}}},
+  unit={m\,s^{-1}},
+  description={Current vehicle speed}
+}
+
+\newglossaryentry{tcur}{
+  name={\ensuremath{t_{\mathrm{cur}}}},
+  unit={s},
+  description={Current simulation time}
+}
+
+\newglossaryentry{tcontd}{
+  name={\ensuremath{t_{\mathrm{cont}}(d)}},
+  unit={s},
+  description={Continuation time, i.e., time required to traverse distance $d$ under specified kinematic constraints}
+}
+
+\newglossaryentry{tacc}{
+  name={\ensuremath{t_{\mathrm{acc}}}},
+  unit={s},
+  description={Time interval required for acceleration phase}
+}
+
+\newglossaryentry{tearliest}{
+  name={\ensuremath{t_{\mathrm{earliest}}}},
+  unit={s},
+  description={Earliest feasible downstream arrival time under current kinematic and signal constraints}
+}
+
+\newglossaryentry{tttj}{
+  name={\ensuremath{t_{\mathrm{to\;tj}}}},
+  unit={s},
+  description={Time to the next traffic signal junction}
+}
+
+\newglossaryentry{tswitch}{
+  name={\ensuremath{t_{\mathrm{switch}}}},
+  unit={s},
+  description={Time until the next signal phase switch}
+}
+
+\newglossaryentry{epsyellow}{
+  name={\ensuremath{\varepsilon_{\mathrm{yellow}}}},
+  unit={s},
+  description={Permissible time buffer for the yellow signal interval}
+}
+
+\newglossaryentry{tc}{
+  name={\ensuremath{t_{c}}},
+  unit={s},
+  description={Predicted time of green phase onset at the traffic signal}
+}
+
+\newglossaryentry{tenddown}{
+  name={\ensuremath{T_{\mathrm{end,down}}}},
+  unit={s},
+  description={End time of the downstream segment, i.e., time when the vehicle reaches the end of the downstream section after the intersection}
+}
+
+\newglossaryentry{tslack}{
+  name={\ensuremath{T_{\mathrm{slack}}}},
+  unit={s},
+  description={Slack time parameter used to define the optimization horizon}
+}
+
+\newglossaryentry{tslackmax}{
+  name={\ensuremath{T_{\mathrm{slack\_max}}}},
+  unit={s},
+  description={Maximum allowable slack time}
+}
+
+\newglossaryentry{tend}{
+  name={\ensuremath{T_{\mathrm{end}}}},
+  unit={s},
+  description={End time of the optimization interval for the ego vehicle}
+}
+
+\newglossaryentry{alphaspeed}{
+  name={\ensuremath{\alpha_{\mathrm{speed}}}},
+  unit={},
+  description={Weighting factor for the terminal speed penalty in the cost function}
+}
+
+\newglossaryentry{alphatime}{
+  name={\ensuremath{\alpha_{\mathrm{time}}}},
+  unit={},
+  description={Weighting factor for the arrival time penalty in the cost function}
+}
+
+\newglossaryentry{vend}{
+  name={\ensuremath{v_{\mathrm{end}}}},
+  unit={m\,s^{-1}},
+  description={Terminal vehicle speed at the end of the optimization interval}
+}
+
+\newglossaryentry{treach}{
+  name={\ensuremath{t_{\mathrm{reach}}}},
+  unit={s},
+  description={Actual arrival time at the end of the optimization interval}
+}
+
+\newglossaryentry{vmin}{
+  name={\ensuremath{v_{\min}}},
+  unit={m\,s^{-1}},
+  description={Minimum allowed vehicle speed}
+}
+
+\newglossaryentry{aup_fb}{
+  name={\ensuremath{a_{\mathrm{up,fb}}}},
+  unit={m\,s^{-2}},
+  description={Computed upstream acceleration required for feedback control to reach the stop line within the specified time interval}
+}
+
+\newglossaryentry{vc}{
+  name={\ensuremath{v_{c}}},
+  unit={m\,s^{-1}},
+  description={Advisory speed computed by the controller for approaching the intersection}
+}
+
+\newglossaryentry{vdown}{
+  name={\ensuremath{v_{\mathrm{down}}}},
+  unit={m\,s^{-1}},
+  description={Recommended vehicle speed for the downstream segment after the intersection}
+}
+
+\newglossaryentry{rhofuel}{
+  name={\ensuremath{\rho_{\mathrm{fuel}}}},
+  unit={kg\,l^{-1}},
+  description={Density of the fuel}
+}
+
+\newglossaryentry{pkw}{
+  name={\ensuremath{p_{\mathrm{kw}}}},
+  unit={kW},
+  description={Instantaneous engine power output}
+}
+
+\newglossaryentry{nstop}{
+  name={\ensuremath{N_{\mathrm{stop}}}},
+  unit={},
+  description={Number of stops per vehicle, defined as the count of transitions where the instantaneous speed falls below the stop threshold}
+}

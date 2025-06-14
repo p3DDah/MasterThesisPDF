@@ -216,6 +216,28 @@
 \KOMAoptions{bookmarkpackage=false}
 
 % Acronyms and abbreviations
+\RequirePackage[toc]{glossaries}
+\setlength{\glsdescwidth}{15cm}
+\glsaddkey{unit}{\glsentrytext{\glslabel}}{\glsentryunit}{\GLsentryunit}{\glsunit}{\Glsunit}{\GLSunit}
+\makeglossaries
+\input{mandatory/symbols}
+\newglossarystyle{symbunitlong}{%
+\setglossarystyle{long3col}% base this style on the list style
+\renewenvironment{theglossary}{% Change the table type --> 3 columns
+  \begin{longtable}{lp{0.6\glsdescwidth}>{\centering\arraybackslash}p{2cm}}}%
+  {\end{longtable}}%
+%
+\renewcommand*{\glossaryheader}{%  Change the table header
+  \bfseries Sign & \bfseries Description & \bfseries Unit \\
+  \hline
+  \endhead}
+\renewcommand*{\glossentry}[2]{%  Change the displayed items
+\glstarget{##1}{\glossentryname{##1}} %
+& \glossentrydesc{##1}% Description
+& \glsunit{##1}  \tabularnewline
+}
+}
+
 \RequirePackage[single]{acro}
 
 \NewAcroTemplate[list]{mylist}{%
@@ -347,9 +369,7 @@
    		%%% (twoside=false)
 	\fi%  
 	\makeatother
-
-	\section*{\IfLanguageName{ngerman}{Formelzeichen}{Symbols}}
-	\input{mandatory/symbols}%
+	\printglossary[title={Symbols}, style=symbunitlong]
 }
 
 % Abstract
@@ -393,3 +413,7 @@
 \DeclareSIUnit{\fuel}{fuel}
 \usepackage[gen]{eurosym}
 \DeclareSIUnit{\EUR}{\text{\euro}}
+
+\raggedbottom
+
+\hyphenation{Ka-ma-la-nath-shar-ma}
