@@ -3,7 +3,7 @@
 
 \ac{sumo} is an open-source, highly portable microscopic traffic simulation package developed and maintained by the German Aerospace Centre (DLR) and the Eclipse Foundation under the Eclipse Public Licence. \cite{SUMOWebsite2025}\cite{EclipseNews2017} Since its first release in 2001, SUMO has evolved into a comprehensive multi-modal framework capable of modelling cars, buses, pedestrians, and cyclists in networks ranging from single intersections to nationwide road systems. \cite{SUMODocs2025}\cite{Krajzewicz2002} The platform’s modular design, comprising tools such as NETCONVERT and DUAROUTER, enables seamless import of OpenStreetMap data, shapefiles and Origin–Destination matrices for realistic network generation. \cite{SUMODocs2025} It's \ac{traci} provides real-time external control and data exchange via Python, Java or C++ bindings, facilitating co-simulation with communication stacks and control algorithms. Visualization through the \ac{gui} and integration with analytical environments such as Python, or MATLAB support both interactive simulation monitoring and post-processing analysis. \cite{TraCIDocs2024} 
 \mynewline
-In the following subsections, we first outline the introduction and purpose of SUMO (Section~\ref{subsec:sumo_intro_purpose}), then describe its core features (Section~\ref{subsec:sumo_core_features}) and review its use cases in GLOSA and eco-driving studies (Section~\ref{subsec:use_cases_glosa_eco_driving}), before detailing the car-following models implemented in \ac{sumo} (Section~\ref{subsec:car_following_models}) and the emission models used for fuel consumption estimation (Section~\ref{subsec:emission_models_fuel_estimation}); we conclude by discussing the limitations of \ac{sumo} and its relevance for this thesis (Section~\ref{subsec:sumo_limitations_relevance}).  
+In the following subsections, we first outline the introduction and purpose of SUMO (Section~\ref{subsec:sumo_intro_purpose}), then describe its core features (Section~\ref{subsec:sumo_core_features}) and review its use cases in GLOSA and eco-driving studies (also Section~\ref{subsec:sumo_intro_purpose}), before detailing the car-following models implemented in \ac{sumo} (Section~\ref{subsec:car_following_models}) and the emission models used for fuel consumption estimation (Section~\ref{subsec:emission_models_fuel_estimation}); we conclude by discussing the limitations of \ac{sumo} and its relevance for this thesis (Section~\ref{subsec:sumo_limitation_relevance}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %----------------------------------------------------%
@@ -66,14 +66,15 @@ where the desired dynamic gap is
 \[
 s^*(v_\alpha,\Delta v_\alpha) = s_0 + v_\alpha\,T + \frac{v_\alpha\,\Delta v_\alpha}{2\sqrt{a\,b}}.
 \]
-Here, \(v_0\) denotes the desired free-flow speed, \(s_0\) the minimum bumper-to-bumper gap, \(T\) the desired time headway, \(a\) the maximum acceleration, \(b\) the comfortable deceleration, and \(\delta\) the acceleration exponent (typically 4). Figure~\ref{fig:2d_idm} provides a two-dimensional schematic of the \ac{idm}’s acceleration law, illustrating both the free-road and interaction terms and how the key parameters influence vehicle behaviour.
+Here, \(v_0\) denotes the desired free-flow speed, \(s_0\) the minimum bumper-to-bumper gap, \(T\) the desired time headway, \(a\) the maximum acceleration, \(b\) the comfortable deceleration, and \(\delta\) the acceleration exponent (typically 4). Figure%~\ref{fig:2d_idm} 
+provides a two-dimensional schematic of the \ac{idm}’s acceleration law, illustrating both the free-road and interaction terms and how the key parameters influence vehicle behaviour.
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.8\linewidth]{figures/idm.png}
-  \caption{Schematic of \ac{idm} showing (a) the free-road acceleration term driving speed toward \(v_0\), and (b) the interaction term enforcing safety gaps via \(s^*(v,\Delta v)\). Key parameters \(v_0\), \(s_0\), \(T\), \(a\), \(b\), and \(\delta\) are annotated.}
-  \label{fig:2d_idm}
-\end{figure}
+% \begin{figure}
+%   \centering
+%   \includegraphics[width=0.8\linewidth]{figures/idm.png}
+%   \caption{Schematic of \ac{idm} showing (a) the free-road acceleration term driving speed toward \(v_0\), and (b) the interaction term enforcing safety gaps via \(s^*(v,\Delta v)\). Key parameters \(v_0\), \(s_0\), \(T\), \(a\), \(b\), and \(\delta\) are annotated.}
+%   \label{fig:2d_idm}
+% \end{figure}
 
 The acceleration term naturally separates into a “free-road” component,
 \[
@@ -199,7 +200,7 @@ In conclusion, Table~\ref{tab:cf_comparison} provides a concise synthesis of the
 \subsection{Emission Models and Fuel Consumption Estimation}
 \label{subsec:emission_models_fuel_estimation}
 
-Accurate estimation of vehicle emissions and fuel consumption is critical for evaluating eco-driving strategies and traffic control algorithms. A variety of modelling approaches exist, ranging from simple emission‐factor tables to detailed, physics‐based tractive‐energy simulators. In the following section, we first categorise common emission models and highlight their key distinctions. We then examine in Section~\ref{subsubsec:detailed_emission_models} two state‐of‐the‐art implementations --- HBEFA4 and PHEMlight5 --- detailing their input requirements, computational complexity, and output fidelity. Finally, we compare these models in terms of accuracy, runtime overhead, and data needs, and discuss their relevance for eco‐driving evaluations such as \ac{glosa} optimisations (Section~\ref{subsubsec:comparison_relevance_eco_driving}).  
+Accurate estimation of vehicle emissions and fuel consumption is essential for assessing eco-driving strategies and traffic-management algorithms. Approaches range from simple factor-based tables to advanced, physics-driven tractive-energy simulators. In the following subsections, we first present an overview of common emission modelling approaches (Section~\ref{subsubsec:overview_emission_models}), then examine two state-of-the-art implementations, HBEFA4 and PHEMlight5 (Section~\ref{subsubsec:detailed_emission_models}), and finally discuss model selection trade-offs and their relevance for eco-driving evaluations (Section~\ref{subsubsec:relevance_eco_driving}). 
 
 \subsubsection{Overview of Emission Modelling Approaches}
 \label{subsubsec:overview_emission_models}
@@ -326,7 +327,7 @@ Although the minimal computational overhead of \ac{hbefa}4 makes it particularly
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Limitations and Relevance of SUMO}
-\label{subsec\:sumo\_limitation\_relevance}
+\label{subsec:sumo_limitation_relevance}
 
 \ac{sumo} provides a unified, academically rigorous platform that meets the exacting requirements of trajectory‐based eco‐driving research by integrating high‐fidelity modelling, real‐time control, and open‐source reproducibility within a single framework.
 

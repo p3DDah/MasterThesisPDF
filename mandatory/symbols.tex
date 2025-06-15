@@ -1,43 +1,43 @@
 \newglossaryentry{sf}{
   name={\ensuremath{S_{f}}},
   description={Speed factor (desired speed relative to link speed limit)},
-  unit={}
+  unit={-}
 }
 
 \newglossaryentry{vmax}{
   name={\ensuremath{v_{\max}}},
   description={Maximum permitted speed on the current link},
-  unit={m\,s^{-1}}
+  unit={\ensuremath{m\,s^{-1}}}
 }
 
 \newglossaryentry{vego}{
   name={\ensuremath{v_{\mathrm{ego}}}},
   description={Instantaneous vehicle speed},
-  unit={m\,s^{-1}}
+  unit={\ensuremath{m\,s^{-1}}}
 }
 
 \newglossaryentry{minsf}{
   name={\ensuremath{S_{f,min}}},
   description={Lower bound for \gls{sf}},
-  unit={}
+  unit={-}
 }
 
 \newglossaryentry{a}{
   name={\ensuremath{a}},
   description={Average acceleration},
-  unit={m\,s^{-2}}
+  unit={\ensuremath{m\,s^{-2}}}
 }
 
 \newglossaryentry{j}{
   name={\ensuremath{j}},
   description={Jerk (rate of change of acceleration)},
-  unit={m\,s^{-3}}
+  unit={\ensuremath{m\,s^{-3}}}
 }
 
 \newglossaryentry{maxsf}{
   name={\ensuremath{S_{f,max}}},
   description={Upper bound for \gls{sf}},
-  unit={}
+  unit={-}
 }
 
 \newglossaryentry{dup}{
@@ -61,7 +61,7 @@
 \newglossaryentry{vopt}{
   name={\ensuremath{v_{\mathrm{opt,th}}}},
   description={Theoretical optimal speed to reach stop line at target time},
-  unit={m\,s^{-1}}
+  unit={\ensuremath{m\,s^{-1}}}
 }
 
 \newglossaryentry{ddec}{
@@ -73,7 +73,7 @@
 \newglossaryentry{bmax}{
   name={\ensuremath{b_{\max}}},
   description={Maximum deceleration},
-  unit={m\,s^{-2}}
+  unit={\ensuremath{m\,s^{-2}}}
 }
 
 \newglossaryentry{dacc}{
@@ -84,14 +84,14 @@
 
 \newglossaryentry{amin}{
   name={\ensuremath{a_{\min}}},
-  unit={m\,s^{-2}},
-  description={Minimum allowable acceleration}
+  description={Minimum allowable acceleration},
+  unit={\ensuremath{m\,s^{-2}}}
 }
 
 \newglossaryentry{amax}{
   name={\ensuremath{a_{\max}}},
-  unit={m\,s^{-2}},
-  description={Maximum allowable acceleration}
+  description={Maximum allowable acceleration},
+  unit={\ensuremath{m\,s^{-2}}},
 }
 
 \newglossaryentry{tts_corr}{
@@ -103,7 +103,7 @@
 \newglossaryentry{sfi}{
   name={\ensuremath{S_{f,\mathrm{new}}}},
   description={New speed factor computed by \texttt{adaptSpeed}},
-  unit={}
+  unit={-}
 }
 
 \newglossaryentry{ells}{
@@ -132,14 +132,14 @@
 
 \newglossaryentry{aup}{
   name={\ensuremath{a_{\mathrm{up}}}},
-  description={Upstream (pre‐junction) constant acceleration chosen by the optimization},
-  unit={m\,s^{-2}}
+  description={Constant upstream acceleration used for pre-junction motion planning, selected by the optimization algorithm},
+  unit={\ensuremath{m\,s^{-2}}}
 }
 
 \newglossaryentry{adown}{
   name={\ensuremath{a_{\mathrm{down}}}},
-  description={Downstream (post‐junction) constant acceleration chosen by the optimization},
-  unit={m\,s^{-2}}
+  description={Constant downstream acceleration used for post-junction motion planning, selected by the optimization algorithm},
+  unit={\ensuremath{m\,s^{-2}}}
 }
 
 \newglossaryentry{deltaTearliest}{
@@ -151,25 +151,13 @@
 \newglossaryentry{Jcost}{
   name={\ensuremath{J\!\bigl(a_{\mathrm{up}},\,a_{\mathrm{down}}\bigr)}},
   description={Total cost function (integrated fuel consumption plus speed‐deviation and time‐reach penalties) for a given \(\,a_{\mathrm{up}},\,a_{\mathrm{down}}\)\,},
-  unit={}
+  unit={-}
 }
 
 \newglossaryentry{ddown}{
   name={\ensuremath{d_{\mathrm{down}}}},
   unit={m},
   description={Fixed length of the downstream segment following the intersection}
-}
-
-\newglossaryentry{aup}{
-  name={\ensuremath{a_{\mathrm{up}}}},
-  unit={m\,s^{-2}},
-  description={Constant acceleration used for upstream motion planning}
-}
-
-\newglossaryentry{adown}{
-  name={\ensuremath{a_{\mathrm{down}}}},
-  unit={m\,s^{-2}},
-  description={Constant acceleration used for downstream motion planning}
 }
 
 \newglossaryentry{m}{
@@ -192,7 +180,7 @@
 
 \newglossaryentry{vcur}{
   name={\ensuremath{v_{\mathrm{cur}}}},
-  unit={m\,s^{-1}},
+  unit={\ensuremath{m\,s^{-1}}},
   description={Current vehicle speed}
 }
 
@@ -270,19 +258,19 @@
 
 \newglossaryentry{alphaspeed}{
   name={\ensuremath{\alpha_{\mathrm{speed}}}},
-  unit={},
+  unit={-},
   description={Weighting factor for the terminal speed penalty in the cost function}
 }
 
 \newglossaryentry{alphatime}{
   name={\ensuremath{\alpha_{\mathrm{time}}}},
-  unit={},
+  unit={-},
   description={Weighting factor for the arrival time penalty in the cost function}
 }
 
 \newglossaryentry{vend}{
   name={\ensuremath{v_{\mathrm{end}}}},
-  unit={m\,s^{-1}},
+  unit={\ensuremath{m\,s^{-1}}},
   description={Terminal vehicle speed at the end of the optimization interval}
 }
 
@@ -294,31 +282,31 @@
 
 \newglossaryentry{vmin}{
   name={\ensuremath{v_{\min}}},
-  unit={m\,s^{-1}},
+  unit={\ensuremath{m\,s^{-1}}},
   description={Minimum allowed vehicle speed}
 }
 
 \newglossaryentry{aup_fb}{
   name={\ensuremath{a_{\mathrm{up,fb}}}},
-  unit={m\,s^{-2}},
+  unit={\ensuremath{m\,s^{-2}}},
   description={Computed upstream acceleration required for feedback control to reach the stop line within the specified time interval}
 }
 
 \newglossaryentry{vc}{
   name={\ensuremath{v_{c}}},
-  unit={m\,s^{-1}},
+  unit={\ensuremath{m\,s^{-1}}},
   description={Advisory speed computed by the controller for approaching the intersection}
 }
 
 \newglossaryentry{vdown}{
   name={\ensuremath{v_{\mathrm{down}}}},
-  unit={m\,s^{-1}},
+  unit={\ensuremath{m\,s^{-1}}},
   description={Recommended vehicle speed for the downstream segment after the intersection}
 }
 
 \newglossaryentry{rhofuel}{
   name={\ensuremath{\rho_{\mathrm{fuel}}}},
-  unit={kg\,l^{-1}},
+  unit={\ensuremath{kg\,l^{-1}}},
   description={Density of the fuel}
 }
 
@@ -330,6 +318,12 @@
 
 \newglossaryentry{nstop}{
   name={\ensuremath{N_{\mathrm{stop}}}},
-  unit={},
+  unit={-},
   description={Number of stops per vehicle, defined as the count of transitions where the instantaneous speed falls below the stop threshold}
+}
+
+\newglossaryentry{ttscorr}{
+  name={\ensuremath{t_{\mathrm{ts}}}},
+  description={Corrected time to switch, including safety margin},
+  unit={s}
 }

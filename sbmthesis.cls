@@ -238,7 +238,7 @@
 }
 }
 
-\RequirePackage[single]{acro}
+\RequirePackage{acro}
 
 \NewAcroTemplate[list]{mylist}{%
   \acroheading
@@ -264,6 +264,7 @@
     list/heading=section*,
     list/sort=true,
     list/name=Acronyms,
+    single=3,
 }
 
 % KOMA Script related
@@ -413,6 +414,7 @@
 \DeclareSIUnit{\fuel}{fuel}
 \usepackage[gen]{eurosym}
 \DeclareSIUnit{\EUR}{\text{\euro}}
+\usepackage{bbm}
 
 \raggedbottom
 

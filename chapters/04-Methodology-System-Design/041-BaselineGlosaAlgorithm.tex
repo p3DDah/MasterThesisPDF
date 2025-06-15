@@ -1,7 +1,7 @@
 \section{Baseline GLOSA Algorithm}
 \label{sec:Baseline_Glosa_Algorithm}
 
-The Baseline \ac{glosa} algorithm implemented in \ac{sumo} incorporates the enhancements proposed by Lenz \cite{Lenz2024}. These improvements have been integrated into the current \ac{sumo} version and serve as the throughput baseline against which the energy‐aware eco‐driving algorithm (see Section \ref{sec:EcoDrivingAlgorithm}) will later be compared.
+The Baseline \ac{glosa} algorithm implemented in \ac{sumo} incorporates the enhancements proposed by Lenz \cite{Lenz2024}. These improvements have been integrated into the current \ac{sumo} version and serve as the throughput baseline against which the energy‐aware eco‐driving algorithm (see Section \ref{sec:Proposed_Eco_Driving_GLOSA_Algorithm}) will later be compared.
 
 \subsection{Vehicle Speed Factor and Model}
 \label{sec:Glosa_Speed_Factor_Model}
@@ -15,7 +15,7 @@ By default, the speed factor $\gls{sf}$ is drawn from the interval $[0.8,\,1.2]$
 \subsection{Signal Phase Timing and the Time to Switch}
 \label{sec:Glosa_Signal_Phase_Timing}
 
-Traffic signal operation in \ac{sumo} is modeled as a sequence of discrete micro‐phases. These micro‐phases can consist of multiple consecutive green intervals (each potentially of different duration), interspersed with yellow and red‐yellow intervals. The function \texttt{GetTimeToSwitch} is designed to return the accumulated time until a “relevant” signal transition, given the current micro‐phase index. Specifically, if \texttt{GetTimeToSwitch} is invoked during a red micro‐phase, it sums the durations of all subsequent micro‐phases until the next green onset is encountered, thereby returning the time remaining until green. Conversely, if the current micro‐phase is green, \texttt{GetTimeToSwitch} accumulates durations until the first non‐green micro‐phase appears, which corresponds to the time remaining until the end of the present green interval. In Lenz’s implementation, \texttt{GetTimeToSwitch} can be invoked \emph{iteratively} over multiple cycles: whenever no feasible speed advisory is found for the targeted phase, the reference micro‐phase index is advanced to the next micro‐phase and \texttt{GetTimeToSwitch} is called again. This procedure enables consideration of any reachable green phase across successive signal cycles, rather than restricting the advisory to the immediate cycle alone.
+Traffic signal operation in \ac{sumo} is modelled as a sequence of discrete micro‐phases. These micro‐phases can consist of multiple consecutive green intervals (each potentially of different duration), interspersed with yellow and red‐yellow intervals. The function \texttt{GetTimeToSwitch} is designed to return the accumulated time until a “relevant” signal transition, given the current micro‐phase index. Specifically, if \texttt{GetTimeToSwitch} is invoked during a red micro‐phase, it sums the durations of all subsequent micro‐phases until the next green onset is encountered, thereby returning the time remaining until green. Conversely, if the current micro‐phase is green, \texttt{GetTimeToSwitch} accumulates durations until the first non‐green micro‐phase appears, which corresponds to the time remaining until the end of the present green interval. In Lenz’s implementation, \texttt{GetTimeToSwitch} can be invoked \emph{iteratively} over multiple cycles: whenever no feasible speed advisory is found for the targeted phase, the reference micro‐phase index is advanced to the next micro‐phase and \texttt{GetTimeToSwitch} is called again. This procedure enables consideration of any reachable green phase across successive signal cycles, rather than restricting the advisory to the immediate cycle alone.
 
 \subsection{Iterative Multi‐Cycle Phase Consideration}
 \label{sec:Glosa_Iterative_Multi_Cycle}
@@ -45,10 +45,10 @@ Likewise, if $\gls{vopt} > \gls{vego}$, the distance required to accelerate from
 \end{equation}
 Any residual distance, computed as $\gls{dup} \;-\; \gls{ddec} \;-\; \gls{dacc}$, is allocated to the constant‐speed cruising phase at velocity $\gls{vopt}$. By enforcing these kinematic constraints and solving for $\gls{vopt}$, one obtains:
 \begin{equation}
-\mathrm{arg} \;=\; \gls{amax}^2\,\gls{tts}_{eff}^2 \;-\; 2\,\gls{amax}\,\gls{vmax}\,\gls{tts\_corr} \;+\; 2\,\gls{amax}\,\gls{dup},
+    \mathrm{arg} \;=\; \gls{amax}^2\,\gls{tts}_{eff}^2 \;-\; 2\,\gls{amax}\,\gls{vmax}\,\gls{ttscorr} \;+\; 2\,\gls{amax}\,\gls{dup},
 \end{equation}
 \begin{equation}
-\gls{vopt} \;=\; \sqrt{\mathrm{arg}} \;-\; \gls{amax}\,\gls{tts\_corr} \;+\; \gls{vmax},
+\gls{vopt} \;=\; \sqrt{\mathrm{arg}} \;-\; \gls{amax}\,\gls{ttscorr} \;+\; \gls{vmax},
 \end{equation}
 where $\gls{tts}_{eff} = \gls{tts} + 2.1 \;\text{s}$ represents the effective time to switch including the safety correction. If the computed $\gls{vopt}$ yields a new speed factor $\gls{sfi} = \frac{\gls{vopt}}{\gls{vmax}}$ that lies outside the permissible interval $[\gls{minsf},\,\gls{maxsf}]$, the candidate is rejected, and the algorithm continues with the next cycle iteration. Once a valid $\gls{sfi}$ is identified, \texttt{adaptSpeed} immediately updates the vehicle’s chosen speed factor, and the simulation advances to the next time step. In this manner, the vehicle’s trajectory is optimally synchronized with the upcoming green phase while respecting acceleration/deceleration constraints.
 

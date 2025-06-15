@@ -1,7 +1,7 @@
 \section{Proposed Eco‐Driving GLOSA Algorithm}
 \label{sec:Proposed_Eco_Driving_GLOSA_Algorithm}
 
-In this section, we present our proposed eco‐driving \ac{glosa} algorithm, which seamlessly integrates real‐time \ac{glosa} speed advisories with a fuel‐aware \ac{eco}–\ac{CACC}‐$Q$ optimization framework. Our primary objective is to minimize overall fuel consumption while ensuring that the equipped vehicle arrives at the stop line precisely in synchrony with an upcoming green phase. To achieve this, the controller combines (i) accurate signal‐timing prediction, (ii) kinematic trajectory planning, and (iii) a detailed emission‐lookup cost functional. Online advisory speed computation is made possible through the implementation of the algorithm through the use of the \ac{traci} interface within \ac{sumo}.
+In this section, we present our proposed eco‐driving \ac{glosa} algorithm, which seamlessly integrates real‐time \ac{glosa} speed advisories with a fuel‐aware eco–\ac{cacc}‐Q optimization framework. Our primary objective is to minimize overall fuel consumption while ensuring that the equipped vehicle arrives at the stop line precisely in synchrony with an upcoming green phase. To achieve this, the controller combines (i) accurate signal‐timing prediction, (ii) kinematic trajectory planning, and (iii) a detailed emission‐lookup cost functional. Online advisory speed computation is made possible through the implementation of the algorithm through the use of the \ac{traci} interface within \ac{sumo}.
 \mynewline
 The core components of the proposed method are as follows:
 \begin{itemize}
@@ -13,7 +13,7 @@ The core components of the proposed method are as follows:
 \subsection{Literature Foundation \& Innovations}
 \label{sec:EcoGlosa_Background}
 
-Our eco‐driving controller builds directly on the eco–\ac{CACC}‐$Q$ framework introduced by Ala, Yang, and Rakha \cite{Ala2016}, who showed that combining advisory speed control with adaptive cruise control and explicitly modelling queue dissipation in the optimizer yields up to 19\,\% fuel savings on isolated approaches. We preserve their fundamental two‐phase structure --- comprising an upstream trajectory planning segment and a downstream recovery segment --- but embed it within a \ac{glosa} advisory context and generalize the fuel‐cost optimizer to work with emission models such as HBEFA4 and PHEMLIGHT5. 
+Our eco‐driving controller builds directly on the eco–\ac{cacc}‐$Q$ framework introduced by Ala, Yang, and Rakha \cite{Ala2016}, who showed that combining advisory speed control with adaptive cruise control and explicitly modelling queue dissipation in the optimizer yields up to 19\,\% fuel savings on isolated approaches. We preserve their fundamental two‐phase structure --- comprising an upstream trajectory planning segment and a downstream recovery segment --- but embed it within a \ac{glosa} advisory context and generalize the fuel‐cost optimizer to work with emission models such as HBEFA4 and PHEMLIGHT5. 
 \mynewline
 Unlike Ala et al., who used VT‐CPFM polynomial coefficients in their cost functional, we replace the single‐model integrand with a flexible emission lookup, supporting both HBEFA4’s polynomial representation and PHEMLIGHT5’s surface interpolation (see Section \ref{subsubsec:detailed_emission_models}). In the upstream and downstream segments, a single constant acceleration ($\gls{aup}$ or $\gls{adown}$) is chosen to minimize the integral of $F_{\mathrm{model}}(v,a)$ over each interval. To find the optimal pair $(\gls{aup},\gls{adown})$, we extend Ala’s \ac{dp} algorithm with a brute‐force plus local refinement approach into a joint two‐variable search with asymmetric acceleration bounds ($\gls{amin}\neq\gls{amax}$), followed by a local hill‐climbing step over the $(\gls{aup},\gls{adown})$ grid. This contrasts with Ala’s single‐variable refinement on the upstream acceleration only.
 \mynewline
@@ -94,18 +94,18 @@ The total cost function for the eco-driving controller is defined as
     &\underbrace{\int_{\gls{tcur}}^{\,\gls{tc}} F_{\mathrm{model}}\bigl(v(t),\,a(t)\bigr)\,dt}_{\text{upstream cost}}
     \;+\;
     \underbrace{\int_{\gls{tc}}^{\,\gls{tend}} F_{\mathrm{model}}\bigl(v(t),\,a(t)\bigr)\,dt}_{\text{downstream cost}} \\
-    &+\, \alpha_{\mathrm{speed}}\bigl(\gls{vallowed} - v_{\mathrm{end}}\bigr)^2
+    &+\, \alpha_{\mathrm{speed}}\bigl(\gls{vmax} - v_{\mathrm{end}}\bigr)^2
     + \alpha_{\mathrm{time}}\bigl(t_{\mathrm{reach}} - \Delta \gls{tearliest}\bigr)^2,
 \end{aligned}
 \label{eq:costJ_highlevel}
 \end{equation}
-In this expression, $F_{\mathrm{model}}(v(t),\,a(t))$ denotes the instantaneous fuel consumption as a function of speed and acceleration. The first integral accumulates the upstream cost from the current time $\gls{tcur}$ to the predicted green phase onset $\gls{tc}$, while the second integral accounts for the downstream cost from $\gls{tc}$ to the end of the optimization interval $\gls{tend}$. The penalty terms weighted by $\gls{alphaspeed}$ and $\gls{alphatime}$ ensure that the terminal velocity $\gls{vend}$ remains close to the allowed cruising speed $\gls{vallowed}$ and that the arrival time $\gls{treach}$ is close to the earliest feasible time $\Delta\gls{tearliest}$, respectively.
+In this expression, $F_{\mathrm{model}}(v(t),\,a(t))$ denotes the instantaneous fuel consumption as a function of speed and acceleration. The first integral accumulates the upstream cost from the current time $\gls{tcur}$ to the predicted green phase onset $\gls{tc}$, while the second integral accounts for the downstream cost from $\gls{tc}$ to the end of the optimization interval $\gls{tend}$. The penalty terms weighted by $\gls{alphaspeed}$ and $\gls{alphatime}$ ensure that the terminal velocity $\gls{vend}$ remains close to the allowed cruising speed $\gls{vmax}$ and that the arrival time $\gls{treach}$ is close to the earliest feasible time $\Delta\gls{tearliest}$, respectively.
 \mynewline
 In a two‐stage procedure, \textit{Stage 1} samples a uniform grid over
 \begin{equation}
     \gls{aup},\;\gls{adown} \;\in\; \left[-\gls{amin},\,\gls{amax}\right],
 \end{equation}
-with step size $0.01$ to locate a coarse minimizer. \textit{Stage 2} then refines this solution by performing local hill‐climbing over the eight neighbouring acceleration pairs until no further reduction in $\gls{Jcost}$ is achieved. The optimizer returns the optimal accelerations, $\left(\gls{aup}^*,\,\gls{adown}^*\right)$, along with the corresponding advisory speeds $\gls{vc}$ and $\gls{vdown}$. Here, $\gls{v_c}$ denotes the recommended speed for approaching the intersection, while $\gls{vdown}$ specifies the advisory speed to be maintained in the downstream segment after crossing the intersection. If $\gls{vc}$ falls below the minimum allowed speed $\gls{vmin}$, it is raised to $\gls{vmin}$ to preserve safety.
+with step size $0.01$ to locate a coarse minimizer. \textit{Stage 2} then refines this solution by performing local hill‐climbing over the eight neighbouring acceleration pairs until no further reduction in $\gls{Jcost}$ is achieved. The optimizer returns the optimal accelerations, $\left(\gls{aup}^*,\,\gls{adown}^*\right)$, along with the corresponding advisory speeds $\gls{vc}$ and $\gls{vdown}$. Here, $\gls{vc}$ denotes the recommended speed for approaching the intersection, while $\gls{vdown}$ specifies the advisory speed to be maintained in the downstream segment after crossing the intersection. If $\gls{vc}$ falls below the minimum allowed speed $\gls{vmin}$, it is raised to $\gls{vmin}$ to preserve safety.
 \mynewline
 Should no feasible acceleration pair be found --- an uncommon occurrence under light traffic but possible in dense conditions --- the controller resorts to a fallback heuristic. Defining $\Delta T = \gls{tc} - \gls{tcur}$ and $d = \gls{dup}$, it solves
 \begin{equation}

@@ -7,11 +7,6 @@
 ]{sbmthesis}
 \setlength\headheight{30pt} % required, do not delete
 
-% \hyphenation{
-%     % In some special cases LaTeX is unable to correctly hyphenate a term. Thus 		you have to define a custom hypenation rule here using minus signs. This is 		the case when a term overlaps with the page margins. Separate multiple 				entries with white space.
-%     % Examples: Doppel-kupplungs-ge-triebe Kupp-lungs-schlupf-reg-ler
-% }
-
 \usepackage{amssymb}
 \usepackage{amsmath}
 
@@ -20,10 +15,6 @@
 % +-----------------------+
 \begin{document}
     \preliminaries
-
-    % +----------------------------+
-    % | Include your chapters here |
-    % +----------------------------+
     
     \include{chapters/01_Introduction}
     \cleardoublepage
@@ -47,10 +38,9 @@
     \cleardoublepage
 
     \appendix
-    % +---------------------------------------+
-    % | Include your appendix's chapters here |
-    % +---------------------------------------+
-    \include{appendix/tables}
+    
+    \include{appendix/EmisLookupTable}
+    \include{appendix/Results}
     \cleardoublepage
     
     \references
