@@ -3,11 +3,11 @@
 
 Vehicle–stop frequency is the natural kinematic counterpart to the mean-speed metric discussed in Section~\vref{sec:Results_MeanSpeed}. A decrease in the platoon’s mean speed is expected to be accompanied by a rise in complete halts. Table~\vref{tab:StopFreq} and Figures~\vref{fig:StopFreq_2077}–\vref{fig:StopFreq_3462} therefore replicate the structure of the previous section, yet emphasise discrete stop events rather than continuous velocity.
 
-\subparagraph*{General Behaviour.}
+\paragraph{General Behaviour.}
 
 For light and moderate flows ($69$--$1385~\unit{\veh\per\hour}$), both \ac{eco-glosa} and \ac{flow-glosa} \emph{decrease} the stop frequency monotonically as the \ac{mpr} increases. At $138~\unit{\veh\per\hour}$, the HBEFA4-\ac{eco-glosa} controller cuts stops from $0.83$ to $0.08~\unit{\stops\per\veh}$ at $90\%$ \ac{mpr}, a reduction of $90\%$. The \ac{flow-glosa} algorithm achieves a similar reduction, though it typically requires about $10\%$ more penetration to do so, which is consistent with its slightly higher cruise speeds.
 
-\subparagraph*{Incipient Congestion: $2077~\unit{\veh\per\hour}$.}
+\paragraph{Incipient Congestion: $2077~\unit{\veh\per\hour}$.}
 The frequency of vehicle stops starts at about $1.06$ stops per vehicle in the Standard case, as shown in Figure \vref{fig:StopFreq_2077}. Under the PHEMlight5 emission model, the \ac{eco-glosa} controller's performance at this demand level is complex. It initially records a slight increase in stop frequency to $1.08~\unit{\stops\per\veh}$ at $10\%$ \ac{mpr}, which indicates minor instability at the onset of congestion. However, as the \ac{mpr} increases further, the controller becomes highly effective. It progressively reduces the stop frequency, which ultimately falls to just $0.03~\unit{\stops\per\veh}$ at full penetration, a reduction of over $97\%$ compared to the Standard scenario. Under the HBEFA4 model, \ac{eco-glosa} decreases stops to $1.03~\unit{\stops\per\veh}$ before continuing a consistent downward trend. The \ac{flow-glosa} controller is highly effective here, lowering stops to $0.99~\unit{\stops\per\veh}$ at $10\%$ \ac{mpr} and practically eliminating them (to $0.03~\unit{\stops\per\veh}$) by $90\%$ \ac{mpr}, demonstrating strong queue-suppression capabilities just below the jam threshold.
 
 \begin{figure}[htb]
@@ -26,7 +26,7 @@ The frequency of vehicle stops starts at about $1.06$ stops per vehicle in the S
   \label{fig:StopFreq_2077}
 \end{figure}
 
-\subparagraph*{Jam Threshold: $2769~\unit{\veh\per\hour}$.}
+\paragraph{Jam Threshold: $2769~\unit{\veh\per\hour}$.}
 Figure~\vref{fig:StopFreq_2769} highlights a significant divergence between the two emission models at the jam threshold. With the PHEMlight5 model, the stop frequency for \ac{eco-glosa} increases sharply from its Standard value of $1.36~\unit{\stops\per\veh}$ to $9.53~\unit{\stops\per\veh}$ at just $20\%$ \ac{mpr}. The instability worsens as penetration increases, with the stop count peaking at $23.11~\unit{\stops\per\veh}$ at $90\%$ \ac{mpr}. Although the frequency improves slightly at full penetration, it only falls to $13.16~\unit{\stops\per\veh}$, remaining nearly tenfold higher than the Standard.
 \mynewline
 The HBEFA4-based \ac{eco-glosa} controller exhibits a different, though still volatile, trend. It remains stable at low penetration before rapidly escalating to $7.74~\unit{\stops\per\veh}$ at $30\%$ \ac{mpr} and reaching a peak of $16.04~\unit{\stops\per\veh}$ at $60\%$. In contrast to the PHEMlight5 result, it then recovers dramatically at higher penetration rates, with stops falling to almost zero ($0.02~\unit{\stops\per\veh}$) at $100\%$ \ac{mpr}.
@@ -49,7 +49,7 @@ Throughout this demand level, the \ac{flow-glosa} controller demonstrates its ro
   \label{fig:StopFreq_2769}
 \end{figure}
 
-\subparagraph*{Full Saturation: $3462~\unit{\veh\per\hour}$.}
+\paragraph{Full Saturation: $3462~\unit{\veh\per\hour}$.}
 The results are displayed in a fully saturated, gridlocked state in Figure~\vref{fig:StopFreq_3462}. Under these conditions, the \ac{eco-glosa} controller fails to improve traffic flow and instead exacerbates congestion. With the HBEFA4 model, its stop frequency shows a generally increasing trend, peaking at $35.14~\unit{\stops\per\veh}$ at an \ac{mpr} of $80\%$. The negative impact is even more pronounced with the PHEMlight5 model, where the stop count reaches a maximum of $38.94~\unit{\stops\per\veh}$ at $100\%$ \ac{mpr}.
 \mynewline
 Contrastingly, the \ac{flow-glosa} controller exhibits an extraordinary capacity to alleviate congestion. Its effectiveness becomes apparent as penetration increases, with stop frequency dropping sharply beyond an \ac{mpr} of $50\%$. The stop count falls to just $5.28~\unit{\stops\per\veh}$ at $60\%$ \ac{mpr}, then continues to decline to near-zero levels: $0.19$ at $80\%$, $0.05$ at $90\%$, and only $0.01~\unit{\stops\per\veh}$ at full penetration.
@@ -72,7 +72,7 @@ This dramatic reduction in stops is indicative of a dissolved queue, a conclusio
   \label{fig:StopFreq_3462}
 \end{figure}
 
-\subparagraph*{Key Takeaways.}
+\paragraph{Key Takeaways.}
 \begin{enumerate}[label=(\alph*)]
     \item In light to moderate demand scenarios ($69$--$1385~\unit{\veh\per\hour}$), both controllers effectively reduce stop frequency as the \ac{mpr} increases. The \ac{eco-glosa} strategy proves particularly effective, achieving up to a $90\%$ reduction in stops at high penetration rates.
     
