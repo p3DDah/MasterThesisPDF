@@ -1,76 +1,78 @@
 \section{Driving Smoothness}
 \label{sec:Results_Smoothness}
 
-The driving smoothness analysis examines the average acceleration $\gls{a}$ and jerk $\gls{j}$ as functions of the \ac{mpr} of equipped vehicles. Table~\ref{tab:DrivingSmoothness} reports the paired values $(\gls{a},\gls{j})$ for the Standard, \ac{flow-glosa}, and \ac{eco-glosa} configurations under both the HBEFA4 and PHEMlight5 models. Figures~\ref{fig:Smoothness_692}, \ref{fig:Smoothness_2769}, and \ref{fig:Smoothness_3462} illustrate these trends at representative traffic volumes of $692$, $2769$, and $3462\,\mathrm{veh/h}$.
+The analysis of driving smoothness examines the average acceleration, $\gls{a}$, and average jerk, $\gls{j}$, as functions of the \ac{mpr}. Table~\vref{tab:DrivingSmoothness} reports the paired values $(\gls{a}, \gls{j})$ for the Standard, \ac{flow-glosa}, and \ac{eco-glosa} configurations under both emission models. Figures~\vref{fig:Smoothness_692}, \vref{fig:Smoothness_2769}, and \vref{fig:Smoothness_3462} illustrate these trends at representative traffic volumes.
 
-\paragraph{\ac{eco-glosa} at low to medium volumes}
-Under \ac{eco-glosa}, as \ac{mpr} increases from $0\%$ to $100\%$, the average acceleration decreases while jerk increases. For example, at $69\,\mathrm{veh/h}$ with HBEFA4, acceleration falls from $0.30\,\mathrm{m/s^2}$ to $0.25\,\mathrm{m/s^2}$ (a $17\%$ reduction), whereas jerk rises from $0.74\,\mathrm{m/s^3}$ to $0.81\,\mathrm{m/s^3}$ (a $9\%$ increase). A similar pattern occurs under PHEMlight5: acceleration decreases from $0.30$ to $0.23\,\mathrm{m/s^2}$, and jerk increases from $0.74$ to $0.81\,\mathrm{m/s^3}$ (Table~\ref{tab:DrivingSmoothness}). At $692\,\mathrm{veh/h}$, HBEFA4 acceleration drops from $0.32$ to $0.26\,\mathrm{m/s^2}$ and jerk increases from $0.74$ to $0.80\,\mathrm{m/s^3}$ (Fig.~\ref{fig:Smoothness_HBEFA4_692}). Under PHEMlight5, the pattern is analogous (Fig.~\ref{fig:Smoothness_PHEMlight5_692}). This reflects vehicles adjusting speed to exploit green-wave opportunities, resulting in gentler accelerations ($\Delta a<0$) but sharper decelerations when gaps are encountered ($\Delta j>0$).
-
-\paragraph{\ac{eco-glosa} at high volume ($2769\,\mathrm{veh/h}$)}
-At $2769\,\mathrm{veh/h}$, HBEFA4 acceleration under \ac{eco-glosa} fluctuates around the Standard: it increases from $0.36$ at $0\%$ to $0.41\,\mathrm{m/s^2}$ at $30\%$ MPR, then decreases toward $0.27\,\mathrm{m/s^2}$ at full penetration (Fig.~\ref{fig:Smoothness_HBEFA4_2769}). Jerk similarly oscillates, reflecting intermittent congestion relief. Under PHEMlight5, however, acceleration steadily improves from $0.36$ to $0.33\,\mathrm{m/s^2}$, and jerk increases to a maximum of $0.59\,\mathrm{m/s^3}$ at $30\%$ then declines to $0.66\,\mathrm{m/s^3}$ at $100\%$, still $13\%$ below the Standard value of $0.76\,\mathrm{m/s^3}$ (Fig.~\ref{fig:Smoothness_PHEMlight5_2769}). The persistently lower jerk at high MPR suggests that, once the existing jam is traversed, vehicles maintain smoother trajectories even as they accelerate less aggressively.
-
-\paragraph{\ac{eco-glosa} at full saturation ($3462\,\mathrm{veh/h}$)}
-In the fully saturated regime, both models exhibit monotonic smoothness improvements. For HBEFA4, acceleration decreases from $0.55$ to $0.38\,\mathrm{m/s^2}$ (a $31\%$ reduction) and jerk from $0.57$ to $0.51\,\mathrm{m/s^3}$ (an $11\%$ reduction) as \ac{mpr} rises from $0\%$ to $100\%$ (Fig.~\ref{fig:Smoothness_HBEFA4_3462}). PHEMlight5 shows comparable gains, with acceleration falling from $0.55$ to $0.35\,\mathrm{m/s^2}$ and jerk from $0.57$ to $0.52\,\mathrm{m/s^3}$ (Fig.~\ref{fig:Smoothness_PHEMlight5_3462}). These results indicate that, beyond the capacity limit, equipped vehicles coordinate to reduce stop‐and‐go oscillations, yielding continuously smoother motion.
-
-\paragraph{\ac{flow-glosa} comparison}
-Across all volumes, \ac{flow-glosa} offers acceleration improvements comparable to \ac{eco-glosa} but consistently lower jerk. At low to medium volumes, acceleration under \ac{flow-glosa} decreases by approximately $15$–$20\%$ from the Standard, while jerk increases by only $5$–$8\%$, remaining below \ac{eco-glosa} values (Table~\ref{tab:DrivingSmoothness}). At full saturation ($3462\,\mathrm{veh/h}$), \ac{flow-glosa} exhibits a notable jerk spike from $0.59$ to $0.71\,\mathrm{m/s^3}$ at $\mathrm{MPR}=60\%$, corresponding to the point at which the existing jam dissolves and vehicles resume free‐flow conditions. At \ac{mpr} of $80\%$, the pronounced jerk peak does not stem from an incoming traffic jam but from platoon‐based micro-adjustments. With such a high share of equipped vehicles, tight vehicle clusters form and must continually realign to the signal phases. Minor mismatches force abrupt decelerations when a platoon splits or catches a red, followed by rapid accelerations to reform the cluster. These frequent, short-interval speed changes drive the observed transient increase in jerk.
+\paragraph{\ac{eco-glosa} at Low to Medium Volumes}
+Under the \ac{eco-glosa} controller, an inverse relationship between average acceleration and jerk emerges as \ac{mpr} increases. At a demand of $69~\unit{\veh\per\hour}$ with the HBEFA4 model, acceleration falls from $0.30~\unit{\metre\per\second\squared}$ to $0.25~\unit{\metre\per\second\squared}$ (a $17\%$ reduction), while jerk rises from $0.74~\unit{\metre\per\second\cubed}$ to $0.81~\unit{\metre\per\second\cubed}$ (a $9\%$ increase). This pattern, where gentler accelerations are offset by sharper adjustments, is consistent across the PHEMlight5 model and persists at higher moderate volumes such as $692~\unit{\veh\per\hour}$, as seen in Figure~\vref{fig:Smoothness_692}.
 
 \begin{figure}[htb]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_HBEFA4_Cars692.pdf}
-    \caption{Average acceleration and jerk versus \ac{mpr} for HBEFA4 at $692\,\mathrm{veh/h}$.}
+    \caption{Results under the HBEFA4 emission model.}
     \label{fig:Smoothness_HBEFA4_692}
   \end{subfigure}\hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_PHEMLIGHT5_Cars692.pdf}
-    \caption{Average acceleration and jerk versus \ac{mpr} for PHEMlight5 at $692\,\mathrm{veh/h}$.}
+    \caption{Results under the PHEMlight5 emission model.}
     \label{fig:Smoothness_PHEMlight5_692}
   \end{subfigure}
-  \caption{Driving smoothness as a function of \ac{mpr} at $692\,\mathrm{veh/h}$, comparing Standard, \ac{eco-glosa}, and \ac{flow-glosa}.}
+  \caption[Driving smoothness metrics at $692~\unit{\veh\per\hour}$]{Driving smoothness metrics at a moderate demand of $692~\unit{\veh\per\hour}$. The plots compare average acceleration and jerk for the Standard, \ac{eco-glosa}, and \ac{flow-glosa} controllers.}
   \label{fig:Smoothness_692}
 \end{figure}
+
+\paragraph{\ac{eco-glosa} at High Volume ($2769~\unit{\veh\per\hour}$).}
+At this demand level, the HBEFA4 model shows fluctuating acceleration values under \ac{eco-glosa}, which rise from the Standard $0.36~\unit{\metre\per\second\squared}$ to $0.41~\unit{\metre\per\second\squared}$ before gradually declining. With the PHEMlight5 model, however, the outcome is more favourable; while not monotonic, the acceleration improves from $0.36~\unit{\metre\per\second\squared}$ to $0.33~\unit{\metre\per\second\squared}$ at full penetration. More significantly, jerk declines to $0.66~\unit{\metre\per\second\cubed}$, a value $13\%$ below the Standard of $0.76~\unit{\metre\per\second\cubed}$ (Figure~\vref{fig:Smoothness_PHEMlight5_2769}). The persistently lower jerk at high \ac{mpr} suggests that once vehicles navigate the initial jam, they maintain smoother trajectories.
 
 \begin{figure}[htb]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_HBEFA4_Cars2769.pdf}
-    \caption{Average acceleration and jerk versus \ac{mpr} for HBEFA4 at $2769\,\mathrm{veh/h}$.}
+    \caption{Performance with the HBEFA4 emission model.}
     \label{fig:Smoothness_HBEFA4_2769}
   \end{subfigure}\hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_PHEMLIGHT5_Cars2769.pdf}
-    \caption{Average acceleration and jerk versus \ac{mpr} for PHEMlight5 at $2769\,\mathrm{veh/h}$.}
+    \caption{Performance with the PHEMlight5 emission model.}
     \label{fig:Smoothness_PHEMlight5_2769}
   \end{subfigure}
-  \caption{Driving smoothness as a function of \ac{mpr} at $2769\,\mathrm{veh/h}$, comparing Standard, \ac{eco-glosa}, and \ac{flow-glosa}.}
+  \caption[Driving smoothness vs. \ac{mpr} at $2769~\unit{\veh\per\hour}$]{Driving smoothness as a function of \ac{mpr} at the jam threshold of $2769~\unit{\veh\per\hour}$. The plots show the performance of the three controller strategies under two emission models.}
   \label{fig:Smoothness_2769}
 \end{figure}
+
+\paragraph{\ac{eco-glosa} at Full Saturation ($3462~\unit{\veh\per\hour}$).}
+In the fully saturated regime, both models show clear improvements in smoothness as \ac{mpr} increases. For HBEFA4, acceleration decreases from $0.55$ to $0.38~\unit{\metre\per\second\squared}$ ($31\%$ reduction), and jerk from $0.57$ to $0.51~\unit{\metre\per\second\cubed}$ ($11\%$ reduction) at $100\%$ \ac{mpr}. The PHEMlight5 model shows comparable gains, with acceleration falling to $0.35~\unit{\metre\per\second\squared}$ and jerk to $0.52~\unit{\metre\per\second\cubed}$. However, these smoothness improvements must be interpreted within the context of the traffic jam. As established in Sections~\vref{sec:Results_MeanSpeed} and \vref{sec:Results_Stops}, the controller fails to increase the low average speed or reduce the high stop frequency. Therefore, the data does not indicate a dissolution of the jam. Instead, it suggests that the controller successfully modifies the \enquote{character} of the stop-and-go waves. The aggressive, high-acceleration manoeuvres typical of a congested state are replaced by a smoother, less frantic \enquote{creeping} behaviour. While this change enhances ride comfort, the persistent gridlock confirms that the \ac{eco-glosa} strategy cannot overcome the fundamental capacity limitations at this extreme demand level.
 
 \begin{figure}[htb]
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_HBEFA4_Cars3462.pdf}
-    \caption{Average acceleration and jerk versus \ac{mpr} for HBEFA4 at $3462\,\mathrm{veh/h}$.}
+    \caption{Simulation results using the HBEFA4 model.}
     \label{fig:Smoothness_HBEFA4_3462}
   \end{subfigure}\hfill
   \begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_PHEMLIGHT5_Cars3462.pdf}
-    \caption{Average acceleration and jerk versus \ac{mpr} for PHEMlight5 at $3462\,\mathrm{veh/h}$.}
+    \caption{Simulation results using the PHEMlight5 model.}
     \label{fig:Smoothness_PHEMlight5_3462}
   \end{subfigure}
-  \caption{Driving smoothness as a function of \ac{mpr} at $3462\,\mathrm{veh/h}$, comparing Standard, \ac{eco-glosa}, and \ac{flow-glosa}.}
+  \caption[Driving smoothness metrics at $3462~\unit{\veh\per\hour}$]{Driving smoothness metrics in the fully saturated regime ($3462~\unit{\veh\per\hour}$). The plots compare the Standard, \ac{eco-glosa}, and \ac{flow-glosa} controllers.}
   \label{fig:Smoothness_3462}
 \end{figure}
 
+\paragraph{\ac{flow-glosa} Comparison.}
+The \ac{flow-glosa} controller offers acceleration improvements comparable to \ac{eco-glosa} but generally maintains a more stable and consistently lower jerk profile, except in specific high-saturation scenarios. At low to medium volumes, its application reduces average acceleration by approximately $15\%$ to $20\%$ from the Standard, with only a minimal corresponding increase in average jerk.
+\mynewline
+The controller's dynamics shift significantly under full saturation ($3462~\unit{\veh\per\hour}$). It exhibits a notable jerk spike from $0.59~\unit{\metre\per\second\cubed}$ to $0.71~\unit{\metre\per\second\cubed}$ at an \ac{mpr} of $60\%$. This transient corresponds precisely to the point where the traffic jam dissolves and vehicles begin to resume free-flow speeds. A second, more pronounced peak appears at $80\%$ \ac{mpr}, which does not stem from an incoming jam but rather from platoon-based micro-adjustments. With such a high share of equipped vehicles, tight clusters form and must continually react to signal timings. Minor mismatches can force abrupt, platoon-wide decelerations and subsequent re-accelerations, which drives the observed increase in average jerk.
+
 \begin{table}[htb]
   \centering
-  \caption{Driving smoothness in terms of average acceleration (m/s\textsuperscript{2}) and jerk (m/s\textsuperscript{3}) for various traffic volumes and \acp{mpr}. Results are provided for the Standard (no \ac{glosa}), \ac{flow-glosa}, and \ac{eco-glosa} configurations under the HBEFA4 and PHEMlight5 emission models.}
+  \caption[Average acceleration and jerk across all volumes and \acp{mpr}]{Driving smoothness, detailed by average acceleration ($\unit{\metre\per\second\squared}$) and jerk ($\unit{\metre\per\second\cubed}$), across all traffic volumes and \acp{mpr}. Results are provided for the Standard, \ac{flow-glosa}, and \ac{eco-glosa} configurations.}
   \label{tab:DrivingSmoothness}
   \resizebox{\textwidth}{!}{%
     \begin{tabular}{l l l *{11}{c}}
       \toprule
-      Cars & Algorithm & Model       & \textbf{0\% (Standard)} & 10\%        & 20\%        & 30\%        & 40\%        & 50\%        & 60\%        & 70\%        & 80\%        & 90\%        & 100\%       \\
+      Vehicles & Algorithm & Model       & \textbf{0\% (Standard)} & 10\%        & 20\%        & 30\%        & 40\%        & 50\%        & 60\%        & 70\%        & 80\%        & 90\%        & 100\%       \\
       \midrule
       \textbf{69.0}  & Eco-GLOSA                   & HBEFA4      & \textbf{0.3, 0.74}   & 0.29, 0.75  & 0.31, 0.76  & 0.28, 0.77  & 0.29, 0.77  & 0.29, 0.79  & 0.27, 0.77  & 0.25, 0.81  & 0.28, 0.80  & 0.24, 0.79  & 0.25, 0.81  \\
       \textbf{69.0}  & Baseline (Flow-GLOSA)       & HBEFA4      & \textbf{0.3, 0.74}   & 0.29, 0.76  & 0.31, 0.75  & 0.28, 0.75  & 0.28, 0.75  & 0.29, 0.75  & 0.28, 0.74  & 0.25, 0.75  & 0.27, 0.75  & 0.25, 0.75  & 0.25, 0.77  \\

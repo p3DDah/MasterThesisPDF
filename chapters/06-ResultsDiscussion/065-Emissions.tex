@@ -1,38 +1,12 @@
 \section{Vehicle Emissions}
 \label{sec:Results_Emissions}
 
-The emission analysis focuses on average \ac{co2} and \ac{nox} mass per kilometre, as reported in Table~\ref{tab:Emissions} and visualised in Figs.~\ref{fig:Emis_692}--\ref{fig:Emis_3462}. Results are discussed separately for the HBEFA4 and PHEMlight5 fuel models because their underlying engine maps differ markedly in transient sensitivity, thereby moderating the response of each pollutant to the \ac{glosa} control strategies.
+The environmental impact of the control strategies is evaluated by focusing on the average \ac{co2} and \ac{nox} mass per kilometre, as detailed in Table~\vref{tab:Emissions}. The results, visualized in Figures~\vref{fig:Emis_692} through \vref{fig:Emis_3462}, are discussed separately for the HBEFA4 and PHEMlight5 models, as their different sensitivities to transient vehicle dynamics yield distinct outcomes.
 
-\paragraph{Low --- intermediate demand ($69$--$692\,\mathrm{veh/h}$).}
-Under HBEFA4, the \ac{eco-glosa} algorithm shows no systematic \ac{co2} benefit in the low‐demand regime. At $69\,\mathrm{veh/h}$, \ac{eco-glosa} reaches its best HBEFA4 value of $127.88$\,g\,km$^{-1}$ (${\sim}15\%$ below the Standard) at $40\,\%$ \ac{mpr}, yet already overshoots the baseline again at $50\,\%$ ($165.55$\,g\,km$^{-1}$). The accompanying \ac{nox} minimum of $0.0167$\,g\,km$^{-1}$ occurs in the same cell. A similar fluctuation is observed at $692\,\mathrm{veh/h}$: \ac{co2} hovers between $139.15$ and $168.31$\,g\,km$^{-1}$ across the \acp{mpr}, with the absolute minimum again at $40\,\%$ \ac{mpr} (Table~\ref{tab:Emissions}). Figure~\ref{fig:Emis_692_HBEFA4} illustrates the erratic HBEFA4 pattern, whereas Fig.~\ref{fig:Emis_692_PHEM} confirms that PHEMlight5 predicts a consistently lower \ac{co2} envelope --- the lowest value of $138.86$\,g\,km$^{-1}$ is obtained at $100\,\%$ MPR and stays ${\sim}12$\,g under the Standard across the entire range.
+\paragraph{Low to Intermediate Demand ($69$--$692~\unit{\veh\per\hour}$).}
+In the low-to-intermediate demand range, the \ac{eco-glosa} algorithm's performance under the HBEFA4 model is inconsistent. For example, at a demand of $69~\unit{\veh\per\hour}$, it achieves a notable \ac{co2} reduction of nearly $15\%$ at $40\%$ \ac{mpr}, with emissions falling to $127.88~\unit{\gram\per\kilo\metre}$. However, this gain is immediately reversed at $50\%$ \ac{mpr}, where emissions increase to $165.55~\unit{\gram\per\kilo\metre}$. A similar pattern of fluctuation is observed at $692~\unit{\veh\per\hour}$, as illustrated in Figure~\vref{fig:Emis_692_HBEFA4}.
 \mynewline
-Baseline (\ac{flow-glosa}) behaves almost identically in HBEFA4 because its optimiser does not explicitly minimise fuel, yet it still slightly outperforms \ac{eco-glosa} under PHEMlight5. For example, at $692,\mathrm{veh/h}$ and $20\%$ \ac{mpr} the baseline emits $165.46$,g,km$^{-1}$ of \ac{co2} versus $167.32$,g,km$^{-1}$ for \ac{eco-glosa} (a $1.86$,g,km$^{-1}$ reduction), with \ac{nox} also marginally lower at $0.0422$,g,km$^{-1}$ instead of $0.0424$,g,km$^{-1}$.
-
-\paragraph{Emerging congestion ($1385$--$2077\,\mathrm{veh/h}$).}
-Once demand enters the oversaturated branch, \ac{eco-glosa} begins to realise tangible HBEFA4 savings. At $1385\,\mathrm{veh/h}$ the algorithm lowers \ac{co2} from $149.86$\,g\,km$^{-1}$ (Standard) to $131.05$\,g\,km$^{-1}$ at $80\,\%$ \ac{mpr}, i.e.\ a ${-12.5\%}$ reduction, with \ac{nox} simultaneously falling from $0.0584$ to $0.0145$\,g\,km$^{-1}$. Comparable gains emerge at $2077\,\mathrm{veh/h}$ where \ac{eco-glosa} reaches $133.30$\,g\,km$^{-1}$ \ac{co2} and $0.0138$\,g\,km$^{-1}$ \ac{nox} at full \ac{mpr}, beating the Standard by ${-12.8\%}$ and ${-77.6\%}$, respectively (Table~\ref{tab:Emissions}).  PHEMlight5 shows the same qualitative trend but attenuates the magnitude: at $2077\,\mathrm{veh/h}$ \ac{co2} decreases from $162.83$ to $154.31$\,g\,km$^{-1}$ (${ -5.2\%}$) between $0$ and $100\,\%$ \ac{mpr}. Figures~\ref{fig:Emis_2077_HBEFA4} and~\ref{fig:Emis_2077_PHEM} corroborate the steeper HBEFA4 slope and the smoother PHEMlight5 response, hinting at the higher transient fidelity of the latter.
-
-\paragraph{High demand ($2769\,\mathrm{veh/h}$).}
-For HBEFA4 the turning point occurs at $2769\,\mathrm{veh/h}$: moderate \acp{mpr} yield enormous spikes rather than improvements. The most severe outlier is recorded at $60\,\%$ \ac{mpr} where \ac{eco-glosa} jumps to $419.09$\,g\,km$^{-1}$ \ac{co2} and $0.173$\,g\,km$^{-1}$ \ac{nox}, increases of $+164\%$ and $+159\%$ over the Standard, respectively. A secondary peak of $270.93$\,g\,km$^{-1}$ already appears at $30\,\%$ \ac{mpr}. Figure~\ref{fig:Emis_2769_HBEFA4} shows that these excursions coincide with large oscillations of queue length in the microscopic trajectory logs, indicating that partially equipped platoons repeatedly brake into the residual jam tail and then re-accelerate, a pattern sometimes referred to as the \enquote{accordion effect}. In contrast, baseline (\ac{flow-glosa}) exhibits a flat profile, remaining within ${\pm}4$\,g\,km$^{-1}$ of its Standard reference and capping \ac{nox} at $0.066$\,g\,km$^{-1}$.
-\mynewline
-Under PHEMlight5, the traffic jam is fully established by $2769\,\mathrm{veh/h}$ even at moderate \ac{mpr}, leading to uniformly higher \ac{co2} and \ac{nox} outputs compared to HBEFA4. For example, \ac{eco-glosa} CO$_2$ emissions rise from $168.29$ to $255.90\,\mathrm{g\,km^{-1}}$ between $0\%$ and $100\%$ MPR, whereas under HBEFA4 the highest CO$_2$ value remains at $134.94\,\mathrm{g\,km^{-1}}$ (Table~\ref{tab:Emissions}). This disparity stems from the PHEMlight5 model’s detailed transient engine maps, which impose steeply increasing brake‐specific fuel consumption in low‐speed, high‐load conditions.  As the jam persists, repeated accelerations out of standstill force the engine into inefficient operating zones, inflating both fuel burn and NO$_x$ formation well beyond the static‐cycle forecasts of HBEFA4.
-
-\paragraph{Saturated regime ($3462\,\mathrm{veh/h}$).}
-The dichotomy between the two control philosophies is most striking in the fully saturated scenario (Fig.~\ref{fig:Emis_3462}). Under HBEFA4, \ac{eco-glosa} degrades emissions monotonically: \ac{co2} soars from the already high $426.68$\,g\,km$^{-1}$ (Standard) to $607.47$\,g\,km$^{-1}$ at $80\,\%$ MPR, while \ac{nox} escalates from $0.175$ to $1.308$\,g\,km$^{-1}$. The cause is twofold. First, prioritising signal arrival times over queue length forces overly aggressive accelerations in the congestion phase. Second, the HBEFA4 map over-emphasises engine‐out fuel rate at high positive power, exaggerating the penalty of each tentative restart.
-\mynewline
-Conversely, baseline (\ac{flow-glosa}) drives the jam to extinction. \ac{co2} plummets from $426.68$ to $155.09$\,g\,km$^{-1}$ between $0$ and $80\,\%$ MPR and \ac{nox} halves to $0.351$\,g\,km$^{-1}$. Once the queue has cleared, emissions settle on a plateau as vehicles traverse the corridor at free‐flow speed with little throttle modulation (Fig.~\ref{fig:Emis_3462_HBEFA4}). The advantage carries over to PHEMlight5: at $100\,\%$ MPR \ac{eco-glosa} still produces $367.78$\,g\,km$^{-1}$, whereas baseline emits only $152.59$\,g\,km$^{-1}$. The absolute difference of $215.19$\,g\,km$^{-1}$ corresponds to a factor $2.41$ in favour of \ac{flow-glosa}. \ac{nox} shows an analogous ratio ($0.829$ versus $0.341$\,g\,km$^{-1}$). These findings reveal that a control law aimed at maximising throughput (baseline) can outperform an ostensibly eco-oriented variant in heavily congested traffic if the latter fails to account for the cost of repeated accelerations.
-
-\paragraph{Inter-Model comparison.}
-Two meta-observations emerge from juxtaposing HBEFA4 and PHEMlight5. First, HBEFA4 systematically underestimates the benefit of \ac{flow-glosa} at high \acp{mpr}. For \mbox{$3462\,\mathrm{veh/h}$}, HBEFA4 predicts only a ${-63.7\%}$ reduction from $426.68$ to $155.09$\,g\,km$^{-1}$, whereas PHEMlight5 estimates ${-55.7\%}$ from $344.88$ to $152.59$\,g\,km$^{-1}$. Although the relative percentages appear similar, the absolute HBEFA4 baseline is inflated by more than $80$\,g\,km$^{-1}$, implying that its static drive cycles inadequately capture gear-shifting strategies during prolonged idling. Second, PHEMlight5 penalises partial‐penetration oscillations earlier than HBEFA4: at $2769\,\mathrm{veh/h}$ the cross-over from benefit to detriment already happens at $20$--$30\,\%$ \ac{mpr} for \ac{eco-glosa}, whereas HBEFA4 does not exhibit a net loss until ${\sim}30\,\%$ (Table~\ref{tab:Emissions}). The more granular power-band binning of PHEMlight5, which includes high brake‐specific fuel consumption islands during aggressive transient events, explains this sensitivity.
-
-\paragraph{Key takeaways.}
-The main conclusions from the emission analysis are as follows:
-\begin{enumerate}
-  \item In under-saturated traffic, the emission impact of \ac{glosa} is noise-dominated; no algorithm is consistently preferable.
-  \item In moderate congestion, both algorithms reduce \ac{co2} and \ac{nox}, but \ac{eco-glosa} yields the steepest improvements if oscillations remain mild.
-  \item Beyond the critical volume threshold, partial penetration of \ac{eco-glosa} amplifies stop-go cycles and can double \ac{co2} and \ac{nox}.
-  \item A throughput-centred strategy such as \ac{flow-glosa} can eliminate the jam entirely at \ac{mpr} $\geq80\,\%$, cutting emissions by up to $-64\%$ relative to the Standard and by a factor $>2$ relative to \ac{eco-glosa}.
-  \item The absolute magnitudes differ between HBEFA4 and PHEMlight5 because the latter resolves transient engine states more accurately; consequently, PHEMlight5 predicts earlier penalty onsets but also recognises stronger benefits once free flow is re-established.
-\end{enumerate}
+The performance of the more sensitive PHEMlight5 model is also variable. While the \ac{eco-glosa} controller does achieve significant emission reductions at certain penetration rates, it can perform worse than the Standard case at others. This instability means that the simpler, throughput-oriented \ac{flow-glosa} controller can sometimes yield better environmental outcomes. For instance, at $692~\unit{\veh\per\hour}$ and $20\%$ \ac{mpr}, the baseline \ac{flow-glosa} emits $165.46~\unit{\gram\per\kilo\metre}$ of \ac{co2}. This is $1.86~\unit{\gram\per\kilo\metre}$ less than the \ac{eco-glosa} controller under identical conditions, with a marginal corresponding reduction in \ac{nox} as well.
 
 \begin{figure}[htb]
   \centering
@@ -46,9 +20,14 @@ The main conclusions from the emission analysis are as follows:
     \caption{PHEMlight5 at $692\,\mathrm{veh/h}$.}
     \label{fig:Emis_692_PHEM}
   \end{subfigure}
-  \caption{\ac{co2} and \ac{nox} versus \ac{mpr} for low demand.}
-  \label{fig:Emis_692}
+  \caption[\ac{co2} and \ac{nox} emissions vs. \ac{mpr} at $692~\unit{\veh\per\hour}$]{\ac{co2} and \ac{nox} emissions versus \ac{mpr} at a low demand of $692~\unit{\veh\per\hour}$.}
+\label{fig:Emis_692}
 \end{figure}
+
+\paragraph{Emerging Congestion ($1385$--$2077~\unit{\veh\per\hour}$).}
+As traffic demand enters the range of emerging congestion, the \ac{eco-glosa} controller begins to realize tangible emission savings, particularly with the HBEFA4 model. At a demand of $1385~\unit{\veh\per\hour}$, the algorithm lowers \ac{co2} emissions from the Standard of $149.86~\unit{\gram\per\kilo\metre}$ to $131.05~\unit{\gram\per\kilo\metre}$ at $80\%$ \ac{mpr}, a reduction of $12.5\%$. This benefit is accompanied by a substantial decrease in \ac{nox} emissions from $0.0584$ to $0.0145~\unit{\gram\per\kilo\metre}$. Comparable gains are observed at $2077~\unit{\veh\per\hour}$, where full penetration of \ac{eco-glosa} reduces \ac{co2} by $12.8\%$ and \ac{nox} by a significant $77.6\%$.
+\mynewline
+The PHEMlight5 model demonstrates the same qualitative trend, although the magnitude of the savings is attenuated. In the $2077~\unit{\veh\per\hour}$ scenario, \ac{co2} emissions decrease from a baseline of $162.83~\unit{\gram\per\kilo\metre}$ to $154.31~\unit{\gram\per\kilo\metre}$ at $100\%$ \ac{mpr}, a more modest reduction of $5.2\%$. A comparison of the results in Figures~\vref{fig:Emis_2077_HBEFA4} and \vref{fig:Emis_2077_PHEM} corroborates this difference, suggesting the higher transient fidelity of the PHEMlight5 model provides a more conservative estimate of the achievable benefits.
 
 \begin{figure}[htb]
   \centering
@@ -62,9 +41,14 @@ The main conclusions from the emission analysis are as follows:
     \caption{PHEMlight5 at $2077\,\mathrm{veh/h}$.}
     \label{fig:Emis_2077_PHEM}
   \end{subfigure}
-  \caption{\ac{co2} and \ac{nox} versus \ac{mpr} for emerging congestion.}
+  \caption[\ac{co2} and \ac{nox} emissions vs. \ac{mpr} at $2077~\unit{\veh\per\hour}$]{\ac{co2} and \ac{nox} emissions versus \ac{mpr} under emerging congestion at $2077~\unit{\veh\per\hour}$.}
   \label{fig:Emis_2077}
 \end{figure}
+
+\paragraph{High Demand ($2769~\unit{\veh\per\hour}$).}
+The demand level of $2769~\unit{\veh\per\hour}$ represents a critical turning point for the HBEFA4 model, where the \ac{eco-glosa} controller's performance collapses at moderate penetration rates. Instead of improvements, this leads to enormous emission spikes. The most severe outlier occurs at $60\%$ \ac{mpr}, where \ac{co2} emissions jump to $419.09~\unit{\gram\per\kilo\metre}$ and \ac{nox} emissions to $0.173~\unit{\gram\per\kilo\metre}$, representing increases of $164\%$ and $159\%$ over the Standard, respectively. A secondary peak in \ac{co2} emissions of $270.93~\unit{\gram\per\kilo\metre}$ is already present at $30\%$ \ac{mpr}. As seen in Figure~\vref{fig:Emis_2769_HBEFA4}, these excursions correspond to severe stop-and-go waves. In contrast, the \ac{flow-glosa} controller's emissions remain bounded and consistently below the Standard, showcasing its superior stability.
+\mynewline
+Under the PHEMlight5 model, the traffic jam is fully established at this demand, leading to poor performance for the \ac{eco-glosa} controller across all penetration rates. Its \ac{co2} emissions rise from the Standard of $168.29~\unit{\gram\per\kilo\metre}$ to a peak of $347.73~\unit{\gram\per\kilo\metre}$ at $70\%$ \ac{mpr}. Unlike the erratic spikes seen in the HBEFA4 model, PHEMlight5 predicts a more uniformly high emission profile for \ac{eco-glosa} in this congested state. This disparity stems from the PHEMlight5 model’s detailed transient engine maps, which impose a steep penalty on the inefficient, low-speed, high-load conditions that characterize a persistent traffic jam. As vehicles repeatedly accelerate from a standstill, their engines are forced into inefficient operating zones, inflating both fuel burn and \ac{nox} formation far beyond the forecasts of the HBEFA4 model.
 
 \begin{figure}[htb]
   \centering
@@ -78,9 +62,14 @@ The main conclusions from the emission analysis are as follows:
     \caption{PHEMlight5 at $2769\,\mathrm{veh/h}$.}
     \label{fig:Emis_2769_PHEM}
   \end{subfigure}
-  \caption{\ac{co2} and \ac{nox} versus \ac{mpr} for high demand.}
+  \caption[\ac{co2} and \ac{nox} emissions vs. \ac{mpr} at $2769~\unit{\veh\per\hour}$]{\ac{co2} and \ac{nox} emissions versus \ac{mpr} at a high demand of $2769~\unit{\veh\per\hour}$, showing significant performance degradation for \ac{eco-glosa}.}
   \label{fig:Emis_2769}
 \end{figure}
+
+\paragraph{Saturated Regime ($3462~\unit{\veh\per\hour}$).}
+The dichotomy between the two control philosophies is most striking in the fully saturated scenario, as shown in Figure~\vref{fig:Emis_3462}. Under the HBEFA4 model, the \ac{eco-glosa} controller consistently degrades performance as penetration increases. Its \ac{co2} emissions soar from the already high Standard of $426.68~\unit{\gram\per\kilo\metre}$ to a peak of $607.47~\unit{\gram\per\kilo\metre}$ at $80\%$ \ac{mpr}. Simultaneously, \ac{nox} emissions escalate dramatically from $0.175$ to $1.325~\unit{\gram\per\kilo\metre}$ at full penetration. This poor performance can be attributed to the controller's logic, which prioritises reaching the intersection for a green light, forcing futile and aggressive accelerations within an existing jam.
+\mynewline
+Conversely, the \ac{flow-glosa} controller drives the traffic jam to extinction. Under HBEFA4, its application causes \ac{co2} emissions to plummet from $426.68~\unit{\gram\per\kilo\metre}$ to just $151.33~\unit{\gram\per\kilo\metre}$ at $100\%$ \ac{mpr}. Once the queue clears, emissions settle on a plateau as vehicles traverse the corridor at a stable free-flow speed. This advantage is even more pronounced with the PHEMlight5 model. At full penetration, \ac{eco-glosa} still produces $367.78~\unit{\gram\per\kilo\metre}$ of \ac{co2}, whereas \ac{flow-glosa} emits only $152.59~\unit{\gram\per\kilo\metre}$. The absolute difference of $215.19~\unit{\gram\per\kilo\metre}$ represents a performance factor of $2.4$ in favour of the \ac{flow-glosa} strategy. A similar ratio is observed for \ac{nox} emissions ($0.829$ versus $0.341~\unit{\gram\per\kilo\metre}$). These findings reveal that a control law aimed at maximising throughput can dramatically outperform an ostensibly eco-oriented variant in heavily congested traffic.
 
 \begin{figure}[htb]
   \centering
@@ -94,18 +83,30 @@ The main conclusions from the emission analysis are as follows:
     \caption{PHEMlight5 at $3462\,\mathrm{veh/h}$.}
     \label{fig:Emis_3462_PHEM}
   \end{subfigure}
-  \caption{\ac{co2} and \ac{nox} versus \ac{mpr} for the saturated regime.}
+  \caption[\ac{co2} and \ac{nox} emissions vs. \ac{mpr} at $3462~\unit{\veh\per\hour}$]{\ac{co2} and \ac{nox} emissions versus \ac{mpr} in the fully saturated regime ($3462~\unit{\veh\per\hour}$), highlighting the superior performance of \ac{flow-glosa}.}
   \label{fig:Emis_3462}
 \end{figure}
 
+\paragraph{Inter-Model Comparison.}
+Juxtaposing the HBEFA4 and PHEMlight5 models reveals two key differences in their predictions. First, they provide different estimates of the absolute benefits of \ac{flow-glosa} in saturation. For the $3462~\unit{\veh\per\hour}$ scenario, HBEFA4 predicts a \ac{co2} reduction of approximately $64\%$, while PHEMlight5 estimates a more conservative, though still substantial, $56\%$ reduction. This discrepancy arises because the Standard (baseline) emission value for HBEFA4 is inflated by more than $80~\unit{\gram\per\kilo\metre}$ compared to PHEMlight5, suggesting its static drive-cycle factors may inadequately capture engine behaviour during prolonged idling.
+\mynewline
+Second, the models diverge in their sensitivity to the performance degradation of \ac{eco-glosa} in congested traffic. At $2769~\unit{\veh\per\hour}$, the PHEMlight5 model shows that \ac{eco-glosa} becomes detrimental almost immediately, yielding higher emissions than \ac{flow-glosa} from just $10\%$ \ac{mpr} onwards. The HBEFA4 results are more volatile, showing severe emission spikes at certain penetration rates rather than a consistent trend. The earlier and more consistent penalty from PHEMlight5 is likely explained by its more granular power-band binning, which better captures the inefficiency of the aggressive, transient manoeuvres induced by \ac{eco-glosa} in dense traffic.
+
+\paragraph{Key Conclusions on Emissions.}
+The emission analysis reveals that a single \ac{glosa} strategy is not universally optimal; performance is highly dependent on traffic density. In under-saturated traffic, the emission impact is often dominated by stochastic effects, with neither controller showing a consistent advantage. As congestion becomes moderate, both algorithms can reduce \ac{co2} and \ac{nox} emissions, with \ac{eco-glosa} offering the greatest potential improvements provided that traffic oscillations remain mild.
+\mynewline
+Beyond a critical volume threshold, however, the myopic nature of the \ac{eco-glosa} controller becomes a significant liability. Its focus on individual vehicle efficiency amplifies stop-and-go waves, in some cases more than doubling emissions. This effect is so pronounced that, particularly when evaluated with the sensitive PHEMlight5 model, the introduction of \ac{eco-glosa} can \textit{induce a severe traffic jam} in conditions that would otherwise remain free-flowing. In these high-density scenarios, a throughput-centered strategy like \ac{flow-glosa} proves superior. By resolving the jam entirely at an \ac{mpr} of $80\%$ or higher, it can cut emissions by over $60\%$ compared to the Standard case. Ultimately, the choice of emission model is critical, as the higher fidelity of PHEMlight5 predicts these performance shifts more accurately than the HBEFA4 model.
+\mynewline
+This underscores a key methodological paradox concerning the choice of emission model. The high physical fidelity of PHEMlight5 accurately penalises the severe energy cost of transient, stop-and-go manoeuvres. In response, the \ac{eco-glosa} controller, in its strict pursuit of minimising fuel use, advises overly conservative speed profiles to avoid these high-cost states. Paradoxically, this locally optimal strategy is what induces severe network-level congestion, creating traffic jams where none existed and ultimately leading to far higher system-wide emissions. In contrast, the HBEFA4 model's relative insensitivity to these transient states leads to speed advisories that, while less \enquote{eco-optimal} in a narrow sense, are more compatible with maintaining traffic flow. The result is that the less accurate model, when paired with the \ac{eco-glosa} controller, leads to a better overall environmental outcome precisely because it prevents the controller from making decisions that are disastrous for network stability. This finding suggests that a successful eco-driving controller must balance high-fidelity physical models with robust, network-level traffic flow objectives to prevent locally optimal choices from causing globally detrimental effects.
+
 \begin{table}[htb]
   \centering
-  \caption{Vehicle emissions in terms of average CO$_2$ (g/km) and NO$_x$ (g/km) for varying traffic volumes and \acp{mpr}. Results are provided for the Standard (no \ac{glosa}), \ac{flow-glosa}, and \ac{eco-glosa} configurations under the HBEFA4 and PHEMlight5 emission models.}
+  \caption[Average \ac{co2} and \ac{nox} emissions for all traffic volumes and \acp{mpr}]{Vehicle emissions in terms of average \ac{co2} ($\unit{\gram\per\kilo\metre}$) and \ac{nox} ($\unit{\gram\per\kilo\metre}$) for all traffic volumes and \acp{mpr}. The data compares the Standard, \ac{flow-glosa}, and \ac{eco-glosa} configurations.}
   \label{tab:Emissions}
   \resizebox{\textwidth}{!}{%
     \begin{tabular}{l l l *{11}{c}}
       \toprule
-      Cars & Algorithm                & Fuel         & \textbf{0 \% (Standard)} & 10 \%     & 20 \%     & 30 \%       & 40 \%       & 50 \%       & 60 \%       & 70 \%       & 80 \%       & 90 \%       & 100 \%      \\
+      Vehicles & Algorithm                & Fuel         & \textbf{0 \% (Standard)} & 10 \%     & 20 \%     & 30 \%       & 40 \%       & 50 \%       & 60 \%       & 70 \%       & 80 \%       & 90 \%       & 100 \%      \\
       \midrule
       69.0 & Eco-GLOSA                 & HBEFA4       & \textbf{149.99,0.0606}   & 164.05,0.03 & 169.37,0.0345 & 144.59,0.0582 & \textbf{127.88,0.0167} & 165.55,0.0342 & 143.45,0.0549 & 141.49,0.0555 & 154.28,0.0286 & 147.82,0.355  & 153.20,0.3521 \\
       69.0 & Baseline (Flow-GLOSA)     & HBEFA4       & \textbf{149.99,0.0606}   & 164.58,0.0302 & 171.67,0.0349 & 145.27,0.0588 & 128.53,0.0171 & 162.00,0.0332 & 145.08,0.0563 & 140.88,0.0548 & 153.86,0.0287 & 145.60,0.3528 & 149.80,0.3543 \\
@@ -139,7 +140,7 @@ The main conclusions from the emission analysis are as follows:
       \midrule
       2769.0 & Eco-GLOSA               & HBEFA4       & \textbf{158.44,0.0669}   & 149.68,0.0165 & 150.27,0.0438 & \textbf{270.93,0.1129} & 223.93,0.0152 & 144.07,0.0419 & \textbf{419.09,0.1730} & 149.20,0.0624 & 136.94,0.0136 & 137.47,0.0233 & \textbf{134.94,0.0131} \\
       2769.0 & Baseline (Flow-GLOSA)   & HBEFA4       & \textbf{158.44,0.0669}   & 144.45,0.0163 & 148.28,0.0431 & 152.84,0.0646 & 155.17,0.0153 & 140.40,0.0405 & 146.67,0.0617 & 144.90,0.0615 & 133.43,0.0148 & 134.78,0.0224 & 131.03,0.0145 \\
-      2769.0 & Eco-GLOSA               & PHEMlight5   & \textbf{168.29,0.0614}   & 191.39,0.0278 & 232.01,0.0462 & 303.40,0.1092 & 284.24,0.0441 & 306.10,0.0621 & 331.67,0.1171 & 347.73,0.1221 & \textbf{295.95,0.0404} & 321.37,0.0433 & \textbf{255.90,0.0318} \\
+      2769.0 & Eco-GLOSA               & PHEMlight5   & \textbf{168.29,0.0614}   & 191.39,0.0278 & 232.01,0.0462 & 303.40,0.1092 & 284.24,0.0441 & 306.10,0.0621 & 331.67,0.1171 & \textbf{347.73,0.1221} & 295.95,0.0404 & 321.37,0.0433 & \textbf{255.90,0.0318} \\
       2769.0 & Baseline (Flow-GLOSA)   & PHEMlight5   & \textbf{168.29,0.0614}   & 161.20,0.0215 & 162.91,0.0316 & 165.15,0.0610 & 158.91,0.0223 & 157.16,0.0305 & 159.67,0.0580 & 157.75,0.0572 & 153.28,0.0188 & 153.69,0.0194 & 150.97,0.0179 \\
       \midrule
       3462.0 & Eco-GLOSA               & HBEFA4       & \textbf{426.68,0.1747}   & 478.55,1.0357 & 516.15,0.0163 & 520.98,0.2133 & 524.40,0.1698 & 526.96,0.1042 & 575.15,0.2378 & 567.63,0.2347 & \textbf{607.47,0.1096} & 581.74,0.1096 & \textbf{581.74,1.3247} \\

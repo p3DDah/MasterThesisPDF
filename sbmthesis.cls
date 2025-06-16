@@ -416,6 +416,20 @@
 \DeclareSIUnit{\EUR}{\text{\euro}}
 \usepackage{bbm}
 
+\usepackage{varioref}
+
+\usepackage[section]{placeins}
+\makeatletter
+\AtBeginDocument{%
+  \expandafter\renewcommand\expandafter\subsection\expandafter{%
+    \expandafter\@fb@secFB\subsection
+  }%
+}
+\makeatother
+
 \raggedbottom
 
 \hyphenation{Ka-ma-la-nath-shar-ma}
+
+\DeclareSIUnit{\veh}{veh}
+\DeclareSIUnit{\stops}{stops}
