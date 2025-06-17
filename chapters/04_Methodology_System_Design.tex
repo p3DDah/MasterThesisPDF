@@ -1,7 +1,9 @@
 \chapter{Methodology and System Design}
 \label{ch:Methodology_System_Design}
 
-In this chapter, we describe the overall methodology and system design used to develop and assess two distinct \ac{glosa} algorithms, both founded on \ac{dp} but differing fundamentally in their objectives and implementations. Section \ref{sec:Baseline_Glosa_Algorithm} introduces the baseline, flow‐optimized \ac{glosa} algorithm, detailing its \ac{dp}‐based architecture, functional workflow, and implementation specifics. The section \ref{sec:Proposed_Eco_Driving_GLOSA_Algorithm} presents the eco‐driving \ac{glosa} algorithm. This operates under an entirely different optimisation criterion aimed at fuel efficiency. The design rationale for the algorithm is outlined, as well as the modifications to the \ac{dp} formulation, and implementation details. 
+In this chapter, the methodology and system design for two distinct \ac{glosa} algorithms are described. These algorithms share the common goal of providing speed advice but differ fundamentally in their optimisation criteria and underlying logic. The first serves as a throughput-oriented baseline , \ac{flow-glosa}, while the second introduces a novel eco-driving strategy based on \ac{dp}, \ac{eco-glosa}.
+\mynewline
+The structure of the chapter is as follows: Section~\vref{sec:Baseline_Glosa_Algorithm} first establishes a performance benchmark by offering a thorough analysis of the baseline, throughput-oriented \ac{glosa} controller as implemented in \ac{sumo}. Subsequently, Section~\vref{sec:Proposed_Eco_Driving_GLOSA_Algorithm} presents the proposed eco-driving algorithm, outlining its design rationale, its formulation as a \ac{dp} problem to minimise fuel consumption, and its specific implementation details.
 
 \input{chapters/04-Methodology-System-Design/041-BaselineGlosaAlgorithm}
 

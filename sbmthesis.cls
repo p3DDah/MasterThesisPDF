@@ -240,6 +240,15 @@
 
 \usepackage{acro}[=v2]
 
+\acsetup{display-foreign = false}
+\acsetup{foreign-format = {\scshape}}
+
+%%begin novalidate
+\ExplSyntaxOn
+    \prop_new:N \l__acro_foreign_format_prop
+\ExplSyntaxOff
+%%end novalidate
+
 \newlist{acrolist}{description}{1}
 \setlist[acrolist]{
   itemsep=0.5\baselineskip,
@@ -272,8 +281,6 @@
   list-short-format = \bfseries, % Makes the short form bold in the list.
   extra-style       = newline,   % Use the custom style to add the line break.
   extra-format      = \itshape,   % Makes the extra information italic.
-  display-foreign   = false,        % Completely disable the foreign language feature
-  foreign-format    = {}
 }
 
 % KOMA Script related
@@ -442,3 +449,5 @@
 
 \DeclareSIUnit{\veh}{veh}
 \DeclareSIUnit{\stops}{stops}
+
+\sloppy
