@@ -1,9 +1,9 @@
 \chapter{Simulation Setup and Configuration}
 \label{ch:SimulationSetupConfiguration}
 
-This chapter standardises the experimental frame used to test \ac{glosa} schemes at the signalised \emph{Neckartor} junction. A microscopic network in \ac{sumo} is driven via \ac{traci}. The digital twin mirrors lane geometry, \ac{spat} phases and the local diesel-ban rules. Measured flows feed the generator. Rate levels range from free to oversaturated, which means that demand is too high.
+For testing \ac{glosa} schemes at the signalized \emph{Neckartor} junction, this chapter sets up a standard way to do experiments. The investigation employs a microscopic network developed in \ac{sumo} and controlled via the \ac{traci} interface. This digital twin accurately replicates the junction's lane geometry, \ac{spat} phasing, and local diesel-ban regulations. Synthetically generated traffic demand, anchored to measured flow data, spans a wide range of conditions from free-flow to oversaturation.
 \mynewline
-The material is split into three self-contained parts. Section~\ref{sec:SimEnvironment} states the simulation environment. It lists network size, vehicle mix, extended \ac{eidm} parameters and the emission logging set-up. Section~\ref{sec:exec_protocol} details the execution protocol. It sweeps flow, \ac{glosa} market penetration, communication range and other knobs such as \gls{tslack}. Section~\ref{sec:performance_evaluation} defines the evaluation metrics. Stop counts, mean speed, fuel use, emissions, and break-even penetration rates form the core. 
+The chapter is organized into three main sections. Section~\ref{sec:SimEnvironment} outlines the simulation environment, including the network configuration, vehicle fleet composition, \ac{eidm} parameters, and the emission logging setup. Section~\ref{sec:exec_protocol} specifies the execution protocol, which systematically varies traffic flow, \ac{glosa} market penetration, communication range, and other key parameters such as the slack time, \gls{tslack}. Finally, Section~\ref{sec:performance_evaluation} defines the performance metrics used for evaluation, including vehicle stop counts, mean speed, fuel consumption, pollutant emissions, and break-even penetration rates.
 
 \input{chapters/05-SimulationSetupImplementation/051-SimualtionArchitectureInitialization}
 

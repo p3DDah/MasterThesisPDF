@@ -37,11 +37,11 @@ If no valid $\gls{sf}$ exists --- either because the theoretical optimal velocit
 
 The \texttt{adaptSpeed} function constitutes the core of the \ac{glosa} advisory mechanism. Its objective is to compute a theoretical optimal velocity, $\gls{vopt}$, such that the ego vehicle arrives at the stop line exactly at the time of green onset plus the safety correction. In order to derive $\gls{vopt}$, \texttt{adaptSpeed} decomposes the vehicle’s motion into three kinematic phases: deceleration, constant‐speed cruising, and acceleration. Let $\gls{vego}$ denote the vehicle’s current speed, and let $\gls{bmax}$ and $\gls{amax}$ represent the maximum deceleration and maximum acceleration magnitudes, respectively. The distance required to decelerate from $\gls{vego}$ down to the target velocity $\gls{vopt}$ is given by:
 \begin{equation}
-\gls{ddec} \;=\; \frac{\gls{vego}^2 \;-\; \gls{vopt}^2}{2\,\gls{bmax}}.
+    \gls{ddec} \;=\; \frac{\gls{vego}^2 \;-\; \gls{vopt}^2}{2\,\gls{bmax}}.
 \end{equation}
 Likewise, if $\gls{vopt} > \gls{vego}$, the distance required to accelerate from $\gls{vopt}$ back up to $\gls{vego}$ is expressed as:
 \begin{equation}
-\gls{dacc} \;=\; \frac{\gls{vopt}^2 \;-\; \gls{vego}^2}{2\,\gls{amax}}.
+    \gls{dacc} \;=\; \frac{\gls{vopt}^2 \;-\; \gls{vego}^2}{2\,\gls{amax}}.
 \end{equation}
 Any residual distance, computed as $\gls{dup} \;-\; \gls{ddec} \;-\; \gls{dacc}$, is allocated to the constant‐speed cruising phase at velocity $\gls{vopt}$. By enforcing these kinematic constraints and solving for $\gls{vopt}$, one obtains:
 \begin{equation}
