@@ -260,7 +260,6 @@
   brackets     = false
 }
 
-
 % CORRECTED: \acsetup applies the formats globally.
 \acsetup{
   hyperref          = true,
@@ -273,6 +272,8 @@
   list-short-format = \bfseries, % Makes the short form bold in the list.
   extra-style       = newline,   % Use the custom style to add the line break.
   extra-format      = \itshape,   % Makes the extra information italic.
+  display-foreign   = false,        % Completely disable the foreign language feature
+  foreign-format    = {}
 }
 
 % KOMA Script related
