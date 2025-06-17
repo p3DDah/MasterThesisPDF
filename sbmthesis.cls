@@ -238,35 +238,6 @@
 }
 }
 
-% \RequirePackage{acro}
-
-% \NewAcroTemplate[list]{mylist}{%
-%   \acroheading
-%   \begin{description}[%
-%       itemsep=0.5\baselineskip,    
-%       parsep=0pt,     
-%       topsep=0pt,     
-%       partopsep=0pt,
-%       leftmargin=0.5em% adjust as you like
-%     ]
-%     \acronymsmapF{%
-%       \item[\bfseries\acrowrite{short}] \acrowrite{long}\\
-%       \textit{\acrowrite{extra}}
-%     }{%
-%       \item \AcroRerun
-%     }
-%   \end{description}
-% }
-
-% \acsetup{%
-%     make-links=true,
-%     list/template=mylist,
-%     list/heading=section*,
-%     list/sort=true,
-%     list/name=Acronyms,
-%     single=3,
-% }
-
 \usepackage{acro}[=v2]
 
 \newlist{acrolist}{description}{1}
@@ -281,12 +252,6 @@
 % 1. Declare the list style (structure only)
 \DeclareAcroListStyle{mylist}{list}{
   list = acrolist
-}
-
-\DeclareAcroExtraStyle{newline-italic}{inline}{
-  punct        = true,
-  punct-symbol = {\newline}, % Use \newline as the separator before the text.
-  brackets     = false,
 }
 
 \DeclareAcroExtraStyle{newline}{inline}{
@@ -308,8 +273,6 @@
   list-short-format = \bfseries, % Makes the short form bold in the list.
   extra-style       = newline,   % Use the custom style to add the line break.
   extra-format      = \itshape,   % Makes the extra information italic.
-
-  foreign-format    = {}
 }
 
 % KOMA Script related
