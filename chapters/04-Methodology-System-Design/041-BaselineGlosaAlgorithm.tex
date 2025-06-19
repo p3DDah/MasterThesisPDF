@@ -36,13 +36,30 @@ When a vehicle approaches a \textit{red} light, or when a green light is deemed 
 
 The core task at this stage is to compute a theoretical optimal velocity, \gls{vopt}, that enables the vehicle to arrive at the intersection in synchrony with the target green phase. To achieve this, the algorithm models the vehicle's trajectory as a three-phase kinematic sequence: an initial deceleration from the current speed, \gls{vego}, to the optimal speed, \gls{vopt}; a constant-speed cruising phase at \gls{vopt}; and a final acceleration back to the desired maximum speed, \gls{vmax}.
 \mynewline
-The derivation solves for the target speed, \gls{vopt}, by considering the total distance to the intersection, \gls{dup}, and the effective time-to-switch, \gls{ttscorr}, while respecting the vehicle's maximum acceleration, \gls{amax}, and maximum deceleration, \gls{bmax}. First, the algorithm calculates a preliminary target speed to determine whether the vehicle needs to accelerate or decelerate, and then solves the full quadratic equation for the optimal speed, \gls{vopt}. The key calculation is the solution to the root argument of the quadratic formula:
+The derivation solves for the target speed, \gls{vopt}, by considering the total distance to the intersection, \gls{dup}, and the effective time-to-switch, \gls{ttscorr}, while respecting the vehicle's maximum acceleration, \gls{amax}, and maximum deceleration, \gls{bmax}. First, the algorithm calculates a preliminary target speed to determine whether the vehicle needs to accelerate or decelerate, and then solves the full quadratic equation for the theoretical optimal speed, \gls{voptth}, using the following formula:
 \begin{equation}
-    \mathrm{root\_arg} = ad \cdot \left( 2d(s - wt) - (v-w)^2 + a(dt^2 + 2(s - tv)) \right)
+    \gls{vopt} = \sqrt{\mathrm{arg}} - \gls{amax} \cdot \gls{ttscorr} + \gls{vmax}
 \end{equation}
-where $v$ is the current speed (\gls{vego}), $s$ is the distance (\gls{dup}), $t$ is the time (\gls{ttscorr}), $a$ is max acceleration (\gls{amax}), $d$ is max deceleration (\gls{bmax}), and $w$ is the target maximum speed (\gls{vmax}). A valid, real solution exists only if this root argument is non-negative.
+The key calculation is the solution to the root argument of the quadratic formula:
+\begin{equation}
+    \mathrm{arg} = \gls{amax}^2 \cdot \gls{ttscorr}^2 - 2 \cdot \gls{amax} \cdot \gls{vmax} \cdot \gls{ttscorr} + 2 \cdot \gls{amax} \cdot \gls{dup}.
+\end{equation}
+Here, $\mathrm{arg}$ represents the radicand, $\gls{amax}$ is the maximum acceleration, $\gls{ttscorr}$ is the time remaining until the next green phase, and $\gls{dup}$ denotes the distance from the vehicle to the traffic signal. A valid, real solution exists only if this root argument is non-negative.
 \mynewline
-Once the optimal speed \gls{vopt} is calculated from this equation, it undergoes the validation checks described in Section~\vref{sec:Glosa_Speed_Factor_Model}. If the advisory is valid, the algorithm updates the vehicle’s speed factor to guide it along the computed optimal trajectory.
+The final advisory speed $\gls{vopt}$ is determined by solving:
+\begin{equation}
+    \gls{vopt} = \frac{\gls{amax} \left(\gls{vego} - (\gls{bmax} \cdot \gls{ttscorr})\right) + (\gls{bmax} \cdot \gls{vmax}) + \sqrt{\text{arg2}}}{\gls{bmax} + \gls{amax}}
+\end{equation}
+with
+\begin{align}
+    \text{arg2} =\ & \gls{amax} \cdot \gls{bmax} \cdot \bigg[\,2 \gls{bmax} (\gls{dup} - \gls{vmax} \cdot \gls{ttscorr}) - (\gls{vego} - \gls{vmax})^2 \notag \\
+    & \qquad + \gls{amax} \left(\gls{bmax} \cdot \gls{ttscorr}^2 + 2 \left(\gls{bmax} - (\gls{ttscorr} \cdot \gls{vego})\right)\right) \bigg]
+\end{align}
+If the calculated advisory speed satisfies the defined constraints, the new speed factor is computed as:
+\begin{equation}
+    \gls{sf}_{\text{,new}} = \frac{\gls{vopt}}{\gls{vallowed}}
+\end{equation}
+where $\gls{vallowed}$ is the applicable speed limit, and $\gls{sf}_{\text{,new}}$ denotes the updated speed factor assigned to the vehicle.
 
 \subsection{Optional Queue Length Consideration}
 \label{sec:Glosa_Queue_Length}

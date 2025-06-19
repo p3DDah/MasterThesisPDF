@@ -276,7 +276,7 @@
   list-heading      = section*,
   sort              = true,
   list-name         = Acronyms,
-  single            = false,
+  single            = true,
   % --- Apply formatting here ---
   list-short-format = \bfseries, % Makes the short form bold in the list.
   extra-style       = newline,   % Use the custom style to add the line break.
@@ -425,6 +425,17 @@
 
 \newcommand{\mynewline}{\\[1ex]}
 \newcommand{\fuelkey}[1]{\path|#1|}
+\usepackage{refcount}   % provides \getpagerefnumber
+
+\newcommand{\namevref}[1]{%
+  \nameref{#1}%
+  \ifnum\getpagerefnumber{#1}=\value{page}\relax
+    % same page – omit the page reference
+  \else
+    \ on page~\pageref{#1}%
+  \fi
+}
+
 \usepackage{ltablex} 
 \keepXColumns 
 \DeclareSIUnit{\fuel}{fuel}
