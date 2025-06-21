@@ -1,9 +1,8 @@
 \section{SUMO: A Platform for Microscopic Traffic Simulation}
 \label{sec:SUMO}
-
-\ac{sumo} is an open-source, highly portable microscopic traffic simulation package developed and maintained by the German Aerospace Centre (DLR) and the Eclipse Foundation under the Eclipse Public Licence. \cite{SUMOWebsite2025}\cite{EclipseNews2017} Since its first release in 2001, SUMO has evolved into a comprehensive multi-modal framework capable of modelling cars, buses, pedestrians, and cyclists in networks ranging from single intersections to nationwide road systems. \cite{SUMODocs2025}\cite{Krajzewicz2002} The platform’s modular design, comprising tools such as NETCONVERT and DUAROUTER, enables seamless import of OpenStreetMap data, shapefiles and Origin–Destination matrices for realistic network generation. \cite{SUMODocs2025} It's \ac{traci} provides real-time external control and data exchange via Python, Java or C++ bindings, facilitating co-simulation with communication stacks and control algorithms. Visualization through the \ac{gui} and integration with analytical environments such as Python, or MATLAB support both interactive simulation monitoring and post-processing analysis. \cite{TraCIDocs2024} 
+\ac{sumo} is an open-source, highly portable microscopic traffic simulation package. It is developed and maintained by the German Aerospace Centre (DLR) and the Eclipse Foundation under the Eclipse Public Licence. \cite{SUMOWebsite2025, EclipseNews2017} Since its first release in 2001, \ac{sumo} has evolved into a comprehensive multi-modal framework. This framework is capable of modelling cars, buses, pedestrians, and cyclists in networks that range from single intersections to nationwide road systems. \cite{SUMODocs2025, Krajzewicz2002} The platform’s modular design, which includes tools such as NETCONVERT and DUAROUTER, enables the seamless import of OpenStreetMap data, shapefiles, and Origin–Destination matrices for realistic network generation. \cite{SUMODocs2025} Its \ac{traci} provides real-time external control and data exchange via Python, Java, or C++ bindings, which facilitates co-simulation with communication stacks and control algorithms. Visualization through the \ac{gui} and integration with analytical environments, such as Python or MATLAB, support both interactive simulation monitoring and post-processing analysis. \cite{TraCIDocs2024}
 \mynewline
-In the following subsections, we first outline the introduction and purpose of SUMO (Section~\ref{subsec:sumo_intro_purpose}), then describe its core features (Section~\ref{subsec:sumo_core_features}) and review its use cases in GLOSA and eco-driving studies (also Section~\ref{subsec:sumo_intro_purpose}), before detailing the car-following models implemented in \ac{sumo} (Section~\ref{subsec:car_following_models}) and the emission models used for fuel consumption estimation (Section~\ref{subsec:emission_models_fuel_estimation}); we conclude by discussing the limitations of \ac{sumo} and its relevance for this thesis (Section~\ref{subsec:sumo_limitation_relevance}).
+The following subsections first outline the introduction and purpose of \ac{sumo} in Section~\vref{subsec:sumo_intro_purpose}, then describe its core features in Section~\vref{subsec:sumo_core_features}, and review its use cases in \ac{glosa} and eco-driving studies, also in Section~\vref{subsec:sumo_intro_purpose}. Subsequently, the car-following models implemented in \ac{sumo} are detailed in Section~\vref{subsec:car_following_models}, and the emission models used for fuel consumption estimation are covered in Section~\vref{subsec:emission_models_fuel_estimation}. The section concludes with a discussion of the limitations of \ac{sumo} and its relevance for this thesis in Section~\vref{subsec:sumo_limitation_relevance}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %----------------------------------------------------%
@@ -12,15 +11,9 @@ In the following subsections, we first outline the introduction and purpose of S
 \subsection{Introduction and Purpose}
 \label{subsec:sumo_intro_purpose}
 
-Microscopic traffic simulation platforms represent each vehicle individually, resolving both longitudinal (car-following) and lateral (lane-changing) behaviours at sub-second temporal granularity. This fine resolution enables the accurate reproduction of complex phenomena—such as stop-and-go waves, intersection queue formation, and transient fluctuations in fuel consumption—that remain obscured in macroscopic, aggregate models. \cite{Koutsopoulos2005Microsim} Among the suite of available simulators, \ac{sumo} has become the de-facto standard in both academic research and industrial applications, owing to its modular, extensible architecture, extensive feature set for high-fidelity multi-modal modelling, and active stewardship by the \ac{dlr} under the Eclipse Public Licence. Since its initial public release in 2001, SUMO has evolved into a full-fledged simulation environment capable of accommodating scenarios from single intersections to nationwide motorway networks, all while retaining cross-platform portability and seamless integration with external control and data-analysis tools.  
+Microscopic traffic simulation platforms represent each vehicle individually. They resolve both longitudinal (car-following) and lateral (lane-changing) behaviours at sub-second temporal granularity. This fine resolution enables the accurate reproduction of complex phenomena. These include stop-and-go waves, intersection queue formation, and transient fluctuations in fuel consumption, which remain obscured in macroscopic, aggregate models. \cite{Koutsopoulos2005Microsim} Among the available simulators, \ac{sumo} has become the de-facto standard in both academic research and industrial applications. This is due to its modular architecture, extensive features for multi-modal modelling, and active stewardship by the \ac{dlr} under the Eclipse Public Licence. Since its initial release in 2001, \ac{sumo} has evolved into a full-fledged simulation environment. It can accommodate scenarios from single intersections to nationwide motorway networks, all while retaining cross-platform portability and seamless integration with external tools.
 \mynewline
-Typical application domains illustrate this versatility. Urban-traffic engineers use \ac{sumo} to prototype adaptive signal control strategies—such as fuzzy-logic-based controllers employing Webster and modified Webster formulas for dynamic cycle adjustment \cite{Ali2021AdaptiveFuzzyWebster} --- and to develop quota-based priority schemes, for instance multi-tiered bus priority interventions that reserve green-time quotas according to vehicle delay and occupancy levels \cite{Schmidt2024BusPriority}.
-Environmental researchers commonly assess eco-driving strategies, such as \ac{eco-glosa}, by integrating simulated vehicle trajectories with high-resolution emission models --- most notably those based on HBEFA --- within the \ac{sumo} framework. \cite{jayawardana2022learning,varga2024systematic}
-Finally, \ac{its} authors rely on the built-in \ac{traci} API to
-co-simulate vehicle motion with communication stacks or digital twins,
-facilitating studies of \ac{v2i} and broader \ac{c-its} architectures. \cite{Sommer2008TraCI}
-These features --- open code base, rich interfaces, and active community support --- make \ac{sumo}
-the logical backbone for the experimental work presented in this thesis.
+Typical application domains illustrate this versatility. Urban-traffic engineers use \ac{sumo} to prototype adaptive signal control strategies, such as fuzzy-logic-based controllers employing Webster and modified Webster formulas for dynamic cycle adjustment. \cite{Ali2021AdaptiveFuzzyWebster} They also use it to develop quota-based priority schemes, for instance, multi-tiered bus priority interventions that reserve green-time quotas according to vehicle delay and occupancy levels. \cite{Schmidt2024BusPriority} Environmental researchers commonly assess eco-driving strategies, like \ac{eco-glosa}, by integrating simulated vehicle trajectories with high-resolution emission models, most notably those based on HBEFA, within the \ac{sumo} framework. \cite{jayawardana2022learning, varga2024systematic} Finally, \ac{its} authors rely on the built-in \ac{traci} API to co-simulate vehicle motion with communication stacks or digital twins. This facilitates studies of \ac{v2i} and broader \ac{c-its} architectures \cite{Sommer2008TraCI}. These features, an open code base, rich interfaces, and active community support, make \ac{sumo} the logical backbone for the experimental work presented in this thesis.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %----------------------------------------------------%
@@ -29,93 +22,83 @@ the logical backbone for the experimental work presented in this thesis.
 \subsection{Core Features and Capabilities}
 \label{subsec:sumo_core_features}
 
-This section describes how \ac{sumo} simulates individual vehicle trajectories and provides an interface for real-time external control. To support detailed traffic studies and the integration of external control strategies, \ac{sumo}’s core functionality is organized around a high-fidelity microscopic traffic engine and versatile run-time APIs. \cite{TraCIDocs2024}\cite{Krajzewicz2002}
+The way that \ac{sumo} provides an interface for real-time external control and simulates individual vehicle trajectories is explained in this section. To support detailed traffic studies and the integration of external control strategies, the core functionality of \ac{sumo} is organized around a high-fidelity microscopic traffic engine and versatile run-time APIs. \cite{TraCIDocs2024, Krajzewicz2002}
 
 \subsubsection{Traffic Flow Simulation and External Control}
 \label{subsubsec:traffic_flow_control}
 
-SUMO employs a microscopic, discrete-time simulation engine in which individual vehicle trajectories are computed at fixed temporal intervals (typically 0.1–1.0 s), striking a balance between simulation accuracy and computational performance. \cite{Koutsopoulos2005Microsim}\cite{Krajzewicz2002} Route planning and dynamic re-routing within DUAROUTER leverage shortest-path algorithms and heuristic updates to adapt on-the-fly to changing network conditions and incident scenarios. \cite{SUMODocs2025}
+SUMO employs a microscopic, discrete-time simulation engine. In this engine, individual vehicle trajectories are computed at fixed temporal intervals, which are typically between $0.1$ and $1.0\unit{s}$. This strikes a balance between simulation accuracy and computational performance. \cite{Koutsopoulos2005Microsim, Krajzewicz2002} Route planning and dynamic re-routing within DUAROUTER leverage shortest-path algorithms and heuristic updates. This allows the system to adapt on-the-fly to changing network conditions and incident scenarios. \cite{SUMODocs2025}
 \mynewline
-The \ac{traci} Interface uses a custom socket protocol over TCP/IP to expose a comprehensive run-time API for external monitoring and control of a running SUMO instance. Through TraCI’s Python, Java, or C++ bindings, users can retrieve and manipulate simulation entities—including vehicle positions, speeds, and traffic-light states—to integrate algorithms such as \ac{glosa} directly into the simulation loop. \cite{TraCIDocs2024}\cite{Krajzewicz2002} In addition to \ac{traci}, \ac{sumo} offers an embedded C/C++ API (libsumo) for high-performance batch simulations and large-scale parameter sweeps with minimal scripting effort. \cite{SUMODocs2025}
+The \ac{traci} Interface uses a custom socket protocol over TCP/IP to expose a comprehensive run-time API. This API is used for external monitoring and control of a running SUMO instance. Through the Python, Java, or C++ bindings of \ac{traci}, users can retrieve and manipulate simulation entities. These include vehicle positions, speeds, and traffic-light states, which allows for the integration of algorithms such as \ac{glosa} directly into the simulation loop. \cite{TraCIDocs2024, Krajzewicz2002}
 
 \subsubsection{Visualization and Analysis Tools}
 \label{subsubsec:visualization_analysis_tools}
 
-\ac{sumo}’s \ac{gui} provides an interactive environment for real-time visualization of vehicle movements, traffic flows, and signal states. Users can adjust simulation parameters on-the-fly, inspect individual vehicle trajectories, and generate overlays such as density or speed heat maps. For post-simulation analysis, SUMO exports detailed output formats—including XML-based trip and edge files and CSV logs—for further processing. \cite{Krajzewicz2002}
+\ac{sumo}’s \ac{gui} provides an interactive environment for real-time visualization of vehicle movements, traffic flows, and signal states. Users can adjust simulation parameters on-the-fly, inspect individual vehicle trajectories, and generate overlays such as density or speed heat maps. For post-simulation analysis, \ac{sumo} exports detailed output formats, including XML-based trip and edge files and CSV logs, for further processing. \cite{Krajzewicz2002}
 \mynewline
-Integration with analytical platforms is facilitated by client libraries such as the Python-based \ac{traci} client and sumolib modules, which enable programmatic data extraction and custom plotting within Jupyter notebooks or automated test suites. \cite{Krajzewicz2002} Researchers have also developed MATLAB bindings (TraCI4Matlab) to exploit control-engineering toolboxes for signal-optimization studies. \cite{TraCI4Matlab2025} Although native R integration is less widespread, exported data can be seamlessly ingested into R environments for statistical analyses and visualization via standard parsing libraries.
+Integration with analytical platforms is facilitated by client libraries such as the Python-based \ac{traci} client and sumolib modules, which enable programmatic data extraction and custom plotting within Jupyter notebooks or automated test suites. \cite{Krajzewicz2002} Researchers have also developed MATLAB bindings (TraCI4Matlab) to exploit control-engineering toolboxes for signal-optimization studies. \cite{TraCI4Matlab2025}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %----------------------------------------------------%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Car-Following Models in SUMO}
+\subsection{Car-Following Models in \ac{sumo}}
 \label{subsec:car_following_models}
 
-Car-following models define the interaction between a following vehicle and its leader by prescribing acceleration as a function of relative speed, spacing, and driver preferences. Among these, the \ac{idm} by Treiber et al. \cite{Treiber_2000} stands out for its continuous acceleration profile, empirical validation against real-world data, and intuitive parameter interpretation. In this subsection, we first present the mathematical formulation and calibration of the IDM, then describe its extension in the \ac{eidm} by Salles et al. \cite{Salles2022} --- introducing reaction-time delays, perception errors and jerk-limiting filters—and finally survey alternative models (Krauss \cite{Krauss1997}, Wiedemann \cite{Wiedemann1974}, Gipps \cite{Gipps1981}, OVM \cite{Bando1995}, Newell \cite{Newell1961}), concluding with a comparative analysis of their advantages, parameter sensitivities and suitable application scenarios.
+Car-following models define the interaction between a following vehicle and its leader by prescribing acceleration as a function of relative speed, spacing, and driver preferences. Among these, the \ac{idm} by Treiber et al. \cite{Treiber_2000} stands out for its continuous acceleration profile, empirical validation against real-world data, and intuitive parameter interpretation. This topic first presents the mathematical formulation and calibration of the \ac{idm}. It then describes its extension in the \ac{eidm} by Salles et al., which introduces reaction-time delays, perception errors, and jerk-limiting filters. \cite{Salles2022} Finally, a survey of alternative models is provided, including those by Krauss \cite{Krauss1997}, Wiedemann \cite{Wiedemann1974}, Gipps \cite{Gipps1981}, the \ac{ovm} \cite{Bando1995}, and Newell \cite{Newell1961}. The discussion concludes with a comparative analysis of their advantages, parameter sensitivities, and suitable application scenarios.
 
-\subsubsection{Intelligent Driver Model (IDM)}
+\subsubsection{Intelligent Driver Model (\acs{idm})}
 \label{subsubsec:idm}
-The Intelligent Driver Model (\ac{idm}), introduced by Treiber, Hennecke, and Helbing in 2000 \cite{Treiber_2000}, computes each vehicle’s acceleration based on its current speed $v_\alpha$, net gap to the leader $s_\alpha$, and approach rate $\Delta v_\alpha = v_\alpha - v_{\alpha-1}$. It is defined by the ordinary differential equations:
-\[
-\dot{x}_\alpha = v_\alpha,
-\quad
-\dot{v}_\alpha = a\!\left[1 - \Bigl(\frac{v_\alpha}{v_0}\Bigr)^\delta - \Bigl(\frac{s^*(v_\alpha,\Delta v_\alpha)}{s_\alpha}\Bigr)^2\right],
-\]
+The Intelligent Driver Model, introduced by Treiber, Hennecke, and Helbing in 2000 \cite{Treiber_2000}, computes each vehicle’s acceleration based on its current speed $v_\alpha$, its net gap to the leader $s_\alpha$, and its approach rate $\Delta v_\alpha = v_\alpha - v_{\alpha-1}$. It is defined by the following ordinary differential equations:
+\begin{equation}
+    \dot{x}_\alpha = v_\alpha,
+    \quad
+    \dot{v}_\alpha = a\left[1 - \left(\frac{v_\alpha}{v_0}\right)^\delta - \left(\frac{s^*(v_\alpha,\Delta v_\alpha)}{s_\alpha}\right)^2\right],
+\end{equation}
 where the desired dynamic gap is
-\[
-s^*(v_\alpha,\Delta v_\alpha) = s_0 + v_\alpha\,T + \frac{v_\alpha\,\Delta v_\alpha}{2\sqrt{a\,b}}.
-\]
-Here, \(v_0\) denotes the desired free-flow speed, \(s_0\) the minimum bumper-to-bumper gap, \(T\) the desired time headway, \(a\) the maximum acceleration, \(b\) the comfortable deceleration, and \(\delta\) the acceleration exponent (typically 4). Figure%~\ref{fig:2d_idm} 
-provides a two-dimensional schematic of the \ac{idm}’s acceleration law, illustrating both the free-road and interaction terms and how the key parameters influence vehicle behaviour.
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=0.8\linewidth]{figures/idm.png}
-%   \caption{Schematic of \ac{idm} showing (a) the free-road acceleration term driving speed toward \(v_0\), and (b) the interaction term enforcing safety gaps via \(s^*(v,\Delta v)\). Key parameters \(v_0\), \(s_0\), \(T\), \(a\), \(b\), and \(\delta\) are annotated.}
-%   \label{fig:2d_idm}
-% \end{figure}
-
-The acceleration term naturally separates into a “free-road” component,
-\[
-\dot{v}^\mathrm{free}_\alpha = a\,\Bigl[1 - (v_\alpha / v_0)^\delta\Bigr],
-\]
-and an “interaction” component,
-\[
-\dot{v}^\mathrm{int}_\alpha = -\,a\left(\frac{s^*(v_\alpha,\Delta v_\alpha)}{s_\alpha}\right)^2,
-\]
-ensuring that vehicles asymptotically approach $v_0$ in light traffic while smoothly braking to maintain safety gaps in dense conditions.
+\begin{equation}
+    s^*(v_\alpha,\Delta v_\alpha) = s_0 + v_\alpha T + \frac{v_\alpha \Delta v_\alpha}{2\sqrt{ab}}.
+\end{equation}
+Here, $v_0$ denotes the desired free-flow speed, $s_0$ is the minimum bumper-to-bumper gap, and $T$ is the desired time headway. The model also includes the maximum acceleration $a$, the comfortable deceleration $b$, and the acceleration exponent $\delta$, which is typically set to $4$. 
 \mynewline
-Under free-flow ($s_\alpha\gg s^*$), $\dot{v}_\alpha\approx a\,[1-(v_\alpha/v_0)^\delta]$, leading to exponential convergence to $v_0$. When approaching a slower leader ($\Delta v_\alpha>0$), the interaction term dominates, producing gentle deceleration that never exceeds the comfortable limit $b$. In stop-and-go scenarios, the model reproduces stop-wave propagation and realistic jam formation observed in empirical studies. \cite{Treiber_2000}
+The acceleration term naturally separates into a \textit{free-road} component,
+\begin{equation}
+    \dot{v}^\mathrm{free}_\alpha = a\left[1 - \left(\frac{v_\alpha}{v_0}\right)^\delta\right],
+\end{equation}
+and an \textit{interaction} component,
+\begin{equation}
+    \dot{v}^\mathrm{int}_\alpha = -a\left(\frac{s^*(v_\alpha,\Delta v_\alpha)}{s_\alpha}\right)^2.
+\end{equation}
+This separation ensures that vehicles asymptotically approach $v_0$ in light traffic while smoothly braking to maintain safe gaps in dense conditions.
 \mynewline
-In \ac{sumo}, the \ac{idm} is implemented with configurable parameters and sub-second time steps (default 0.1s), allowing seamless integration into large-scale traffic networks. \cite{Krajzewicz2002}
+Under free-flow ($s_\alpha\gg s^*$), $\dot{v}_\alpha\approx a\,[1-(v_\alpha/v_0)^\delta]$, leading to exponential convergence to $v_0$. When approaching a slower leader ($\Delta v_\alpha>0$), the interaction term dominates, producing gentle deceleration that never exceeds the comfortable limit $b$. In stop-and-go scenarios, the model reproduces stop-wave propagation and realistic jam formation observed in empirical studies. \cite{Treiber_2000} In \ac{sumo}, the \ac{idm} is implemented with configurable parameters and sub-second time steps (default $1\unit{\second}$), allowing seamless integration into large-scale traffic networks. \cite{Krajzewicz2002}
 \mynewline
-Extensive validation against trajectory datasets shows that the \ac{idm} captures the fundamental diagram of traffic flow and reproduces realistic gap–speed relationships. \cite{Treiber_2000, Kesting_2008, TREIBER2013922} However, for a particular class of initial conditions the \ac{idm}’s \ac{ode} system may yield negative velocities or unbounded divergences; Albeaik et al. \cite{Albeaik2022} therefore introduce analytic modifications to the acceleration law that guarantee non-negative speeds and restore the model’s well-posed ness.
-Recent extensions integrate the \ac{idm} into data‐driven frameworks—for instance, IDM‐Follower blends the classical car‐following laws with neural sequence models for long‐horizon prediction \cite{IDM_Wang2022}; Mo et al.’s \cite{Mo2020PIDL} physics‐informed deep learning paradigm embeds the \ac{idm} equations directly into network architectures to improve interpretability and data efficiency; and Ma and Qu’s \cite{MaQu2023} conditional \ac{gan} leverages the \ac{idm} as a guiding discriminator to generate realistic multi‐step trajectories. These hybrid approaches leverage the \ac{idm}’s interpretable structure while capturing complex driver behaviours through data-driven components.
+Extensive validation against trajectory datasets shows that the \ac{idm} captures the fundamental diagram of traffic flow and reproduces realistic gap–speed relationships. \cite{Treiber_2000, Kesting_2008, TREIBER2013922} However, for a particular class of initial conditions, the \ac{idm}’s \ac{ode} system may yield negative velocities or unbounded divergences. Albeaik et al. \cite{Albeaik2022} therefore introduce analytic modifications to the acceleration law that guarantee non-negative speeds and restore the model’s well-posed ness.
+Recent extensions integrate the \ac{idm} into data-driven frameworks. For instance, \ac{idm}-Follower blends the classical car-following laws with neural sequence models for long-horizon prediction. \cite{IDM_Wang2022} The physics-informed deep learning paradigm by Mo et al. \cite{Mo2020PIDL} embeds the \ac{idm} equations directly into network architectures, which improves interpretability and data efficiency. Furthermore, the conditional \ac{gan} from Ma and Qu \cite{MaQu2023} leverages the \ac{idm} as a guiding discriminator to generate realistic multistep trajectories. These hybrid approaches utilize the interpretable structure of the \ac{idm} while capturing complex driver behaviours through data-driven components.
 
-\subsubsection{Extended Intelligent Driver Model (EIDM)}
+\subsubsection{Extended Intelligent Driver Model (\acs{eidm})}
 \label{subsubsec:eidm}
-While the \ac{idm} provides a smooth, continuous-time car-following formulation \cite{Treiber_2000}, it does not reproduce realistic queue start-up accelerations or enforce jerk limits in sub-microscopic stop-and-go scenarios. To address these shortcomings, the Extended Intelligent Driver Model (\ac{eidm}) by Salles et al. \cite{Salles2022} augments the \ac{idm} with reaction-time delays, perception-error estimation, and explicit jerk control, yielding more human-like drive-off and acceleration profiles at standstills and during lane changes. \cite{Salles2022}
+While the \ac{idm} provides a smooth, continuous-time car-following formulation, it does not reproduce realistic queue start-up accelerations or enforce jerk limits in sub-microscopic stop-and-go scenarios. \cite{Treiber_2000} To address these shortcomings, the \acf{eidm} by Salles et al. augments the \ac{idm} with reaction-time delays, perception-error estimation, and explicit jerk control. This yields more human-like drive-off and acceleration profiles at standstills and during lane changes. \cite{Salles2022}
 \mynewline
 The \ac{eidm} architecture retains the core acceleration formula of the \ac{idm},
-\[
-\dot{v}_\alpha = a\left[1 - \Bigl(\tfrac{v_\alpha}{v_0}\Bigr)^\delta - \Bigl(\tfrac{s^*(v_\alpha,\Delta v_\alpha)}{s_\alpha}\Bigr)^2\right],
-\]
-but introduces three principal extensions. First, a finite reaction time $\tau_r$ delays the application of computed acceleration, such that
-\[
-\dot{v}_\alpha(t) = \mathcal{A}_\text{IDM}\bigl(v_\alpha(t-\tau_r),\,s_\alpha(t-\tau_r),\,\Delta v_\alpha(t-\tau_r)\bigr),
-\]
-where $\mathcal{A}_\text{IDM}$ denotes the original IDM acceleration term. Second, a perception‐error component adds Gaussian noise to observed gaps and speeds, modelled via a log‐normal distribution with standard deviation proportional to $v_\alpha$, to reflect human estimation inaccuracies. Third, a jerk‐limiting filter enforces
-\[
-|\ddot{v}_\alpha| \leq J_\text{max},
-\]
+\begin{equation}
+    \dot{v}_\alpha = a\left[1 - \left(\frac{v_\alpha}{v_0}\right)^\delta - \left(\frac{s^*(v_\alpha,\Delta v_\alpha)}{s_\alpha}\right)^2\right],
+\end{equation}
+but introduces three principal extensions. First, a finite reaction time $\tau_r$ delays the application of the computed acceleration, such that
+\begin{equation}
+    \dot{v}_\alpha(t) = \mathcal{A}_\text{IDM}\left(v_\alpha(t-\tau_r), s_\alpha(t-\tau_r), \Delta v_\alpha(t-\tau_r)\right),
+\end{equation}
+where $\mathcal{A}_\text{IDM}$ denotes the original \ac{idm} acceleration term. Second, a perception-error component adds Gaussian noise to observed gaps and speeds, which is modelled via a log-normal distribution with a standard deviation proportional to $v_\alpha$ to reflect human estimation inaccuracies. Third, a jerk-limiting filter enforces
+\begin{equation}
+    |\ddot{v}_\alpha| \leq J_\text{max},
+\end{equation}
 where $J_\text{max}$ is the maximum comfortable jerk, thereby smoothing abrupt acceleration changes during start-stop transitions and lane-change manoeuvres.
 \mynewline
 These extensions are selectively parameterized: each can be enabled or disabled by setting its controlling parameter to zero, allowing for systematic ablation studies. Table~\ref{tab:eidm_params} summarises the new parameters alongside the original \ac{idm} variables.
 
 \begin{table}[ht]
   \centering
-  \caption{\ac{eidm} parameters and typical ranges \cite{Salles2022}}
+  \caption{\ac{eidm} parameters and typical ranges. \cite{Salles2022}}
   \label{tab:eidm_params}
   \begin{tabular}{lcc}
     \toprule
@@ -130,67 +113,63 @@ These extensions are selectively parameterized: each can be enabled or disabled 
   \end{tabular}
 \end{table}
 
-Implementation in \ac{sumo} follows Salles et al.\cite{Salles2022}: the \ac{eidm} is simulated with a discrete time step $\Delta t = 0.1\,$s, uses Action Points (APs) via the configurable \texttt{actionStep} to model reaction-time delays, incorporates perception-error estimation through Wiener processes, and enforces jerk limits with a hyperbolic-tangent correction factor and ratio-bound constraint, guaranteeing $|j|\le j_{\max}$ .
-Validation against UAV‐based aerial measurements at a signalized junction in Stuttgart demonstrates that the \ac{eidm} reproduces drive-off acceleration curves and time headways more faithfully than the original \ac{idm}, achieving lower mean bias and mean absolute errors in both metrics.
-Beyond queue start-up behaviour, the \ac{eidm}’s lane‐change enhancements allow vehicles to temporarily accept smaller gaps ($s_1 < s_0$) and overshoot speed limits by a factor $v_\text{overshoot}$ when merging, improving the realism of multi-lane traffic flows in congested conditions. Comparative simulations using the Krauss and Wiedemann models further confirm that only the \ac{eidm} reproduces both macroscopic fundamental diagrams and microscopic headway distributions with high fidelity, especially under low‐speed, stop‐and‐go regimes. \cite{Schrader2023}
+The implementation in \ac{sumo} follows Salles et al. \cite{Salles2022}. The \ac{eidm} is simulated with a discrete time step of $\Delta t = 0.1\,\unit{s}$. It uses Action Points (APs) to model reaction-time delays. The model also incorporates perception-error estimation through Wiener processes and enforces jerk limits with a hyperbolic-tangent correction factor and a ratio-bound constraint, guaranteeing $|j|\le j_{\max}$. Validation against UAV-based aerial measurements at a signalised junction in Stuttgart demonstrates that the \ac{eidm} reproduces drive-off acceleration curves and time headways more faithfully than the original \ac{idm}, achieving lower mean bias and mean absolute errors in both metrics. Beyond queue start-up behaviour, the lane-change enhancements of the \ac{eidm} allow vehicles to temporarily accept smaller gaps ($s_1 < s_0$) and to overshoot speed limits by a factor of $v_\text{overshoot}$ when merging. This improves the realism of multi-lane traffic flows in congested conditions. Comparative simulations using the Krauss and Wiedemann models further confirm that only the \ac{eidm} reproduces both macroscopic fundamental diagrams and microscopic headway distributions with high fidelity, especially under low-speed, stop-and-go regimes. \cite{Schrader2023}
 \mynewline
-In summary, the \ac{eidm} provides a flexible, high‐fidelity extension to the classic \ac{idm}, capturing previously unmodeled submicroscopic phenomena—including reaction‐time delays, perception errors, jerk limits, and adaptive gap acceptance—thereby significantly improving the realism of urban traffic simulations in \ac{sumo}. Future developments will focus on embedding the \ac{eidm} into immersive simulation platforms—e.g.\ linking \ac{sumo} to Unreal Engine (as demonstrated with Unity3D) and integrating simulated drivetrains via DYNA4 to enable visual and physical validation of human-like driving behavior. Additionally, the authors plan to extend the model with cooperative lane‐change logic in upstream \ac{sumo} releases and to quantify how more accurate drive-off dynamics influence energy consumption and emission estimates at signalized intersections. \cite{Salles2022}
+In summary, the \ac{eidm} provides a flexible, high-fidelity extension to the classic \ac{idm}. It captures previously unmodeled submicroscopic phenomena, including reaction-time delays, perception errors, jerk limits, and adaptive gap acceptance. This significantly improves the realism of urban traffic simulations in \ac{sumo}. Future developments will focus on extending the model with cooperative lane-change logic in upstream \ac{sumo} releases and to quantify how more accurate drive-off dynamics influence energy consumption and emission estimates at signalised intersections. \cite{Salles2022}
 
 \subsubsection{Overview of Alternative Car-Following Models}
 \label{subsubsec:alternative_models}
-In addition to the \ac{idm} and its extension, \ac{sumo} natively supports the Krauss model and both Wiedemann variants (Wiedemann and Wiedemann99) as alternative microscopic car‐following formulations. Models such as Gipps, the Optimal Velocity Model (OVM) and Newell’s theory are not provided out of the box and must be integrated via custom plugins or TraCI extensions. This overview therefore focuses on the core mechanisms and typical applications of Krauss and Wiedemann in SUMO, while noting how Gipps, OVM and Newell differ in structure and calibration when implemented externally.
+In addition to the \ac{idm} and its extension, \ac{sumo} natively supports the Krauss model and both Wiedemann variants (Wiedemann and Wiedemann99) as alternative microscopic car‐following formulations. Models such as Gipps, the \acf{ovm} and Newell’s theory are not provided out of the box and must be integrated via custom plugins or TraCI extensions. This overview therefore focuses on the core mechanisms and typical applications of Krauss and Wiedemann in SUMO, while noting how Gipps, \ac{ovm} and Newell differ in structure and calibration when implemented externally.
 
 \paragraph{Krauss Model}  
-The Krauss model, SUMO’s default, enforces a “safe-speed” criterion: each vehicle’s speed at time \(t+\Delta t\) is the minimum of (i) free-road acceleration towards the driver’s desired velocity \(v_0\), (ii) a braking speed ensuring no collision with the leader, and (iii) a randomized term to reflect driver imperfection. Its collision-free guarantee makes it robust under dense traffic, though its stochastic component can increase variability in headways. \cite{Krauss1997}
+The Krauss model, \ac{sumo}’s default, enforces a \enquote{safe-speed} criterion: each vehicle’s speed at time $t+\Delta $t is the minimum of (i) free-road acceleration towards the driver’s desired velocity $v_0$, (ii) a braking speed ensuring no collision with the leader, and (iii) a randomized term to reflect driver imperfection. Its collision-free guarantee makes it robust under dense traffic, though its stochastic component can increase variability in headways. \cite{Krauss1997}
 
-\paragraph{Wiedemann Model}  
-Originally developed for PTV Vissim by Wiedemann (1974), this psychophysical model partitions driver behaviour into four regimes --- free driving, approaching, following and braking --- using perception thresholds for spacing and relative speed. Transitions between regimes are governed by distance thresholds \((cc_0\ldots cc_4)\), allowing calibration of cautious versus aggressive driving styles. Wiedemann excels in reproducing empirical variability but requires careful multi-threshold tuning. \cite{Wiedemann1974}
+\paragraph{Wiedemann Model}
+This psychophysical model, originally developed for PTV Vissim by Wiedemann, partitions driver behaviour into four distinct regimes: free driving, approaching, following, and braking. The transitions between these regimes are governed by perception thresholds for spacing and relative speed, denoted as $(cc_0\ldots cc_4)$. This allows for the calibration of various driving styles, from cautious to aggressive. The Wiedemann model excels in reproducing empirical variability in driver behaviour, but it requires careful multi-threshold tuning to achieve accurate results. \cite{Wiedemann1974}
 
-\paragraph{Gipps Model}  
-Gipps’ model introduces explicit safety constraints based on reaction time \(\tau\) and maximum deceleration \(b\), computing a safe speed under worst-case leader braking. The acceleration combines free-flow and interaction terms analytically, ensuring realistic deceleration near jams. Gipps is widely used where safety-critical deceleration profiles must be respected. \cite{Gipps1981}
+\paragraph{Gipps Model}
+The model by Gipps introduces explicit safety constraints that are based on the driver's reaction time, denoted as $\tau$, and the maximum deceleration, $b$. It computes a safe speed by considering a worst-case scenario of leader braking. The acceleration term analytically combines both free-flow and interaction components, which ensures a realistic deceleration profile near traffic jams. The Gipps model is widely used in applications where safety-critical deceleration profiles must be respected \cite{Gipps1981}.
 
-\paragraph{Optimal Velocity Model (OVM)}  
-The OVM uses a headway-dependent optimal speed function \(V(s)\) to prescribe acceleration:  
-\[
-\dot v = \alpha \bigl(V(s_\alpha) - v_\alpha\bigr),
-\]
-where \(\alpha\) is a sensitivity parameter. OVM reproduces stop-and-go waves and phase transitions but can generate unrealistic accelerations without careful parameter selection. \cite{Bando1995}
+\paragraph{\acf{ovm}}
+The \ac{ovm} utilizes a headway-dependent optimal speed function, denoted as $V(s)$, to prescribe acceleration according to the following equation:
+\begin{equation}
+    \dot{v} = \alpha \left(V(s_\alpha) - v_\alpha\right),
+\end{equation}
+where $\alpha$ is a sensitivity parameter. While the \ac{ovm} can reproduce stop-and-go waves and phase transitions, it may also generate unrealistic accelerations if its parameters are not carefully selected. \cite{Bando1995}
 
-\paragraph{Newell Model}  
-Newell’s simplified model asserts that each follower mirrors the leader’s trajectory shifted by a constant time headway \(T\) and space gap \(s_0\):  
-\[
-x_\alpha(t+T) + s_0 = x_{\alpha-1}(t).
-\]
-This formulation admits an analytical solution and minimal parameter set, making it computationally efficient for large-scale simulations. \cite{Newell1961}
+\paragraph{Newell Model}
+Newell’s simplified model asserts that each follower mirrors the leader’s trajectory. This is shifted by a constant time headway, $T$, and a space gap, $s_0$:
+\begin{equation}
+    x_\alpha(t+T) + s_0 = x_{\alpha-1}(t).
+\end{equation}
+This formulation admits an analytical solution and requires a minimal parameter set, which makes it computationally efficient for large-scale simulations \cite{Newell1961}.
 
 \subsubsection*{Comparative Discussion}
-In conclusion, Table~\ref{tab:cf_comparison} provides a concise synthesis of the fundamental mechanisms, parameterizations, and performance trade-offs of the seven car-following formulations considered. Selecting an appropriate model therefore requires balancing collision-safety guarantees, behavioral realism, and computational efficiency. The continuous \ac{ode} formulation of the \ac{idm} offers smooth, easily calibrated dynamics but lacks explicit reaction-time and jerk control; its extension \ac{eidm} remedies these limitations at the cost of additional parameters. For high-density, physics-based studies the analytical safety constraints of Gipps and the collision-free stochastic semantics of Krauss are most suitable. By contrast, Wiedemann’s multi-threshold regimes deliver rich driver-behavior variability but demand careful calibration. When large-scale network performance is paramount, the minimal parameter sets of Newell or the sensitivity-controlled dynamics of the Optimal Velocity Model (OVM) may suffice. In every case, parameter values must be tailored to the target traffic regime and rigorously validated against empirical data to ensure simulation fidelity.  
+Table~\vref{tab:cf_comparison} provides a concise synthesis of the fundamental mechanisms, parameterizations, and performance trade-offs of the seven car-following formulations considered. The selection of an appropriate model, therefore, requires a balance between collision-safety guarantees, behavioural realism, and computational efficiency. The continuous \ac{ode} formulation of the \ac{idm} offers smooth, easily calibrated dynamics, but lacks explicit reaction-time and jerk control. Its extension, the \ac{eidm}, remedies these limitations at the cost of additional parameters. For high-density, physics-based studies, the analytical safety constraints of the Gipps model and the collision-free stochastic semantics of the Krauss model are most suitable. By contrast, Wiedemann’s multi-threshold regimes deliver rich driver-behaviour variability but demand careful calibration. When large-scale network performance is paramount, the minimal parameter sets of the Newell model or the sensitivity-controlled dynamics of the \ac{ovm} may suffice. In every case, parameter values must be tailored to the target traffic regime and rigorously validated against empirical data to ensure simulation fidelity.
 
 \begin{table}[ht]
-  \centering
-  \caption{Comparison of alternative car-following models}
-  \label{tab:cf_comparison}
-  % Use tabularx: last column is X (flexible width)
-  \begin{tabularx}{\textwidth}{%
-      >{\raggedright\arraybackslash}p{2.5cm}   % Model
-      >{\raggedright\arraybackslash}p{3cm}     % Core principle
-      >{\raggedright\arraybackslash}p{3cm}     % Key parameters
-      >{\raggedright\arraybackslash}X          % Strengths / Weaknesses
-    }
-    \toprule
-    Model   & Core principle                       & Key parameters                                & Strengths / Weaknesses                                                 \\
-    \midrule
-    IDM     & Continuous \ac{ode} car-following     & \(v_0,\,T,\,a,\,b,\,s_0,\,\delta\)             & Smooth trajectories; easy calibration; no reaction-time or jerk limits  \\
-    EIDM    & \ac{idm} + reaction-time \& jerk control    & \makecell{%
-                 \(\tau_r,\,\sigma_p,\,J_{\max},\)\\%
-                 \(s_1,\,v_{\text{overshoot}}\)}         & Improved drive-off realism; richer behavior; more complex calibration   \\
-    Krauss  & Safe-speed rule + stochastic noise     & \(v_0,\,a,\,b,\,\tau,\,s_0,\,\sigma\)         & Collision-free; increased headway variability                            \\
-    Wiedemann & Psychophysical regimes               & \(cc_0,\dots,cc_4\)                           & Realistic variability; complex multi-threshold tuning                   \\
-    Gipps   & Analytical safety constraint           & \(\tau,\,a,\,b,\,v_0\)                        & Guaranteed safe deceleration; can produce abrupt braking                \\
-    OVM     & Optimal velocity mapping               & \(\alpha,\,V(s)\)                             & Captures stop-and-go waves; highly sensitive to parameter choice        \\
-    Newell  & Time-/space-shift replay               & \(T,\,s_0\)                                   & Analytically efficient; too simplistic for detailed micro-dynamics      \\
-    \bottomrule
-  \end{tabularx}
+    \centering
+    \caption{Comparison of alternative car-following models.}
+    \label{tab:cf_comparison}
+    \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.2cm} >{\raggedright\arraybackslash}p{3.2cm} >{\raggedright\arraybackslash}p{2.8cm} >{\raggedright\arraybackslash}X}
+        \toprule
+        \textbf{Model} & \textbf{Core principle} & \textbf{Key parameters} & \textbf{Strengths / Weaknesses} \\
+        \midrule
+        \acs{idm} & Continuous \ac{ode} car-following & $v_0,\,T,\,a,\,b,\,s_0,\newline\delta$ & Smooth trajectories; easy calibration; no reaction-time or jerk limits. \\
+        \addlinespace
+        \acs{eidm} & \ac{idm} with reaction-time and jerk control & $\tau_r,\,\sigma_p,\,J_{\max},\newline s_1,\,v_{\text{overshoot}}$ & Improved drive-off realism; richer behaviour; more complex calibration. \\
+        \addlinespace
+        Krauss & Safe-speed rule with stochastic noise & $v_0,\,a,\,b,\,\tau,\,s_0,\newline\sigma$ & Collision-free; can produce increased headway variability. \\
+        \addlinespace
+        Wiedemann & Psychophysical regimes & $cc_0, \dots, cc_9$ & Realistic variability; complex multi-threshold tuning. \\
+        \addlinespace
+        Gipps & Analytical safety constraint & $\tau,\,a,\,b,\,v_0$ & Guaranteed safe deceleration; can produce abrupt braking. \\
+        \addlinespace
+        \acs{ovm} & Optimal velocity mapping & $\alpha,\,V(s)$ & Captures stop-and-go waves; highly sensitive to parameter choice. \\
+        \addlinespace
+        Newell & Time- and space-shift replay & $T,\,s_0$ & Analytically efficient; too simplistic for detailed micro-dynamics. \\
+        \bottomrule
+    \end{tabularx}
 \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -200,7 +179,7 @@ In conclusion, Table~\ref{tab:cf_comparison} provides a concise synthesis of the
 \subsection{Emission Models and Fuel Consumption Estimation}
 \label{subsec:emission_models_fuel_estimation}
 
-Accurate estimation of vehicle emissions and fuel consumption is essential for assessing eco-driving strategies and traffic-management algorithms. Approaches range from simple factor-based tables to advanced, physics-driven tractive-energy simulators. In the following subsections, we first present an overview of common emission modelling approaches (Section~\ref{subsubsec:overview_emission_models}), then examine two state-of-the-art implementations, HBEFA4 and PHEMlight5 (Section~\ref{subsubsec:detailed_emission_models}), and finally discuss model selection trade-offs and their relevance for eco-driving evaluations (Section~\ref{subsubsec:relevance_eco_driving}). 
+An accurate estimation of vehicle emissions and fuel consumption is essential for assessing the effectiveness of eco-driving strategies and traffic-management algorithms. The available approaches range from simple, factor-based tables to advanced, physics-driven tractive-energy simulators. The following subsections will first present an overview of common emission modelling approaches. Subsequently, two state-of-the-art implementations, HBEFA4 and PHEMlight5, are examined. Finally, the trade-offs in model selection and their relevance for eco-driving evaluations are discussed.
 
 \subsubsection{Overview of Emission Modelling Approaches}
 \label{subsubsec:overview_emission_models}
@@ -210,25 +189,25 @@ Emission models can be broadly classified into three categories: \emph{emission�
 Physics- or modal-based emission models compute pollutant and fuel emissions based on \emph{(i) instantaneous operating conditions} (such as speed and acceleration), \emph{(ii) roadway characteristics} (e.g., grade), and \emph{(iii) vehicle attributes} (including mass, frontal area, aerodynamic and rolling resistance coefficients, and drivetrain efficiency). These inputs are used within either power-demand equations or engine-operating maps to estimate emissions under dynamic driving conditions. Notable implementations include PHEMlight, a simplified \ac{phem} embedded in \ac{sumo} and derived from TU Graz’s \ac{phem} system, which estimates tractive power demand and emission rates using emission-class data files containing parameters such as maximum power, vehicle mass, aerodynamic drag and rolling resistance coefficients. \cite{SUMOPHEMlight} The Virginia Tech Micro (VT‐Micro) framework predicts instantaneous pollutant emissions for light‐duty vehicles and heavy‐duty trucks using regression models calibrated on chassis dynamometer measurements. \cite{Rakha2004}  
 The Comprehensive Modal Emission Model (CMEM) extends this methodology through an analytical, modal‐based formulation of fuel consumption and emissions across discrete operating modes, enabling second‐by‐second simulation of both light‐ and heavy‐duty vehicles. \cite{CMEM_UCR}
 \mynewline
-Data-driven approaches leverage machine-learning algorithms trained on large-scale real-world trajectory and emission measurements to predict instantaneous or aggregated emissions. For example, neural-network-based models are calibrated on extensive chassis-dynamometer and on-road datasets to capture non-linear dependencies between speed–acceleration profiles and pollutant release. \cite{Madziel2023} For instance, Udoh et al. \cite{Udoh2024} evaluated six regression models on WLTP‐derived chassis‐dynamometer and real-world data, reporting that their Decision Tree Regression model achieved a mean absolute error of 2.20 g/km and a mean absolute percentage error of 1.69\% in CO$_2$ emissions estimation for light-duty vehicles. Data-driven approaches similarly exploit \ac{obd} measurements and machine-learning to model instantaneous emissions. Rivera-Campoverde et al. \cite{Rivera2021} first trained a classification tree on gear-selection labels (obtained via K-means clustering) and achieved 99.5\% accuracy. They then calibrated four artificial neural networks on 712.39\,km of random urban trajectories to predict CO$_2$, CO, HC, and NO$_\mathrm{x}$ emissions, obtaining coefficients of determination $R^2$ of 0.985, 0.982, 0.999, and 0.982, respectively. Notably, vehicle stops comprised 14.26\% of total driving time but contributed only 7.35\% of CO$_2$, 1.51\% of CO, 1.85\% of HC, and 0.38\% of NO$_\mathrm{x}$ to overall emissions, demonstrating the model’s ability to capture emission dynamics across varied operating modes. Graph-based methods, such as the Hierarchical Heterogeneous Graph Learning method (HENCE) proposed by Zeng et al. \cite{Zeng2024}, exploit open data (origin–destination flows and road network topology) encoded in multi-scale graphs to estimate on-road carbon emissions at high spatial resolution, achieving a 9.60\% average improvement in \(R^2\) over conventional baselines. Hybrid frameworks that integrate physics‐based models with machine‐learning corrections—such as the physics‐based NO$_x$ predictor combined with a Divergent Window Co‐occurrence pattern detector presented by Panneer Selvam et al.\ \cite{Selvam2025}—achieve roughly 55\% lower RMSE and 60\% lower MAE compared to a pure physics baseline, demonstrating improved generalization across engine types and operating regimes.
+Data-driven approaches leverage machine-learning algorithms trained on large-scale real-world trajectory and emission measurements to predict instantaneous or aggregated emissions. For example, neural-network-based models are calibrated on extensive chassis-dynamometer and on-road datasets to capture non-linear dependencies between speed–acceleration profiles and pollutant release. \cite{Madziel2023} For instance, Udoh et al. \cite{Udoh2024} evaluated six regression models on WLTP‐derived chassis‐dynamometer and real-world data, reporting that their Decision Tree Regression model achieved a mean absolute error of $2.20\unit{\gram\per\kilo\metre}$ and a mean absolute percentage error of $1.69\%$ in \ac{co2} emissions estimation for light-duty vehicles. Data-driven approaches similarly exploit \ac{obd} measurements and machine-learning to model instantaneous emissions. Rivera-Campoverde et al. \cite{Rivera2021} first trained a classification tree on gear-selection labels (obtained via K-means clustering) and achieved $99.5\%$ accuracy. They then calibrated four artificial neural networks on $712.39\unit{\kilo\metre}$ of random urban trajectories to predict \ac{co2}, CO, HC, and \ac{nox} emissions, obtaining coefficients of determination $R^2$ of $0.985,\,0.982,\,0.999,\,\text{and } 0.982$, respectively. Notably, vehicle stops comprised $14.26\%$ of total driving time but contributed only $7.35\%$ of \ac{co2}, $1.51\%$ of CO, $1.85\%$ of HC, and $0.38\%$ of \ac{nox} to overall emissions, demonstrating the model’s ability to capture emission dynamics across varied operating modes. Graph-based methods, such as the Hierarchical Heterogeneous Graph Learning method (HENCE) proposed by Zeng et al. \cite{Zeng2024}, exploit open data (origin–destination flows and road network topology) encoded in multiscale graphs to estimate on-road carbon emissions at high spatial resolution, achieving a $9.60\%$ average improvement in $R^2$ over conventional baselines. Hybrid frameworks that integrate physics‐based models with machine‐learning corrections, such as the physics‐based \ac{nox} predictor combined with a Divergent Window Co‐occurrence pattern detector presented by Panneer Selvam et al. \cite{Selvam2025}, achieve roughly $55\%$ lower \ac{rmse} and $60\%$ lower \ac{mae} compared to a pure physic's baseline, demonstrating improved generalization across engine types and operating regimes.
 \mynewline
-These three model categories exhibit distinct trade-offs in terms of input requirements, temporal resolution, and output granularity. Emission-factor models, such as HBEFA and EMEP/EEA, require only aggregate measures—average speed, vehicle-kilometres travelled, and fleet composition—making them computationally efficient for large-scale network studies but incapable of capturing transient phenomena like acceleration spikes or engine warm-up effects. Modal-based models (e.g.\ PHEMlight5, VT-Micro, CMEM) demand high-resolution speed–acceleration time series, detailed vehicle and engine parameters (mass, drag coefficients, power curves), and road-grade profiles; in return, they provide second-by-second estimates of fuel use and pollutant emissions that reflect dynamic driving behavior and offer mechanistic interpretability. Data-driven approaches leverage extensive training datasets --- from chassis dyno runs, \ac{obd} logs, and trajectory measurements --- to learn complex, non-linear mappings between vehicle states and emissions; while they can generalize across heterogeneous fleets and driving environments, they often lack the physical transparency of modal models and require continual retraining as new vehicle technologies emerge. Ultimately, the choice among emission-factor, modal, and data-driven models hinges on the simulation objectives (network-level assessment vs.\ vehicle-specific eco-driving optimization), available data fidelity, and acceptable computational overhead.  
+These three model categories exhibit distinct trade-offs in terms of input requirements, temporal resolution, and output granularity. Emission-factor models, such as HBEFA and EMEP/EEA, require only aggregate measures, like average speed, vehicle-kilometres travelled, and fleet composition, making them computationally efficient for large-scale network studies but incapable of capturing transient phenomena like acceleration spikes or engine warm-up effects. Modal-based models (e.g.\ PHEMlight5, VT-Micro, CMEM) demand high-resolution speed–acceleration time series, detailed vehicle and engine parameters (mass, drag coefficients, power curves), and road-grade profiles. In return, they provide second-by-second estimates of fuel use and pollutant emissions that reflect dynamic driving behaviour and offer mechanistic interpretability. Data-driven approaches leverage extensive training datasets, from \ac{obd} logs, and trajectory measurements, to learn complex, non-linear mappings between vehicle states and emissions. While they can generalize across heterogeneous fleets and driving environments, they often lack the physical transparency of modal models and require continual retraining as new vehicle technologies emerge. In conclusion, the selection of emission-factor, modal, and data-driven models is contingent upon the simulation objectives (network-level assessment vs. vehicle-specific eco-driving optimization), the fidelity of the available data, and the acceptable computational overhead.  
 
 \subsubsection{Detailed Emission Models: HBEFA4 and PHEMlight5}
 \label{subsubsec:detailed_emission_models}
 
-\ac{sumo} integrates two principal emission models, \ac{hbefa}4 and PHEMlight5, that together span the spectrum from aggregate, policy‐oriented assessments to high‐fidelity, vehicle‐specific simulations. \ac{hbefa}4 is the default emission‐factor model in \ac{sumo} and provides tabulated factors for major pollutants and fuel consumption across a wide range of vehicle subsegments. PHEMlight5, a streamlined, physics‐based derivative of the \ac{phem}, delivers second‐by‐second estimates of emissions and tractive energy demand, contingent on detailed vehicle and environmental parameters. We selected these two models because they are fully integrated into \ac{sumo}’s core, cover both aggregate and dynamic use cases, and support extensions, such as ageing effects in PHEMlight5, that are critical for eco‐driving evaluations. \cite{Krajzewicz2002}
+\ac{sumo} integrates two principal emission models, HBEFA4 and PHEMlight5, which together span the spectrum from aggregate, policy-oriented assessments to high-fidelity, vehicle-specific simulations. The \ac{hbefa}4 model is the default emission-factor model in \ac{sumo} and provides tabulated factors for major pollutants and fuel consumption across a wide range of vehicle subsegments. PHEMlight5, a streamlined, physics-based derivative of the \ac{phem}, delivers second-by-second estimates of emissions and tractive energy demand, which are contingent on detailed vehicle and environmental parameters. These two models were selected because they are fully integrated into the core of \ac{sumo}, cover both aggregate and dynamic use cases, and support extensions, such as ageing effects in PHEMlight5, that are critical for eco-driving evaluations. \cite{Krajzewicz2002}
 
-\paragraph{HBEFA4 Emission‐Factor Model}  
-\ac{sumo}’s implementation of the \ac{hbefa}4 emission model \cite{Krajzewicz2002} is based on a static coefficient matrix derived from the \ac{hbefa} 4.2 database, containing seven polynomial terms for each pollutant and fuel class combination. During each simulation time‐step $\Delta t$, the \texttt{PollutantsInterface} first checks if the engine is flagged off (e.g., during extended stops or coasting) and immediately returns zero emissions; similarly, vehicles in a coasting regime --- identified by $a < a_{\mathrm{coast}}(v)$ and $v>\varepsilon$ --- have emissions suppressed to emulate engine‐cutoff behavior.  Next, vehicle attributes such as Euro standard, fuel type, and curb weight are mapped to an HBEFA subsegment index, and the current speed $v$ is binned into a discrete speed class $s$.  The raw acceleration $a$ is corrected for road gradient $\theta$ via  
-\[
-  a' \;=\; a \;+\; g\,\sin\theta,
-\]  
-where $g=9.81\,$m/s$^2$.  Emission rates (mg/s) or fuel consumption rates (ml/s) are then computed by evaluating the polynomial  
-\[
-  E \;=\;\frac{1}{\mathrm{scale}}\bigl(f_0 + f_1 v + f_2 a' + f_3 v^2 + f_4 v^3 + f_5 a'v + f_6 a'v^2\bigr),
-\]  
-with all negative values clamped to zero (except for electricity consumption). Table \ref{tab:pc_fuel_classes} presents a representative subset of coefficient values for the three passenger-car fuel classes most prevalent on German roads; for brevity, the full set of classes is omitted. Finally, instantaneous pollutant mass and fuel use are obtained by multiplying $E(s,a')$ by $v\,\Delta t/1000$ to yield grams or megajoules per time‐step. Because \ac{hbefa}4 relies only on average speed, corrected acceleration, and road grade, it remains computationally lightweight and well suited to large‐scale network simulations, although the documented uncertainties, up to 40\% for some subsegments, should be taken into account when interpreting results. \cite{SUMO_HBEFA4}
+\paragraph{HBEFA4 Emission-Factor Model}
+The implementation of the \ac{hbefa}4 emission model in \ac{sumo} is based on a static coefficient matrix derived from the \ac{hbefa} 4.2 database. \cite{Krajzewicz2002} This matrix contains seven polynomial terms for each combination of pollutant and fuel class. During each simulation time-step, $\Delta t$, the fuel model first checks if the engine is off, for instance during extended stops or coasting, and returns zero emissions if so. Similarly, for vehicles in a coasting regime, which is identified by $a < a_{\mathrm{coast}}(v)$ and $v>\varepsilon$, emissions are suppressed to emulate engine-cutoff behaviour. Next, vehicle attributes such as Euro standard, fuel type, and curb weight are mapped to an HBEFA subsegment index, and the current speed, $v$, is binned into a discrete speed class, $s$. The raw acceleration, $a$, is corrected for the road gradient, $\theta$, via the equation:
+\begin{equation}
+    a' = a + g\sin\theta,
+\end{equation}
+where $g=9.81\unit{\metre\per\second\squared}$. Emission rates in \unit{\milli\gram\per\second} or fuel consumption rates in \unit{\milli\litre\per\second} are then computed by evaluating the polynomial:
+\begin{equation}
+    E =\frac{1}{\mathrm{scale}}\left(f_0 + f_1 v + f_2 a' + f_3 v^2 + f_4 v^3 + f_5 a'v + f_6 a'v^2\right),
+\end{equation}
+with all negative values being clamped to zero, except for electricity consumption. \vref{tab:pc_fuel_classes} presents a representative subset of coefficient values for the three passenger-car fuel classes most prevalent on German roads. For brevity, the full set of classes is omitted. Finally, the instantaneous pollutant mass and fuel use are obtained by multiplying $E(s,a')$ by $v\Delta t/1000$ to yield grams or megajoules per time-step. Because HBEFA4 relies solely on average speed, corrected acceleration, and road grade, it remains computationally lightweight and well-suited to large-scale network simulations. However, the documented uncertainties, which can be up to $40\%$ for some subsegments, should be considered when interpreting the results. \cite{SUMO_HBEFA4}
 
 \paragraph{PHEMlight5 Physics-Based Emission Model}  
 PHEMlight5 is \ac{sumo}’s \cite{Krajzewicz2002} most detailed, physics-driven emission and energy module. It combines the classical equations of longitudinal vehicle motion with empirically calibrated engine-map data to yield second-by-second estimates of fuel use and the regulated pollutants CO, HC, NO\textsubscript{x} and, by carbon balance, CO\textsubscript{2}. At simulation start the model reads, for every \lstinline{emissionClass}, a parameter record containing the empty vehicle mass $m$, frontal area $A$, aerodynamic drag coefficient $C_{d}$, rolling-resistance coefficient $C_{r}$, a constant driveline efficiency $\eta_{\mathrm{driveline}}$, the gear-ratio vector $\{i_{g}\}$, the rated engine power $P_{\max}$ and five brake-specific fuel-consumption (BSFC) coefficients $\{c_{0},\dots,c_{4}\}$ that describe fuel flow as a bilinear polynomial of engine speed~$\omega$ and torque~$T$. In addition, each record holds four lookup curves on a non-dimensional power axis $p=P/P_{\max}$: one for fuel consumption (FC) and one each for CO, HC and NO\textsubscript{x}. The first ordinate of every curve is an idle value, followed by $n$ breakpoints that together cover the full power envelope.

@@ -1,6 +1,13 @@
 \chapter{Fundamental Concepts}
 \label{ch:fundamental_concepts}
 
+To effectively evaluate advanced driver-assistance systems, a robust methodological framework is essential. This chapter establishes the necessary theoretical and technical background for the subsequent analysis by detailing the two core components of this study: the simulation environment and the control system architecture.
+\mynewline
+First, the principles of microscopic traffic simulation are explored through an in-depth examination of the \ac{sumo} platform. Its capabilities for high-fidelity vehicle modelling, particularly the implementation of the \ac{eidm}, and its real-time control interface, \ac{traci}, are presented as foundational elements for conducting reproducible and realistic experiments. The discussion also covers the critical role of emission models, such as HBEFA4 and PHEMlight5, in quantifying the environmental impact of different driving strategies.
+\mynewline
+Second, the chapter provides a comprehensive overview of \ac{glosa} systems. It outlines their fundamental operating principles, system architectures, and the various algorithmic approaches employed in existing implementations. This section furnishes the reader with the necessary context to understand the design and evaluation of the novel eco-driving controller developed in this work. Together, these sections provide the conceptual and technical knowledge required to interpret the system design, experimental setup, and empirical results presented in the following chapters.
+
+
 \input{chapters/02-FundamentalConcepts/021-SUMO}
 
 \input{chapters/02-FundamentalConcepts/022-GLOSA}
