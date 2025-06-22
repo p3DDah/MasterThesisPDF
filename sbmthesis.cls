@@ -460,5 +460,6 @@
 
 \DeclareSIUnit{\veh}{veh}
 \DeclareSIUnit{\stops}{stops}
+\DeclareSIUnit{\update}{update}
 
 \sloppy

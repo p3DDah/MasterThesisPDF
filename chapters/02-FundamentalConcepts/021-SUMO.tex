@@ -210,52 +210,49 @@ where $g=9.81\unit{\metre\per\second\squared}$. Emission rates in \unit{\milli\g
 with all negative values being clamped to zero, except for electricity consumption. \vref{tab:pc_fuel_classes} presents a representative subset of coefficient values for the three passenger-car fuel classes most prevalent on German roads. For brevity, the full set of classes is omitted. Finally, the instantaneous pollutant mass and fuel use are obtained by multiplying $E(s,a')$ by $v\Delta t/1000$ to yield grams or megajoules per time-step. Because HBEFA4 relies solely on average speed, corrected acceleration, and road grade, it remains computationally lightweight and well-suited to large-scale network simulations. However, the documented uncertainties, which can be up to $40\%$ for some subsegments, should be considered when interpreting the results. \cite{SUMO_HBEFA4}
 
 \paragraph{PHEMlight5 Physics-Based Emission Model}  
-PHEMlight5 is \ac{sumo}’s \cite{Krajzewicz2002} most detailed, physics-driven emission and energy module. It combines the classical equations of longitudinal vehicle motion with empirically calibrated engine-map data to yield second-by-second estimates of fuel use and the regulated pollutants CO, HC, NO\textsubscript{x} and, by carbon balance, CO\textsubscript{2}. At simulation start the model reads, for every \lstinline{emissionClass}, a parameter record containing the empty vehicle mass $m$, frontal area $A$, aerodynamic drag coefficient $C_{d}$, rolling-resistance coefficient $C_{r}$, a constant driveline efficiency $\eta_{\mathrm{driveline}}$, the gear-ratio vector $\{i_{g}\}$, the rated engine power $P_{\max}$ and five brake-specific fuel-consumption (BSFC) coefficients $\{c_{0},\dots,c_{4}\}$ that describe fuel flow as a bilinear polynomial of engine speed~$\omega$ and torque~$T$. In addition, each record holds four lookup curves on a non-dimensional power axis $p=P/P_{\max}$: one for fuel consumption (FC) and one each for CO, HC and NO\textsubscript{x}. The first ordinate of every curve is an idle value, followed by $n$ breakpoints that together cover the full power envelope.
+PHEMlight5 is the most detailed, physics-driven emission and energy module available in \ac{sumo}. \cite{Krajzewicz2002} It combines the classical equations of longitudinal vehicle motion with empirically calibrated engine-map data. This combination yields second-by-second estimates of fuel use and regulated pollutants such as CO, HC, \ac{nox}, and, by carbon balance, \ac{co2}. At the start of a simulation, the model reads a parameter record for every emission class. This record contains the empty vehicle mass $m$, frontal area $A$, aerodynamic drag coefficient $C_{d}$, and rolling-resistance coefficient $C_{r}$. It also includes a constant driveline efficiency $\eta_{\mathrm{driveline}}$, the gear-ratio vector $\{i_{g}\}$, the rated engine power $P_{\max}$, and five brake-specific fuel-consumption (BSFC) coefficients $\{c_{0},\dots,c_{4}\}$. These coefficients describe fuel flow as a bilinear polynomial of engine speed $\omega$ and torque $T$. Additionally, each record holds four lookup curves on a non-dimensional power axis $p=P/P_{\max}$: one for \ac{fc} and one each for CO, HC, and \ac{nox}. The first ordinate of every curve is an idle value, followed by $n$ breakpoints that together cover the full power envelope.
 \mynewline
-\textit{Step 1 – Tractive-power demand.}  
-For each integration step of size $\Delta t$ the wheel-shaft power required to follow the prescribed trajectory is
-\[
-  \boxed{P_{\mathrm{trac}}=
-      \underbrace{m\bigl(a+g\sin\theta\bigr)v}_{\text{inertial + grade}}
-      +\underbrace{\tfrac12\rho_{\mathrm{air}}\,C_{d}A\,v^{3}}_{\text{aerodynamic}}
-      +\underbrace{C_{r}\,m\,g\,v}_{\text{rolling}}},
-\]
-where $v$ and $a$ are the current speed and longitudinal acceleration returned by \ac{sumo}’s kinematic micro-model, $g=\SI{9.81}{m\,s^{-2}}$, $\theta$ is the link grade obtained from the elevation layer, and $\rho_{\mathrm{air}}$ is the local air density computed from altitude and a standard atmosphere.  Rotational inertia is not modelled explicitly; its average effect is absorbed into the calibration of the BSFC coefficients and rolling-resistance polynomial.
+\textit{Step 1 – Tractive-Power Demand.}  
+For each integration step of size $\Delta t$, the wheel-shaft power required to follow the prescribed trajectory is:
+\begin{equation}
+    P_{\mathrm{trac}} = \underbrace{m\left(a+g\sin\theta\right)v}_{\text{inertial + grade}} + \underbrace{\tfrac{1}{2}\rho_{\mathrm{air}}C_{d}Av^{3}}_{\text{aerodynamic}} + \underbrace{C_{r}mgv}_{\text{rolling}},
+\end{equation}
+where $v$ and $a$ are the current speed and longitudinal acceleration returned by the kinematic micro-model in \ac{sumo}. The gravitational acceleration is $g=\SI{9.81}{\metre\per\second\squared}$, $\theta$ is the link grade obtained from the elevation layer, and $\rho_{\mathrm{air}}$ is the local air density computed from altitude using a standard atmosphere. Rotational inertia is not modelled explicitly; its average effect is absorbed into the calibration of the BSFC coefficients and the rolling-resistance polynomial.
 \mynewline
-\textit{Step 2 – Driveline conversion.}  
+\textit{Step 2 – Driveline Conversion.}  
 Because the open-source version of PHEMlight5 covers conventional powertrains only, the wheel power is divided by a constant driveline efficiency
-\[
+\begin{equation}
   P_{\mathrm{eng}}=\frac{P_{\mathrm{trac}}}{\eta_{\mathrm{driveline}}},\qquad
   \eta_{\mathrm{driveline}}\in[0.85,0.93].
-\]
+\end{equation}
 Negative $P_{\mathrm{trac}}$ (braking or coasting) immediately sets $P_{\mathrm{eng}}$ to zero; recuperation is not yet represented.
 \mynewline
-\textit{Step 3 – Engine operating point.}  
+\textit{Step 3 – Engine Operating Point.}  
 Given the active gear ratio $i_{g}$, engine speed and torque are
-\[
-  \omega_{\mathrm{eng}}=\frac{v\,i_{g}}{r_{w}},\qquad
-  T_{\mathrm{eng}}=\frac{P_{\mathrm{eng}}}{\omega_{\mathrm{eng}}}.
-\]
+\begin{equation}
+    \omega_{\mathrm{eng}}=\frac{v\,i_{g}}{r_{w}},\qquad
+    T_{\mathrm{eng}}=\frac{P_{\mathrm{eng}}}{\omega_{\mathrm{eng}}}.
+\end{equation}
 If $P_{\mathrm{eng}}$ exceeds $P_{\max}$ the helper caps both $P_{\mathrm{eng}}$ and $T_{\mathrm{eng}}$; on the mobility side, \ac{sumo} automatically limits the next admissible acceleration so that the power cap is respected.
 \mynewline
-\textit{Step 4 – Polynomial base fuel flow.}  
-The raw fuel-mass flow in \si{\kilogram\;s^{-1}} follows the bilinear BSFC polynomial
-\[
-  \boxed{\dot m_{f}^{\star}=c_{0}+c_{1}\omega_{\mathrm{eng}}
-          +c_{2}T_{\mathrm{eng}}
-          +c_{3}\omega_{\mathrm{eng}}^{2}
-          +c_{4}\omega_{\mathrm{eng}}T_{\mathrm{eng}}},
-\]
-which is finally clamped to non-negative values.  The coefficients already include volumetric density, so \(\dot m_{f}^{\star}\) can be converted to \si{\milli\litre\;s^{-1}} by division with the gasoline or diesel density.
+\textit{Step 4 – Polynomial Base Fuel Flow.}  
+The raw fuel-mass flow in $\unit{\kilo\gram\per\second}$ follows the bilinear BSFC polynomial
+\begin{equation}
+    \dot m_{f}^{\star}=c_{0}+c_{1}\omega_{\mathrm{eng}}
+    +c_{2}T_{\mathrm{eng}}
+    +c_{3}\omega_{\mathrm{eng}}^{2}
+    +c_{4}\omega_{\mathrm{eng}}T_{\mathrm{eng}},
+\end{equation}
+which is finally clamped to non-negative values. The coefficients already include volumetric density, so $\dot m_{f}^{\star}$ can be converted to $\unit{\milli\litre\per\second}$ by division with the gasoline or diesel density.
 \mynewline
-\textit{Step 5 – Table correction for high-order map effects.}  
-Engine maps contain non-linear ridges that polynomials cannot capture.  PHEMlight5 therefore multiplies the polynomial estimate by a class-specific correction factor obtained from the fuel-consumption curve $y_{\mathrm{FC}}$:
-\[
-  \dot m_{f}=
-  y_{\mathrm{FC}}\!\bigl(p\bigr)\;/\;3600,
-  \qquad p=\frac{P_{\mathrm{eng}}}{P_{\max}},
-\]
-where $y_{\mathrm{FC}}(p)$ is constructed via linear interpolation between the two surrounding break points
+\textit{Step 5 – Table Correction for High-Order Map Effects.}  
+Engine maps contain non-linear ridges that polynomials cannot capture. PHEMlight5 therefore multiplies the polynomial estimate by a class-specific correction factor obtained from the fuel-consumption curve $y_{\mathrm{\ac{fc}}}$:
+\begin{equation}
+    \dot m_{f}=
+    y_{\mathrm{FC}}\!\bigl(p\bigr)\;/\;3600,
+    \qquad p=\frac{P_{\mathrm{eng}}}{P_{\max}},
+\end{equation}
+where $y_{\mathrm{\ac{fc}}}(p)$ is constructed via linear interpolation between the two surrounding break points
 \[
   y_{\mathrm{FC}}(p)=
   y_{i}+\frac{p-p_{i}}{p_{i+1}-p_{i}}\bigl(y_{i+1}-y_{i}\bigr),
@@ -263,8 +260,8 @@ where $y_{\mathrm{FC}}(p)$ is constructed via linear interpolation between the t
 \]
 Analogous look-ups on $y_{\mathrm{CO}}$, $y_{\mathrm{HC}}$ and $y_{\mathrm{NOx}}$ yield \(\dot m_{\mathrm{CO}}\), \(\dot m_{\mathrm{HC}}\) and \(\dot m_{\mathrm{NOx}}\) in \si{\gram\;s^{-1}}.  During coasting, if the corrected acceleration drops below the empirically fitted coasting deceleration and \(v>\SI{0.5}{m\,s^{-1}}\), the helper returns all rates as zero, reflecting engine fuel cut-off.
 \mynewline
-\textit{Step 6 – Carbon-balance CO\textsubscript{2}.}  
-A direct CO\textsubscript{2} curve is not stored; instead \ac{sumo} balances the elemental carbon flux in fuel, CO and HC,
+\textit{Step 6 – Carbon-Balance \acs{co2}.}  
+A direct \ac{co2} curve is not stored; instead \ac{sumo} balances the elemental carbon flux in fuel, CO and HC,
 \[
   \boxed{\dot m_{\mathrm{CO_2}}
   =\frac{f_{\mathrm{C,fuel}}\dot m_{\mathrm{FC}}
@@ -274,8 +271,8 @@ A direct CO\textsubscript{2} curve is not stored; instead \ac{sumo} balances the
 \]
 with default fractions \(f_{\mathrm{C,fuel}}=0.865\), \(f_{\mathrm{C,CO}}=0.429\), \(f_{\mathrm{C,HC}}=0.866\) and \(f_{\mathrm{C,CO_2}}=0.273\) for gasoline; the diesel and CNG tables override \(f_{\mathrm{C,fuel}}\).
 \mynewline
-\textit{Step 7 – Ageing and integration.}  
-If ageing is enabled, all pollutant rates are scaled by a time-dependent deterioration factor \(f_{\mathrm{deterioration}}(t_{\mathrm{age}})\), which reflects effects such as mileage accumulation and thermal degradation of aftertreatment systems. This factor is derived from calibrated lookup curves that depend on vehicle age and pollutant type. The model then integrates the instantaneous mass flows over the current simulation step~\(\Delta t\), yielding
+\textit{Step 7 – Ageing and Integration.}  
+If ageing is enabled, all pollutant rates are scaled by a time-dependent deterioration factor \(f_{\mathrm{deterioration}}(t_{\mathrm{age}})\), which reflects effects such as mileage accumulation and thermal degradation of after treatment systems. This factor is derived from calibrated lookup curves that depend on vehicle age and pollutant type. The model then integrates the instantaneous mass flows over the current simulation step~\(\Delta t\), yielding
 \[
   \bigl(E_{\mathrm{fuel}},E_{\mathrm{CO_2}},E_{\mathrm{CO}},
         E_{\mathrm{HC}},E_{\mathrm{NOx}}\bigr)
@@ -283,42 +280,42 @@ If ageing is enabled, all pollutant rates are scaled by a time-dependent deterio
           \dot m_{\mathrm{HC}},\dot m_{\mathrm{NOx}}\bigr)\,\Delta t.
 \]
 \mynewline
-Because all subcomponents of the model --- including longitudinal force decomposition, power-limiting logic, table-based interpolation, ageing effects, and carbon balance --- are open source under the Eclipse Public Licence, the full PHEMlight5 framework is transparent and reproducible. It can thus be extended or reparameterised for emerging powertrains, renewable fuels, or region-specific emission inventories, making it a versatile platform for eco-driving research, traffic control strategies, and powertrain optimisation.
+Because all subcomponents of the model are open source under the Eclipse Public Licence, including the longitudinal force decomposition, power-limiting logic, table-based interpolation, ageing effects, and carbon balance, the full PHEMlight5 framework is transparent and reproducible. It can thus be extended or reparameterised for emerging powertrains, renewable fuels, or region-specific emission inventories, making it a versatile platform for research. However, it is important to note that while the model framework is open, most of the detailed lookup tables for specific vehicle emission classes are only available under a commercial licence from the Graz University of Technology and are not publicly distributed with \ac{sumo}.
 
 \paragraph{Summary of Model Selection}  
-Taken together, the two \ac{sumo}–native emission modules delineate a clear fidelity–complexity frontier.  The \textbf{\ac{hbefa}4} factor model reduces instantaneous vehicle operation to three readily observable kinematic variables --- average speed, longitudinal acceleration (corrected for grade) and road gradient --- so that per-step emissions are obtained by evaluating a low-order polynomial whose coefficients are pre-tabulated for more than 450 vehicle sub-segments.  This parsimony makes \ac{hbefa}4 the method of choice for region-wide analyses where millions of vehicles must be simulated and where input data for detailed power-train specification are unavailable. Its drawbacks are the coarse aggregation of vehicle physics and the large documented uncertainties (up to 40\,\% for certain Euro-classes), which limit its diagnostic power for technology-oriented studies.
+Taken together, the two \ac{sumo}-native emission modules delineate a clear fidelity-complexity frontier. The \textbf{HBEFA4} factor model reduces instantaneous vehicle operation to three readily observable kinematic variables: average speed, longitudinal acceleration (corrected for grade), and road gradient. Per-step emissions are then obtained by evaluating a low-order polynomial whose coefficients are pre-tabulated for more than 450 vehicle sub-segments. This parsimony makes HBEFA4 the method of choice for region-wide analyses where millions of vehicles must be simulated and where input data for detailed powertrain specification are unavailable. Its drawbacks are the coarse aggregation of vehicle physics and the large documented uncertainties, which can be up to $40\%$ for certain Euro-classes and limit its diagnostic power for technology-oriented studies.
 \mynewline
-By contrast, \textbf{PHEMlight5} computes tractive power from first principles, propagates that power through a parameterised driveline, and queries class-specific engine maps to recover fuel and pollutant rates. The model therefore requires a richer parameter set (mass, frontal area, $C_{d}$, $C_{r}$, gear ratios, rated power, BSFC coefficients and four power-indexed emission curves) but rewards this effort with second-by-second resolution, explicit energy accounting and optional ageing corrections. 
+By contrast, \textbf{PHEMlight5} computes tractive power from first principles, propagates that power through a parameterised driveline, and queries class-specific engine maps to recover fuel and pollutant rates. The model, therefore, requires a richer parameter set, including mass, frontal area, $C_{d}$, $C_{r}$, gear ratios, rated power, BSFC coefficients, and four power-indexed emission curves. However, it rewards this effort with second-by-second resolution, explicit energy accounting, and optional ageing corrections.
 \mynewline
-In practical terms, analysts seeking rapid, policy-level estimates of network emissions should default to HBEFA4, while those interrogating the impact of power-train technologies, driver behaviour or control strategies on instantaneous emissions should adopt PHEMlight5. Both models share a common interface, are fully open source, ensuring methodological transparency and facilitating reproducible research across the full spectrum of transport-emission applications.
+In practical terms, analysts seeking rapid, policy-level estimates of network emissions should default to HBEFA4. Those interrogating the impact of powertrain technologies, driver behaviour, or control strategies on instantaneous emissions should adopt PHEMlight5. While both models share a common interface within \ac{sumo}, ensuring methodological transparency, only the HBEFA4 model is fully open source. The PHEMlight5 framework is also open source, but the detailed data files for most vehicle classes require a commercial licence.
 
 
 \subsubsection{Relevance for Eco-Driving Evaluations}
 \label{subsubsec:relevance_eco_driving}
-Quantifying the energy and emission benefits of eco‐driving algorithms hinges on the fidelity of the underlying emission model. Within \ac{sumo}, the polynomial, speed‐based \ac{hbefa}4 factors and the physics‐based PHEMlight5 span opposite ends of the complexity–accuracy spectrum and therefore return systematically different estimates for the same trajectory. Understanding these deviations is essential when interpreting the effectiveness of \ac{glosa} or \ac{dp} eco‐advisory strategies. 
+Quantifying the energy and emission benefits of eco‐driving algorithms hinges on the fidelity of the underlying emission model. Within \ac{sumo}, the polynomial, speed‐based HBEFA4 factors and the physics‐based PHEMlight5 span opposite ends of the complexity–accuracy spectrum and therefore return systematically different estimates for the same trajectory. Understanding these deviations is essential when interpreting the effectiveness of \ac{glosa} or \ac{dp} eco‐advisory strategies. 
 \mynewline
-Quaassdorff et al. \cite{Quaassdorff2022} compared PHEMlight5 to a cycle‐variable model (VERSIT + micro) that, like \ac{hbefa}4, uses polynomial speed–acceleration emission factors. They found that VERSIT+micro predicts passenger‐car NO\(_x\) emission factors on average twice as high as PHEMlight5 (slope = 1.06, \(R^2\)= 0.79) and up to 70\% higher for heavy‐duty vehicles in an urban intersection in Madrid during peak hours. This systematic overestimation under stop-and-go conditions implies that physics-based PHEMlight5 offers substantially higher fidelity for transient eco-driving evaluations than factor models such as \ac{hbefa}4. Moreover, \ac{hbefa}4 has been reported to exhibit mean absolute errors of up to 40\% during strong acceleration transients \cite{Krajzewicz2002}, further underscoring the need for a physics-based back-end in high-accuracy eco-driving studies. 
+A study by Quaassdorff et al. \cite{Quaassdorff2022} compared PHEMlight5 to a cycle-variable model (VERSIT+micro), which, similar to HBEFA4, uses polynomial speed-acceleration emission factors. The study found that VERSIT+micro predicts passenger-car \ac{nox} emission factors that are, on average, twice as high as those from PHEMlight5, with a slope of $1.06$ and an $R^2$ of $0.79$. For heavy-duty vehicles, the predictions were up to $70\%$ higher in an urban intersection in Madrid during peak hours. This systematic overestimation under stop-and-go conditions implies that a physics-based model like PHEMlight5 offers substantially higher fidelity for transient eco-driving evaluations than factor models such as HBEFA4. Moreover, HBEFA4 has been reported to exhibit \acp{mae} of up to $40\%$ during strong acceleration transients, which further underscores the need for a physics-based back-end in high-accuracy eco-driving studies. \cite{Krajzewicz2002}
 \mynewline
-Although the minimal computational overhead of \ac{hbefa}4 makes it particularly suited for large‐scale or initial screening applications, its simplified polynomial emission estimation approach can result in notable deviations under conditions involving frequent transient driving behaviours, such as rapid accelerations. Conversely, PHEMlight5, which incorporates more detailed vehicle dynamics and engine load calculations, achieves higher fidelity in transient conditions, albeit at the expense of increased computational effort and more extensive data requirements. Therefore, the selection of an emission model can significantly influence the outcomes of eco-driving assessments. Recognising these differences is crucial for interpreting results and understanding the sensitivity of fuel‐saving and emission‐reduction estimates.
+Although the minimal computational overhead of HBEFA4 makes it particularly suited for large‐scale or initial screening applications, its simplified polynomial emission estimation approach can result in notable deviations under conditions involving frequent transient driving behaviours, such as rapid accelerations. Conversely, PHEMlight5, which incorporates more detailed vehicle dynamics and engine load calculations, achieves higher fidelity in transient conditions, albeit at the expense of increased computational effort and more extensive data requirements. Therefore, the selection of an emission model can significantly influence the outcomes of eco-driving assessments. Recognising these differences is crucial for interpreting results and understanding the sensitivity of fuel‐saving and emission‐reduction estimates.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %----------------------------------------------------%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Limitations and Relevance of SUMO}
+\subsection{Limitations and Relevance of \ac{sumo}}
 \label{subsec:sumo_limitation_relevance}
 
 \ac{sumo} provides a unified, academically rigorous platform that meets the exacting requirements of trajectory‐based eco‐driving research by integrating high‐fidelity modelling, real‐time control, and open‐source reproducibility within a single framework.
 
-\textbf{High‐Fidelity Microscopic Representation:}
-The direct integration of the \ac{eidm} with the PHEMlight5 or \ac{hbefa}4 emission models enables the simulation of sub‐second vehicle dynamics with physically consistent outputs. This includes jerk‐constrained acceleration profiles and instantaneous estimates of fuel consumption and pollutant emissions, thereby ensuring coherence between microscopic motion behaviour and energy modelling. This unified implementation eliminates interface artefacts common to multi‐tool chains and supports direct calibration against empirical datasets, thereby enhancing the internal validity of eco‐driving performance metrics. Nevertheless, it should be acknowledged that even high‐fidelity microscopic models such as those provided by SUMO have inherent limitations. Human factors, spontaneous driver decisions, pedestrian interactions, and complex environmental conditions (e.g., weather impacts) remain challenging to fully capture within any simulation environment. These limitations must be considered when interpreting simulation outcomes.
+\paragraph{High‐Fidelity Microscopic Representation}
+The direct integration of the \ac{eidm} with the PHEMlight5 or HBEFA4 emission models enables the simulation of sub‐second vehicle dynamics with physically consistent outputs. This includes jerk‐constrained acceleration profiles and instantaneous estimates of fuel consumption and pollutant emissions, thereby ensuring coherence between microscopic motion behaviour and energy modelling. This unified implementation eliminates interface artefacts common to multi‐tool chains and supports direct calibration against empirical datasets, thereby enhancing the internal validity of eco‐driving performance metrics. Nevertheless, it should be acknowledged that even high‐fidelity microscopic models such as those provided by \ac{sumo} have inherent limitations. Human factors, spontaneous driver decisions, pedestrian interactions, and complex environmental conditions (e.g., weather impacts) remain challenging to fully capture within any simulation environment. These limitations must be considered when interpreting simulation outcomes.
 
-\textbf{Tight Integration of Control and Evaluation:}
-Through both the TraCI socket API and the in‐process \texttt{libsumo} interface, bespoke dynamic‐programming speed‐advice algorithms can be executed within the core simulation loop. This embedding ensures that optimisation decisions and performance assessments operate on identical state variables, avoiding temporal asynchrony and preserving the causal integrity of controller evaluations.
+\paragraph{Tight Integration of Control and Evaluation}
+Through both the \ac{traci} socket API and the in‐process \texttt{libsumo} interface, bespoke dynamic‐programming speed‐advice algorithms can be executed within the core simulation loop. This embedding ensures that optimisation decisions and performance assessments operate on identical state variables, avoiding temporal asynchrony and preserving the causal integrity of controller evaluations.
 
-\textbf{Open‐Source Transparency and Extensibility:}
-Licensed under the Eclipse Public License and supported by a vibrant research community, \ac{sumo} offers full access to source code, comprehensive documentation, and rapid integration of peer‐reviewed extensions. For instance, recent contributions from the SUMO community include sophisticated battery and electric vehicle models, as well as advanced driver-assistance features like the Automated Lane Keeping System (ALKS). Such openness facilitates reproducibility, fosters collaborative development, and guarantees long‐term maintainability—attributes indispensable for the methodological rigour of this thesis.
-
-While alternative microsimulation platforms such as VISSIM and AIMSUN offer comparable microscopic modelling capabilities, these commercial tools differ notably in terms of transparency, flexibility, and cost structure. VISSIM, for example, provides extensive behavioural modelling capabilities but its proprietary nature limits full reproducibility and rapid integration of novel academic developments. In contrast, SUMO's open architecture ensures complete methodological transparency and unrestricted adaptability, making it particularly suited for detailed, research‐intensive eco‐driving investigations.
-
+\paragraph{Open‐Source Transparency and Extensibility}
+Licensed under the Eclipse Public Licence and supported by a vibrant research community, \ac{sumo} offers full access to source code, comprehensive documentation, and rapid integration of peer‐reviewed extensions. For instance, recent contributions from the \ac{sumo} community include sophisticated battery and electric vehicle models, as well as advanced driver-assistance features like the \ac{alks}. Such openness facilitates reproducibility, fosters collaborative development, and guarantees long‐term maintainability --- attributes indispensable for the methodological rigour of this thesis.
+\mynewline
+While alternative microsimulation platforms such as VISSIM and AIMSUN offer comparable microscopic modelling capabilities, these commercial tools differ notably in terms of transparency, flexibility, and cost structure. VISSIM, for example, provides extensive behavioural modelling capabilities but its proprietary nature limits full reproducibility and rapid integration of novel academic developments. In contrast, \ac{sumo}'s open architecture ensures complete methodological transparency and unrestricted adaptability, making it particularly suited for detailed, research‐intensive eco‐driving investigations.
+\mynewline
 The synergistic combination of high‐resolution microscopic vehicle modelling, deterministic coupling of control logic with vehicle dynamics, and full open‐source extensibility thus positions \ac{sumo} as a uniquely coherent and scientifically robust platform for the eco‐driving experiments conducted herein. Its modular architecture allows for seamless integration of customised longitudinal controllers, such as the \ac{eidm}, with physics‐based emission models like PHEMlight5, thereby enabling tightly coupled evaluations of trajectory optimisation, energy consumption, and pollutant output under controlled yet realistic traffic conditions.
