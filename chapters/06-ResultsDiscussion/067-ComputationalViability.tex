@@ -5,7 +5,7 @@ The computational viability of the \ac{eco-glosa} and \ac{flow-glosa} algorithms
 \mynewline
 A primary finding is that the \ac{eco-glosa} algorithm is markedly slower than \ac{flow-glosa}, with the performance gap growing super-linearly with traffic volume, as documented in table~\vref{tab:CompViability_TraciComparison}. At a low demand of $69~\unit{\veh\per\hour}$, the controllers have nearly identical runtimes when no vehicles are equipped. However, at $100\%$ \ac{mpr} under the HBEFA4 model, the \ac{flow-glosa} simulation finishes in $154.27~\unit{\second}$, whereas \ac{eco-glosa} requires $282.56~\unit{\second}$, an increase of $83\%$. This disparity is accentuated by the more demanding PHEMlight5 model, where the slowdown factor reaches $6.2\times$ at full penetration. The performance gap becomes extreme in the saturated scenario of $3462~\unit{\veh\per\hour}$. Here, the \ac{eco-glosa} simulation is over $8.4\times$ slower with HBEFA4 and more than $32\times$ slower with PHEMlight5 compared to its \ac{flow-glosa} counterpart. This significant additional cost is attributable to the fuel-minimisation routine and the high-resolution engine-map lookups that the \ac{eco-glosa} controller must evaluate for every equipped vehicle at each simulation time step.
 \mynewline
-The choice of simulation interface also introduces a significant bottleneck. A comparison between running \ac{sumo} natively versus controlling it via the \ac{traci} client-server protocol reveals a substantial overhead caused by per-step socket communication (table~\vref{tab:CompViability_SumoTraci}. For a low-demand scenario ($69~\unit{\veh\per\hour}$), a \ac{traci}-controlled simulation takes up to nine times longer than a native \ac{sumo} run ($138.50~\unit{\second}$ versus $15.31~\unit{\second}$). In the saturated regime ($3462~\unit{\veh\per\hour}$), the penalty can be even higher. At $60\%$ \ac{mpr}, the \ac{traci} implementation requires $8613.54~\unit{\second}$, which is over $12\times$ longer than the $709.81~\unit{\second}$ needed for the native run. This demonstrates that the communication overhead of \ac{traci} is a major performance consideration, independent of the controller logic itself.
+The choice of simulation interface also introduces a significant bottleneck. A comparison between running \ac{sumo} natively versus controlling it via the \ac{traci} client-server protocol reveals a substantial overhead caused by per-step socket communication, as shown in Table~\vref{tab:CompViability_SumoTraci}. For a low-demand scenario ($69~\unit{\veh\per\hour}$), a \ac{traci}-controlled simulation with the HBEFA4 model takes nearly ten times longer than a native \ac{sumo} run ($154.27~\unit{\second}$ versus $15.77~\unit{\second}$ at $100\%$ \ac{mpr}). In the saturated regime ($3462~\unit{\veh\per\hour}$), the penalty is even more severe. At $100\%$ \ac{mpr} with the HBEFA4 model, the \ac{traci} implementation requires $7670.32~\unit{\second}$, which is over $17\times$ longer than the $450.10~\unit{\second}$ needed for the native run. This demonstrates that the communication overhead of \ac{traci} is a major performance consideration, independent of the controller logic itself.
 \mynewline
 The graphical results in Figures~\vref{fig:Comp_69} to \vref{fig:Comp_3462} visually confirm these trends. At every demand level, the simulation time for \ac{eco-glosa} increases with a much steeper slope as a function of \ac{mpr} than that of \ac{flow-glosa}, which exhibits a milder, more manageable scaling.
 
@@ -58,7 +58,7 @@ The graphical results in Figures~\vref{fig:Comp_69} to \vref{fig:Comp_3462} visu
 \end{figure}
 
 \paragraph{Conclusion on Computational Cost.}
-In summary, the \ac{eco-glosa} controller entails a steep computational surcharge, running up to $6\times$ slower than the baseline at low volumes and more than $32\times$ slower in full saturation. Furthermore, the \ac{traci} interface alone imposes an additional slowdown factor of $9\times$ to $12\times$ relative to a native implementation. These findings underline the necessity of using a native \ac{sumo} integration or a dedicated, GPU-accelerated implementation to achieve practical runtimes for complex \ac{eco-glosa} algorithms in large-scale or real-time deployments.
+In summary, the \ac{eco-glosa} controller entails a steep computational surcharge, running up to $6\times$ slower than the baseline at low volumes and more than $32\times$ slower in full saturation. Furthermore, the \ac{traci} interface alone imposes an additional slowdown factor of approximately $9\times$ to $17\times$ relative to a native implementation. These findings underline the necessity of using a native \ac{sumo} integration or a dedicated, GPU-accelerated implementation to achieve practical runtimes for complex \ac{eco-glosa} algorithms in large-scale or real-time deployments.
 
 \begin{table}[htb]
   \centering
@@ -120,17 +120,17 @@ In summary, the \ac{eco-glosa} controller entails a steep computational surcharg
   \resizebox{\textwidth}{!}{%
     \begin{tabular}{l l l *{11}{c}}
       \toprule
-      Cars & Interface    & Fuel         & \textbf{0\% (Std.)} & 10\%       & 20\%       & 30\%       & 40\%       & 50\%       & 60\%       & 70\%       & 80\%       & 90\%       & 100\%      \\
+      Cars   & Interface & Fuel         & \textbf{0\% (Std.)} & 10\%       & 20\%       & 30\%       & 40\%       & 50\%       & 60\%       & 70\%       & 80\%       & 90\%       & \textbf{100\%}      \\
       \midrule
-      69.0  & \ac{sumo}     & HBEFA4       & \textbf{15.51}      & 15.38      & 15.64      & 15.55      & 15.52      & 15.79      & 15.15      & 15.41      & 15.52      & 15.31      & \textbf{15.20}      \\
-      69.0  & \ac{traci}    & HBEFA4       & \textbf{18.89}      & \textbf{33.81} & 47.66      & 62.03      & 73.24      & 84.78      & 96.20      & 110.26     & 124.18     & 138.50     & \textbf{154.27}     \\
-      69.0  & \ac{sumo}     & PHEMlight5   & \textbf{16.47}      & 16.34      & 16.41      & 16.61      & 16.47      & 15.98      & 16.39      & 16.24      & 16.37      & 16.37      & \textbf{16.42}      \\
-      69.0  & \ac{traci}    & PHEMlight5   & \textbf{19.74}      & \textbf{35.07} & 48.86      & 62.42      & 74.12      & 86.59      & 97.60      & 111.75     & 126.13     & 139.04     & \textbf{153.64}     \\
+      69.0   & \ac{sumo}  & HBEFA4       & \textbf{15.96}      & 15.84      & 15.96      & 15.93      & 15.82      & 15.59      & 15.36      & 15.88      & 15.86      & 15.55      & \textbf{15.77}      \\
+      69.0   & \ac{traci} & HBEFA4       & \textbf{18.89}      & 33.81      & 47.66      & 62.03      & 73.24      & 84.78      & 96.20      & 110.26     & 124.18     & 138.50     & \textbf{154.27}     \\
+      69.0   & \ac{sumo}  & PHEMlight5   & \textbf{16.64}      & 16.68      & 16.68      & 16.75      & 16.53      & 16.31      & 16.55      & 16.60      & 16.50      & 16.64      & \textbf{16.63}      \\
+      69.0   & \ac{traci} & PHEMlight5   & \textbf{19.74}      & 35.07      & 48.86      & 62.42      & 74.12      & 86.59      & 97.60      & 111.75     & 126.13     & 139.04     & \textbf{153.64}     \\
       \midrule
-      3462.0& \ac{sumo}     & HBEFA4       & \textbf{732.46}     & 738.94     & 744.20     & 696.91     & 713.94     & 729.21     & 709.81     & 686.57     & 739.10     & 725.49     & \textbf{727.38}     \\
-      3462.0& \ac{traci}    & HBEFA4       & \textbf{753.90}     & \textbf{3029.19} & 5342.64    & 7660.62    & 9947.82    & 11430.39   & 8613.54    & 14805.14   & 6367.47    & 6947.72    & \textbf{7670.32}    \\
-      3462.0& \ac{sumo}     & PHEMlight5   & \textbf{834.27}     & 842.27     & 848.58     & 792.96     & 819.15     & 832.40     & 815.79     & 785.65     & 846.47     & 835.91     & \textbf{831.79}     \\
-      3462.0& \ac{traci}    & PHEMlight5   & \textbf{858.37}     & \textbf{3133.66} & 5465.48    & 7801.65    & 9987.87    & 11538.38   & 8697.48    & 14902.05   & 6354.86    & 7020.78    & \textbf{7713.73}    \\
+      3462.0 & \ac{sumo}  & HBEFA4       & \textbf{1230.76}    & 1329.20    & 1209.42    & 1251.33    & 1272.75    & 1265.75    & 763.47     & 1027.12    & 574.92     & 322.30     & \textbf{450.10}     \\
+      3462.0 & \ac{traci} & HBEFA4       & \textbf{753.90}     & 3029.19    & 5342.64    & 7660.62    & 9947.82    & 11430.39   & 8613.54    & 14805.14   & 6367.47    & 6947.72    & \textbf{7670.32}    \\
+      3462.0 & \ac{sumo}  & PHEMlight5   & \textbf{1420.65}    & 1479.41    & 1382.70    & 1406.62    & 1418.44    & 1421.34    & 1071.85    & 1068.90    & 519.48     & 365.01     & \textbf{461.61}     \\
+      3462.0 & \ac{traci} & PHEMlight5   & \textbf{858.37}     & 3133.66    & 5465.48    & 7801.65    & 9987.87    & 11538.38   & 8697.48    & 14902.05   & 6354.86    & 7020.78    & \textbf{7713.73}    \\
       \bottomrule
     \end{tabular}%
   }
