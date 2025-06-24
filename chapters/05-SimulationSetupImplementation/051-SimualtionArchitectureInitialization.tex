@@ -19,7 +19,13 @@ The simulation network is a high-fidelity digital twin of the signalised \emph{N
     \caption[Digital twin of Neckartor in \ac{sumo}]{The digital twin of the Neckartor junction as implemented in the \ac{sumo} environment, showing the modelled lanes and connections.}
     \label{fig:NeckartorMapSUMO}
   \end{subfigure}
-  \caption[Real-World vs. Simulated Neckartor Junction]{Comparison of the real-world Neckartor junction (left) with its high-fidelity digital twin in the \ac{sumo} simulation (right). The red segment marks the downstream cordon, while the blue segment indicates the upstream cordon. The yellow line represents the signalized intersection. Red squares denote the points at which the analysis begins using the data received from the simulation (i.e.\ the earliest locations where upstream and downstream phases can be computed), and green squares mark the corresponding endpoints of the advisory range. Yellow arrows indicate the driving direction in each lane.}
+  \caption[Real-World vs. Simulated Neckartor Junction]{%
+  Comparison of the real-world Neckartor junction (left) with its high-fidelity digital twin in the \ac{sumo} simulation (right). 
+  The red segment marks the downstream cordon, while the blue segment indicates the upstream cordon. 
+  The yellow line represents the signalized intersection. 
+  Red square dots denote the start points for the $1000\unit{\metre}$ downstream advisory range, while orange square dots denote the start points for the $500\unit{\metre}$ range. 
+  The green square marks the corresponding upstream end point of each advisory range. 
+  Yellow arrows indicate the driving direction in each lane.}
   \label{fig:NeckartorMapComparison}
 \end{figure}
 

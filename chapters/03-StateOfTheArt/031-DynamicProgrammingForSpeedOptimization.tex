@@ -11,41 +11,41 @@ The core idea is to model each vehicle’s approach as a discrete-time, discrete
 The primary objective of throughput-oriented \ac{glosa} is to minimise the cumulative delay experienced by a vehicle when approaching a signalised intersection. Cumulative delay is defined as the difference between actual travel time and the ideal travel time at free-flow speed. Secondary objectives include minimising the number of full stops and the total travel time. Although fuel consumption reduction is desirable, it remains a lower-priority goal in this mode.
 \mynewline
 To capture these objectives, a constrained optimal control problem is formulated on a discrete grid. Time is divided into $K$ intervals of length $\Delta t$. The state at step $k$ is represented as:
-\begin{equation}
+\begin{equation*}
     s_k = \left(x_k, v_k\right),
-\end{equation}
+\end{equation*}
 where $x_k$ is the distance from the stop line and $v_k$ is the vehicle's speed. The action at step $k$ is a discrete acceleration $a_k \in \mathcal{A}$, where:
-\begin{equation}
+\begin{equation*}
     \mathcal{A} = \{a_1, a_2, \dots, a_{N_a}\},
-\end{equation}
+\end{equation*}
 and $a_{\min} \le a_i \le a_{\max}$. The state evolves according to the kinematic equations:
-\begin{equation}
+\begin{equation*}
     x_{k+1} = x_k + v_k\Delta t + \frac{1}{2}a_k\Delta t^2,
-\end{equation}
-\begin{equation}
+\end{equation*}
+\begin{equation*}
     v_{k+1} = \max\left(0, v_k + a_k\Delta t\right).
-\end{equation}
+\end{equation*}
 The instantaneous cost is defined as:
-\begin{equation}
+\begin{equation*}
     c(s_k, a_k) = \Delta t - \frac{x_{k+1}-x_k}{v_{\mathrm{free}}} + \lambda_s\mathbf{1}_{\{v_{k+1}=0\}},
-\end{equation}
+\end{equation*}
 where $v_{\mathrm{free}}$ is the free-flow speed, $\lambda_s$ is a stop penalty weight, and the indicator term penalises a full stop. This cost function measures the delay relative to free-flow travel, plus a penalty for stopping.
 \mynewline
 Signal timing constraints are enforced via a large terminal penalty. Let the green phase interval for the approaching movement be denoted as $[t_{g,\mathrm{start}}, t_{g,\mathrm{end}}]$ and let $t_k=k\Delta t$. If the vehicle has not crossed the stop line by the end of the horizon or arrives outside the green window, a penalty $M$ is added. The terminal cost is thus defined as:
-\begin{equation}
+\begin{equation*}
 c_T(s_K) =
 \begin{cases}
 0, & \text{if } x_K \ge L_s \text{ and } t_K\in[t_{g,\mathrm{start}},t_{g,\mathrm{end}}] \\
 M, & \text{otherwise}
 \end{cases}
 ,
-\end{equation}
+\end{equation*}
 where $L_s$ is the distance to the stop line. The choice of a large penalty, $M\gg1$, ensures that any feasible green-phase arrival is preferred.
 \mynewline
 The full optimisation problem is therefore to find the sequence of actions that minimizes the total cost:
-\begin{equation}
+\begin{equation*}
     \min_{\{a_k\}_{k=0}^{K-1}} \quad J = \sum_{k=0}^{K-1} c(s_k,a_k) + c_T(s_K),
-\end{equation}
+\end{equation*}
 subject to the state dynamics and action bounds. The solution to this problem is obtained by standard backward induction in discrete \ac{dp}.
 \mynewline
 The key modelling choices include the following:
@@ -91,6 +91,6 @@ Viewed along the complexity axis, three patterns emerge. Exact methods, such as 
 \end{itemize}
 
 \paragraph{Principal Limitations and Open Challenges.} 
-First, \emph{computational tractability} remains the dominant hurdle: exact full-horizon \ac{sdp} and its corridor-pruned variant (DDDP) guarantee optimality but incur exponential or corridor-width-sensitive costs that exceed typical on-board budgets. Second, \emph{approximation bias} affects receding-horizon and feature-based ADP schemes --- incorrect corridor sizes may exclude feasible trajectories, while linear value‐function approximations and high discounting can distort long-term performance. Third, \emph{per-state cost scaling} persists: Samra et al.’s linear-time DP still requires $O(|P|)$ evaluations under large phase sets, and genetic algorithms face combinatorial explosion as segment count grows. Fourth, \emph{forecast and communication dependences} challenge DP–SH and DC-GLOSA: the former demands accurate boundary predictions and low-latency V2X links, the latter suffers 2–3s audio latency and driver compliance issues. Fifth, \emph{constraint enforcement} in approximate or continuous DP often relies on heuristic corrections for hard green-phase satisfaction, undermining formal guarantees. Sixth, \emph{secondary objectives} --- ride comfort, fuel economy and emissions --- remain largely orthogonal, multiplying the action space and complicating convergence. Finally, \emph{network scalability} is unresolved: nearly all methods target isolated intersections or single vehicles, and extending them to stochastic, multi-junction corridors with spill back and dynamic coordination stands as the grand challenge.
+First, \emph{computational tractability} remains the dominant hurdle. Exact full-horizon \ac{sdp} and its corridor-pruned variant, \ac{dddp}, guarantee optimality but incur exponential or corridor-width-sensitive costs that exceed typical on-board budgets. Second, \emph{approximation bias} affects receding-horizon and feature-based \ac{adp} schemes. Incorrect corridor sizes may exclude feasible trajectories, while linear value-function approximations and high discounting can distort long-term performance. Third, \emph{per-state cost scaling} persists. The linear-time \ac{dp} by Samra et al. still requires $O(|P|)$ evaluations under large phase sets, and \acp{ga} face a combinatorial explosion as the segment count grows. Fourth, \emph{forecast and communication dependences} challenge \ac{dp}–\ac{sh} and DC-\ac{glosa}. The former demands accurate boundary predictions and low-latency \ac{v2x} links, while the latter suffers from $2$–-$3\unit{\second}$ audio latency and issues with driver compliance. Fifth, \emph{constraint enforcement} in approximate or continuous \ac{dp} often relies on heuristic corrections for hard green-phase satisfaction, which undermines formal guarantees. Sixth, \emph{secondary objectives}, such as ride comfort, fuel economy, and emissions, remain largely orthogonal, which multiplies the action space and complicates convergence. Finally, \emph{network scalability} is unresolved. Nearly all methods target isolated intersections or single vehicles, and extending them to stochastic, multi-junction corridors with spill back and dynamic coordination stands as the grand challenge.
 \mynewline
-In conclusion, throughput-oriented \ac{dp} for GLOSA has delivered prototype-scale improvements --- up to 40\,\% delay reduction in grid-based \ac{sdp}, 39\,\% with receding-horizon DDDP, and 30–36\,\% in integrated co-optimisation --- while driver-centric and continuous methods produce sub-second advisories with moderate gains. Real-time deployment will require algorithms that reconcile computational efficiency, rigorous constraint satisfaction, and true multi-objective optimality. Future work must unite uncertainty-aware control, low-latency V2X communication, and network-level coordination to translate current prototypes into robust, large-scale field systems.
+In conclusion, throughput-oriented \ac{dp} for \ac{glosa} has delivered prototype-scale improvements. These include up to a $40\%$ delay reduction in grid-based \ac{sdp}, $39\%$ with receding-horizon \ac{dddp}, and $30$--$36\%$ in integrated co-optimisation. Meanwhile, driver-centric and continuous methods produce sub-second advisories with moderate gains. Real-time deployment will require algorithms that can reconcile computational efficiency, rigorous constraint satisfaction, and true multi-objective optimality. Future work must unite uncertainty-aware control, low-latency \ac{v2x} communication, and network-level coordination to translate current prototypes into robust, large-scale field systems.

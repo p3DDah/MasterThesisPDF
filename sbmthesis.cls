@@ -419,7 +419,7 @@
    		%%% (twoside=false)
 	\fi%  
   	\makeatother
-    \chapter*{\IfLanguageName{ngerman}{Vorwort}{Preamble}}
+    \chapter*{\IfLanguageName{ngerman}{Vorwort}{Acknowledgements}}
     \input{optional/preamble}
 }
 
@@ -461,5 +461,7 @@
 \DeclareSIUnit{\veh}{veh}
 \DeclareSIUnit{\stops}{stops}
 \DeclareSIUnit{\update}{update}
+\DeclareSIUnit{\mile}{mi}
+\DeclareSIUnit{\gallon}{gal}
 
 \sloppy
