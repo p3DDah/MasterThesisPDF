@@ -1,57 +1,43 @@
 \section{Average Vehicle Speed}
 \label{sec:Results_MeanSpeed}
 
-The mean vehicle speed as a function of \ac{mpr} is reported in Table~\vref{tab:MeanSpeed} and illustrated for three critical demand levels in Figures~\vref{fig:MeanSpeed_2077} through \vref{fig:MeanSpeed_3462}. The data reveal several key trends regarding the performance of the Standard, \ac{eco-glosa}, and \ac{flow-glosa} control strategies under the HBEFA4 and PHEMlight5 emission models.
+The mean vehicle speed as a function of \ac{mpr} is reported in Table~\vref{tab:MeanSpeed} and illustrated for three critical demand levels in Figures~\vref{fig:MeanSpeed_2077} through \vref{fig:MeanSpeed_3462}. The data reveals several key trends regarding the performance of the Standard, \ac{eco-glosa}, and \ac{flow-glosa} control strategies under the HBEFA4 and PHEMlight5 emission models.
 
-\paragraph{1. Systematic Impact of \ac{mpr} on \ac{eco-glosa}.}
-A consistent trend across all traffic volumes is the monotonic decrease in average speed under the \ac{eco-glosa} controller as its \ac{mpr} increases. The effect is mild at the lightest load of $69~\unit{\veh\per\hour}$, where the mean speed drops from $13.34~\unit{\metre\per\second}$ to $13.01~\unit{\metre\per\second}$ (a $2.5\%$ reduction) at $100\%$ \ac{mpr} with the HBEFA4 model. However, the speed reduction becomes catastrophic in congested scenarios. At $2769~\unit{\veh\per\hour}$ with the PHEMlight5 model, the average speed collapses from $11.94~\unit{\metre\per\second}$ to just $2.57~\unit{\metre\per\second}$ at $90\%$ \ac{mpr}, a decline of nearly $79\%$. This consistent, downward trend is clearly illustrated in Figures~\vref{fig:MeanSpeed_HBEFA4_2077} and \vref{fig:MeanSpeed_PHEM_2077}.
+\paragraph{Low to Intermediate Demand ($69$--$692~\unit{\veh\per\hour}$).}
+In sub-saturated conditions, a consistent trend is the monotonic decrease in average speed under \ac{eco-glosa} as its \ac{mpr} increases, though the effect is mild. At the lightest load of $69~\unit{\veh\per\hour}$, the mean speed drops from $13.34~\unit{\metre\per\second}$ to $13.01~\unit{\metre\per\second}$ (a $2.5\%$ reduction) at $100\%$ \ac{mpr} with the HBEFA4 model. While \ac{eco-glosa} occasionally produces minor speed overshoots at very low \acp{mpr}, this gain is quickly negated as the controller's fuel-saving objective leads to more conservative speeds. In contrast, the \ac{flow-glosa} controller delivers consistent or slightly improved speeds relative to the Standard. At $69~\unit{\veh\per\hour}$, for instance, it improves the average speed by up to $4.1\%$ at $90\%$ \ac{mpr}.
 
-\begin{figure}[htb]
+\paragraph{Emerging Congestion ($1385$--$2077~\unit{\veh\per\hour}$).}
+As demand increases, the negative impact of \ac{eco-glosa} on vehicle speeds becomes more pronounced. At a demand of $2077~\unit{\veh\per\hour}$, the degradation is significant; under the PHEMlight5 model, the average speed decreases from $12.46~\unit{\metre\per\second}$ at $0\%$ \ac{mpr} to $10.55~\unit{\metre\per\second}$ at $90\%$ \ac{mpr} (Figures~\vref{fig:MeanSpeed_HBEFA4_2077} and \vref{fig:MeanSpeed_PHEM_2077}). The \ac{flow-glosa} algorithm, however, continues to demonstrate flow stability, maintaining and progressively increasing speeds above the Standard baseline. At $2077~\unit{\veh\per\hour}$, it increases average speed from $12.46~\unit{\metre\per\second}$ to $12.88~\unit{\metre\per\second}$ at full penetration.
+
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.49\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_HBEFA4_Cars2077.pdf}
-    \caption{Mean vehicle speed as a function of \ac{mpr} for the HBEFA4 emission model at a demand level of $2077\,\mathrm{veh/h}$.}
+    \caption{Mean vehicle speed as a function of \ac{mpr} for the HBEFA4 emission model at a demand level of $2077\unit{\veh\per\hour}$.}
     \label{fig:MeanSpeed_HBEFA4_2077}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.49\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_PHEMLIGHT5_Cars2077.pdf}
-    \caption{Mean vehicle speed as a function of \ac{mpr} for the PHEMlight5 emission model at a demand level of $2077\,\mathrm{veh/h}$.}
+    \caption{Mean vehicle speed as a function of \ac{mpr} for the PHEMlight5 emission model at a demand level of $2077\unit{\veh\per\hour}$.}
     \label{fig:MeanSpeed_PHEM_2077}
   \end{subfigure}
-  \caption[Mean vehicle speed vs. \ac{mpr} at $2077~\unit{\veh\per\hour}$]{Mean vehicle speed as a function of \ac{mpr} at a demand of $2077~\unit{\veh\per\hour}$. The plots compare the Standard, \ac{eco-glosa}, and \ac{flow-glosa} controllers under two different emission models.}
-\label{fig:MeanSpeed_2077}
+  \caption[Mean speed vs. \ac{mpr} at $2077\unit{\veh\per\hour}$]{%
+    Mean vehicle speed as a function of \ac{mpr} at a demand of $2077~\unit{\veh\per\hour}$. Both emission models (HBEFA4 and PHEMlight5) are compared under Standard, \ac{eco-glosa}, and \ac{flow-glosa} controllers.
+  }
+  \label{fig:MeanSpeed_2077}
 \end{figure}
 
-\paragraph{2. Flow Stability and Jam Resolution of \ac{flow-glosa}.}
-In contrast, the \ac{flow-glosa} algorithm demonstrates remarkable flow stability. It successfully maintains near-Standard speeds for demands up to $2769~\unit{\veh\per\hour}$. Under fully saturated conditions ($3462~\unit{\veh\per\hour}$), it proves capable of dissolving the traffic jam once penetration exceeds approximately $80\%$. The mean speed increases from a gridlocked $3.86~\unit{\metre\per\second}$ to $12.18~\unit{\metre\per\second}$ at $100\%$ \ac{mpr}. This behaviour confirms that a flow-optimised strategy can actively restore free-flow conditions, as shown in Figures~\vref{fig:MeanSpeed_HBEFA4_3462} and \vref{fig:MeanSpeed_PHEM_3462}.
+\paragraph{High Demand ($2769~\unit{\veh\per\hour}$).}
+At this demand level, the system operates near its capacity limit, and clear breakpoints emerge where \ac{eco-glosa} can induce congestion, defined as speed falling below $4~\unit{\metre\per\second}$ (Figure~\vref{fig:MeanSpeed_2769}). The choice of emission model significantly dictates the system's stability. Under the transient-sensitive PHEMlight5 model, the network consistently degrades into a traffic jam when the \ac{mpr} reaches $30\%$. The HBEFA4 model, in contrast, exhibits high instability, characterised by significant speed fluctuations. The sharp speed drop observed at $60\%$ \ac{mpr} is an outlier that illustrates this fragility. This event is an instance of the cascading failure phenomenon described previously; in a single simulation run, persistently slow vehicles acting as a moving bottleneck can trigger a widespread, non-recoverable traffic jam. On the other hand, \ac{flow-glosa} manages to stay close to or even above Standard speeds across the entire \ac{mpr} range, showing that it is stable close to capacity.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_HBEFA4_Cars3462.pdf}
-    \caption{Mean vehicle speed as a function of \ac{mpr} for the HBEFA4 emission model at $3462\,\mathrm{veh/h}$.}
-    \label{fig:MeanSpeed_HBEFA4_3462}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.49\textwidth}
-    \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_PHEMLIGHT5_Cars3462.pdf}
-    \caption{Mean vehicle speed as a function of \ac{mpr} for the PHEMlight5 emission model at $3462\,\mathrm{veh/h}$.}
-    \label{fig:MeanSpeed_PHEM_3462}
-  \end{subfigure}
-  \caption[Mean vehicle speed vs. \ac{mpr} at $3462~\unit{\veh\per\hour}$]{Mean vehicle speed as a function of \ac{mpr} in the fully saturated regime of $3462~\unit{\veh\per\hour}$. The results for the Standard, \ac{eco-glosa}, and \ac{flow-glosa} controllers are shown for both the HBEFA4 and PHEMlight5 models.}
-\label{fig:MeanSpeed_3462}
-\end{figure}
-
-\paragraph{3. Emission-Model Sensitivity.}
-The choice of emission model significantly influences the simulated speed for the \ac{eco-glosa} controller, particularly in congestion. At $2769~\unit{\veh\per\hour}$ and $60\%$ \ac{mpr}, the HBEFA4 model reports a speed of $3.52~\unit{\metre\per\second}$, whereas the more sensitive PHEMlight5 model shows a lower speed of $2.89~\unit{\metre\per\second}$ (see Figures~\vref{fig:MeanSpeed_HBEFA4_2769} and~\vref{fig:MeanSpeed_PHEM_2769}). This divergence occurs because the PHEMlight5 model more heavily penalises the short bursts of high engine power characteristic of stop-and-go traffic, prompting the eco-controller to adopt even more conservative (slower) speed profiles.
-
-\begin{figure}[htb]
-  \centering
-  \begin{subfigure}[b]{0.49\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_HBEFA4_Cars2769.pdf}
     \caption{Mean vehicle speed as a function of \ac{mpr} for the HBEFA4 emission model at $2769\,\mathrm{veh/h}$.}
     \label{fig:MeanSpeed_HBEFA4_2769}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.49\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_PHEMLIGHT5_Cars2769.pdf}
     \caption{Mean vehicle speed as a function of \ac{mpr} for the PHEMlight5 emission model at $2769\,\mathrm{veh/h}$.}
     \label{fig:MeanSpeed_PHEM_2769}
@@ -60,26 +46,40 @@ The choice of emission model significantly influences the simulated speed for th
 \label{fig:MeanSpeed_2769}
 \end{figure}
 
-\paragraph{4. Jam-Onset Thresholds.}
-The data reveal clear breakpoints where traffic flow collapses into a jam, defined as speed falling below $4~\unit{\metre\per\second}$. For a demand of $2769~\unit{\veh\per\hour}$, the PHEMlight5 model shows a jam forming when the \ac{eco-glosa} \ac{mpr} reaches $30\%$. The HBEFA4 model postpones this onset until the \ac{mpr} is higher, at $60\%$. Notably, the average speed under HBEFA4 fluctuates significantly before this point, indicating the system is highly unstable as it approaches its capacity limit. At the highest demand of $3462~\unit{\veh\per\hour}$, both models show the network is already at the jam threshold under Standard conditions, with \ac{eco-glosa} unable to prevent a further collapse in speed at any penetration rate.
+\paragraph{Saturated Regime ($3462~\unit{\veh\per\hour}$).}
+Under fully saturated conditions, the network is already congested under the Standard scenario, with an average speed of only $3.86~\unit{\metre\per\second}$. The introduction of \ac{eco-glosa} not only fails to alleviate this breakdown, but further exacerbates the speed collapse across all penetration rates. Conversely, \ac{flow-glosa} proves capable of preventing the traffic jam once its penetration exceeds approximately $80\%$. As shown in Figures~\vref{fig:MeanSpeed_HBEFA4_3462} and \vref{fig:MeanSpeed_PHEM_3462}, it actively preserves free-flow conditions, with the mean speed increasing from the gridlocked $3.86~\unit{\metre\per\second}$ to $12.18~\unit{\metre\per\second}$ at $100\%$ \ac{mpr}.
 
-\paragraph{5. Residual Overshoot at Low Demand.}
-In sub-saturated conditions ($69$--$1385~\unit{\veh\per\hour}$), the \ac{eco-glosa} controller occasionally produces average speeds slightly higher than the Standard. The largest overshoot of approximately $0.52~\unit{\metre\per\second}$ occurs at $69~\unit{\veh\per\hour}$ with $10\%$ \ac{mpr}. This effect stems from the algorithm's \enquote{anticipatory glide}, which smooths minor stop-and-go waves present in the baseline traffic, thereby reducing deceleration phases. However, this minor gain is quickly negated as the controller's fuel-saving objective leads to overall lower speeds at higher penetration rates.
-
-\paragraph{6. Progressive Speed Gains under \ac{flow-glosa}.}
-The \ac{flow-glosa} controller delivers consistent speed improvements as its penetration increases, even in unsaturated conditions. At low demand ($69~\unit{\veh\per\hour}$), the speed increases from $13.34$ to $13.88~\unit{\metre\per\second}$ (a $4.1\%$ gain) at $90\%$ \ac{mpr}. Similarly, at high demand ($2769~\unit{\veh\per\hour}$), it increases from $11.94$ to $12.55~\unit{\metre\per\second}$ (a $5.1\%$ gain) at $100\%$ \ac{mpr}. This progressive uplift underscores the controller's effectiveness at improving throughput across all traffic regimes.
-
-\paragraph{7. Fine-grained View of Speed: \ac{glosa} vs. Non-\ac{glosa} Vehicles.}
-A more precise analysis, separating the average speeds of \ac{glosa}-equipped and non-equipped vehicles, reveals the direct impact of each control strategy on its users, as detailed in Tables~\vref{tab:avg_speed_hbefa4} (HBEFA4) and \vref{tab:avg_speed_phemlight5} (PHEMlight5). Figure~\vref{fig:MeanSpeed_Combined} presents both models side by side for direct comparison. For the \ac{eco-glosa} controller, a consistent pattern emerges: equipped vehicles almost invariably travel slower than their unequipped counterparts in the same traffic stream. This effect is particularly pronounced under the transient-sensitive PHEMlight5 model. For instance, at a demand of $1385~\unit{\veh\per\hour}$ and just $10\%$ \ac{mpr}, equipped vehicles have an average speed of only $11.02~\unit{\metre\per\second}$, which is over $13\%$ slower than the $12.71~\unit{\metre\per\second}$ maintained by non-equipped vehicles. This speed deficit is a direct consequence of the controller's objective function, which prioritises fuel efficiency by advising more conservative, slower speed profiles. In contrast, vehicles under the \ac{flow-glosa} algorithm experience a direct benefit. Equipped vehicles consistently match or exceed the speeds of unequipped vehicles. At a low demand of $69~\unit{\veh\per\hour}$ (HBEFA4), \ac{flow-glosa} vehicles reach speeds of up to $14.23~\unit{\metre\per\second}$ ($40\%$ \ac{mpr}), approximately $6.7\%$ faster than the non-equipped baseline, thereby actively improving traffic flow for all participants.
-
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.49\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
+    \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_HBEFA4_Cars3462.pdf}
+    \caption{Mean vehicle speed as a function of \ac{mpr} for the HBEFA4 emission model at $3462\,\mathrm{veh/h}$.}
+    \label{fig:MeanSpeed_HBEFA4_3462}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
+    \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AverageVehicleSpeed_PHEMLIGHT5_Cars3462.pdf}
+    \caption{Mean vehicle speed as a function of \ac{mpr} for the PHEMlight5 emission model at $3462\,\mathrm{veh/h}$.}
+    \label{fig:MeanSpeed_PHEM_3462}
+  \end{subfigure}
+  \caption[Mean vehicle speed vs. \ac{mpr} at $3462~\unit{\veh\per\hour}$]{Mean vehicle speed as a function of \ac{mpr} in the fully saturated regime of $3462~\unit{\veh\per\hour}$. The results for the Standard, \ac{eco-glosa}, and \ac{flow-glosa} controllers are shown for both the HBEFA4 and PHEMlight5 models.}
+\label{fig:MeanSpeed_3462}
+\end{figure}
+
+\paragraph{Implications.}
+A primary distinction arises from the controllers' design philosophies. The advisory logic of \ac{flow-glosa} is purely kinematic, making its performance independent of the chosen emission model; its speed curves are identical for HBEFA4 and PHEMlight5. In contrast, the \ac{eco-glosa} controller's behaviour is intrinsically linked to the underlying fuel map. This sensitivity explains why, at high demand ($2769~\unit{\veh\per\hour}$), the system under the PHEMlight5 model consistently collapses into congestion at a low \ac{mpr} of $30\%$, while the HBEFA4 model only exhibits stochastic instability. This divergence occurs because the PHEMlight5 model more heavily penalises the short bursts of high engine power characteristic of stop-and-go traffic, prompting \ac{eco-glosa} to adopt even more conservative (slower) speed profiles.
+\mynewline
+This divergence becomes most critical in saturated conditions. At a demand of $3462~\unit{\veh\per\hour}$, \ac{eco-glosa}'s focus on individual vehicle efficiency is counterproductive, exacerbating existing gridlock. The \ac{flow-glosa} controller, however, proves its utility not merely as an efficiency tool but as a network resilience strategy. It successfully prevents the queue once the \ac{mpr} exceeds $80\%$, actively keeping free-flow conditions to a network that would otherwise remain gridlocked.
+\mynewline
+The granular comparison in Tables~\vref{tab:avg_speed_hbefa4} and \vref{tab:avg_speed_phemlight5} and Figure~\vref{fig:MeanSpeed_Combined} sharpens these implications from a user-centric perspective. An individual driver using \ac{eco-glosa} accepts a direct trade-off: potential fuel savings at the cost of a slower journey compared to non-equipped vehicles. This personal speed penalty, which can exceed $13\%$ under the PHEMlight5 model, may hinder user adoption. Conversely, the \ac{flow-glosa} system confers a direct benefit on its users, who consistently match or exceed the speeds of their unequipped peers. This aligns individual incentives with system-wide goals, making it a more compelling proposition for drivers. Therefore, deployment strategies must weigh the marginal fuel benefits of \ac{eco-glosa} in light traffic against its significant risk of causing network collapse under heavy load --- a risk not present with the throughput-oriented \ac{flow-glosa}.
+
+\begin{figure}[htbp]
+  \centering
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AvgSpeedHBEFA4Combined.pdf}
     \caption{Mean vehicle speed vs. \ac{mpr} for the HBEFA4 emission model.}
     \label{fig:MeanSpeed_HBEFA4_all}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.49\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/AverageVehicleSpeed/AvgSpeedPHEMlight5Combined.pdf}
     \caption{Mean vehicle speed vs. \ac{mpr} for the PHEMlight5 emission model.}
     \label{fig:MeanSpeed_PHEM_all}
@@ -88,12 +88,14 @@ A more precise analysis, separating the average speeds of \ac{glosa}-equipped an
   \label{fig:MeanSpeed_Combined}
 \end{figure}
 
-\paragraph{Implications.}
-A primary distinction arises from the controllers' design philosophies. The advisory logic of \ac{flow-glosa} is purely kinematic, making its performance independent of the chosen emission model. Consequently, its speed curves in Figures~\vref{fig:MeanSpeed_HBEFA4_2077} and \vref{fig:MeanSpeed_PHEM_2077} are identical, providing a stable baseline for comparison. By contrast, the \ac{eco-glosa} controller's behaviour is intrinsically linked to the underlying fuel map. This sensitivity results in markedly different performance outcomes. For example, at a demand of $2077~\unit{\veh\per\hour}$, the transient-sensitive PHEMlight5 model causes speeds to degrade at an \ac{mpr} of just $10\%$, whereas the HBEFA4 model shows speeds remaining stable until a higher penetration is reached.
-This divergence becomes most critical in saturated conditions. At a demand of $3462~\unit{\veh\per\hour}$, the \ac{eco-glosa} controller's focus on individual vehicle efficiency is counterproductive and fails to alleviate the gridlock. The \ac{flow-glosa} controller, however, successfully dissolves the queue once the \ac{mpr} exceeds $80\%$. It actively restores free-flow conditions, with average speeds recovering to over $12~\unit{\metre\per\second}$, as shown in Figures~\vref{fig:MeanSpeed_HBEFA4_3462} and \vref{fig:MeanSpeed_PHEM_3462}.
-At lighter, sub-saturated volumes ($69$--$1385~\unit{\veh\per\hour}$), the \ac{eco-glosa} controller does offer marginal speed smoothing. This effect can occasionally lead to a slight increase in average speed over the Standard, with a maximum observed overshoot of approximately $0.52~\unit{\metre\per\second}$ at $10\%$ \ac{mpr}. However, this minor gain vanishes as \ac{mpr} increases and the controller's primary objective of saving fuel leads to more conservative speed profiles. Therefore, the deployment strategy for these controllers depends heavily on the operational traffic regime. On lightly loaded arterials, \ac{eco-glosa} may be deployed to fine-tune speed consistency. However, for corridors operating near or above capacity (e.g., $> 2000~\unit{\veh\per\hour}$), the \ac{flow-glosa} algorithm is essential. Its role in these scenarios is not merely to maintain throughput, but to actively prevent network collapse and resolve existing gridlock.
-\mynewline
-The granular comparison in Tables~\vref{tab:avg_speed_hbefa4} and \vref{tab:avg_speed_phemlight5} further sharpens these implications from a user-centric perspective. An individual driver using \ac{eco-glosa} accepts a direct trade-off: fuel savings at the cost of a slower journey compared to non-equipped vehicles. This personal speed penalty, which can exceed $13\%$ under the PHEMlight5 model, may hinder user adoption. Conversely, the \ac{flow-glosa} system confers a direct benefit on its users, who often travel faster than their unequipped peers. This aligns individual incentives with system-wide goals, making it a more compelling proposition for drivers. Therefore, the deployment strategy for these controllers depends not only on the operational traffic regime but also on user acceptance.
+\paragraph{Key Takeaways.}
+\begin{enumerate}
+    \item \textbf{\ac{eco-glosa} Impact:} The average vehicle speed under \ac{eco-glosa} control consistently decreases as its market penetration rate increases. This effect is negligible at low demands but leads to significant speed degradation, network instability, and consequently congestion at high demands.
+    \item \textbf{\ac{flow-glosa} Impact:} The \ac{flow-glosa} controller maintains or progressively improves average vehicle speeds across all traffic volumes and penetration rates. Crucially, it demonstrates the ability to prevent existing traffic jams in saturated conditions.
+    \item \textbf{Emission Model Sensitivity:} The performance of \ac{eco-glosa} is highly sensitive to the underlying emission model. The more detailed PHEMlight5 model penalises transient states more heavily, causing \ac{eco-glosa} to advise more conservative speeds and inducing congestion at lower demand levels than the HBEFA4 model.
+    \item \textbf{Congestion Thresholds:} \ac{eco-glosa} actively contributes to traffic breakdown when demand is high. For corridors operating near or above capacity (e.g., $> 2000~\unit{\veh\per\hour}$), a flow-oriented strategy is essential to maintain stability and prevent collapse.
+    \item \textbf{User Perspective:} \ac{eco-glosa} imposes a speed penalty on its users in exchange for fuel efficiency, which may hinder adoption. In contrast, \ac{flow-glosa} provides a direct speed benefit to its users, aligning individual and system-wide goals.
+\end{enumerate}
 
 \begin{table}[htb]
   \centering

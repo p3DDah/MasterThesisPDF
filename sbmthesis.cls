@@ -465,3 +465,6 @@
 \DeclareSIUnit{\gallon}{gal}
 
 \sloppy
+
+\renewcommand{\vref}[1]{\ref{#1}}
+\renewcommand{\namevref}[1]{\nameref{#1}}

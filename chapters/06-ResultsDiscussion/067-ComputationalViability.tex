@@ -1,7 +1,7 @@
-\section{Computational Viability}
+\section{Computational Feasability}
 \label{sec:Results_Computational}
 
-The computational viability of the \ac{eco-glosa} and \ac{flow-glosa} algorithms was assessed by measuring the total simulation runtime for each scenario. Because absolute execution times are hardware-dependent, this analysis focuses primarily on the relative computational overheads between different configurations. The raw durations are listed in Table~\vref{tab:CompViability_TraciComparison} and Table~\vref{tab:CompViability_SumoTraci}.
+The computational feasibility of the \ac{eco-glosa} and \ac{flow-glosa} algorithms was assessed by measuring the total simulation runtime for each scenario. Because absolute execution times are hardware-dependent, this analysis focuses primarily on the relative computational overheads between different configurations. The raw durations are listed in Table~\vref{tab:CompViability_TraciComparison} and Table~\vref{tab:CompViability_SumoTraci}.
 \mynewline
 A primary finding is that the \ac{eco-glosa} algorithm is markedly slower than \ac{flow-glosa}, with the performance gap growing super-linearly with traffic volume, as documented in table~\vref{tab:CompViability_TraciComparison}. At a low demand of $69~\unit{\veh\per\hour}$, the controllers have nearly identical runtimes when no vehicles are equipped. However, at $100\%$ \ac{mpr} under the HBEFA4 model, the \ac{flow-glosa} simulation finishes in $154.27~\unit{\second}$, whereas \ac{eco-glosa} requires $282.56~\unit{\second}$, an increase of $83\%$. This disparity is accentuated by the more demanding PHEMlight5 model, where the slowdown factor reaches $6.2\times$ at full penetration. The performance gap becomes extreme in the saturated scenario of $3462~\unit{\veh\per\hour}$. Here, the \ac{eco-glosa} simulation is over $8.4\times$ slower with HBEFA4 and more than $32\times$ slower with PHEMlight5 compared to its \ac{flow-glosa} counterpart. This significant additional cost is attributable to the fuel-minimisation routine and the high-resolution engine-map lookups that the \ac{eco-glosa} controller must evaluate for every equipped vehicle at each simulation time step.
 \mynewline
@@ -9,14 +9,14 @@ The choice of simulation interface also introduces a significant bottleneck. A c
 \mynewline
 The graphical results in Figures~\vref{fig:Comp_69} to \vref{fig:Comp_3462} visually confirm these trends. At every demand level, the simulation time for \ac{eco-glosa} increases with a much steeper slope as a function of \ac{mpr} than that of \ac{flow-glosa}, which exhibits a milder, more manageable scaling.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/ComputationalViability/ComputationalViability_HBEFA4_Cars69.pdf}
     \caption{Runtimes with the HBEFA4 emission model.}
     \label{fig:Comp_69_HBEFA4}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/ComputationalViability/ComputationalViability_PHEMLIGHT5_Cars69.pdf}
     \caption{Runtimes with the PHEMlight5 emission model}
     \label{fig:Comp_69_PHEM}
@@ -25,14 +25,14 @@ The graphical results in Figures~\vref{fig:Comp_69} to \vref{fig:Comp_3462} visu
   \label{fig:Comp_69}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/ComputationalViability/ComputationalViability_HBEFA4_Cars1385.pdf}
     \caption{Runtimes with the HBEFA4 emission model.}
     \label{fig:Comp_1385_HBEFA4}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/ComputationalViability/ComputationalViability_PHEMLIGHT5_Cars1385.pdf}
     \caption{Runtimes with the PHEMlight5 emission model.}
     \label{fig:Comp_1385_PHEM}
@@ -41,14 +41,14 @@ The graphical results in Figures~\vref{fig:Comp_69} to \vref{fig:Comp_3462} visu
   \label{fig:Comp_1385}
 \end{figure}
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/ComputationalViability/ComputationalViability_HBEFA4_Cars3462.pdf}
     \caption{Runtimes using the HBEFA4 model.}
     \label{fig:Comp_3462_HBEFA4}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/ComputationalViability/ComputationalViability_PHEMLIGHT5_Cars3462.pdf}
     \caption{Runtimes using the PHEMlight5 model}
     \label{fig:Comp_3462_PHEM}

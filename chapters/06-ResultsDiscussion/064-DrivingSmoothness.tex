@@ -3,17 +3,17 @@
 
 The analysis of driving smoothness examines the average acceleration, $\gls{a}$, and average jerk, $\gls{j}$, as functions of the \ac{mpr}. Table~\vref{tab:DrivingSmoothness} reports the paired values $(\gls{a}, \gls{j})$ for the Standard, \ac{flow-glosa}, and \ac{eco-glosa} configurations under both emission models. Figures~\vref{fig:Smoothness_692}, \vref{fig:Smoothness_2769}, and \vref{fig:Smoothness_3462} illustrate these trends at representative traffic volumes.
 
-\paragraph{\ac{eco-glosa} at Low to Medium Volumes}
-Under the \ac{eco-glosa} controller, an inverse relationship between average acceleration and jerk emerges as \ac{mpr} increases. At a demand of $69~\unit{\veh\per\hour}$ with the HBEFA4 model, acceleration falls from $0.30~\unit{\metre\per\second\squared}$ to $0.25~\unit{\metre\per\second\squared}$ (a $17\%$ reduction), while jerk rises from $0.74~\unit{\metre\per\second\cubed}$ to $0.81~\unit{\metre\per\second\cubed}$ (a $9\%$ increase). This pattern, where gentler accelerations are offset by sharper adjustments, is consistent across the PHEMlight5 model and persists at higher moderate volumes such as $692~\unit{\veh\per\hour}$, as seen in Figure~\vref{fig:Smoothness_692}.
+\paragraph{Low to Intermediate Demand ($69$--$692~\unit{\veh\per\hour}$).}
+In this regime, \ac{eco-glosa} consistently establishes an inverse relationship between average acceleration and jerk as \ac{mpr} increases. At a demand of $69~\unit{\veh\per\hour}$ with the HBEFA4 model, acceleration falls from $0.30~\unit{\metre\per\second\squared}$ to $0.25~\unit{\metre\per\second\squared}$ (a $17\%$ reduction), while jerk rises from $0.74~\unit{\metre\per\second\cubed}$ to $0.81~\unit{\metre\per\second\cubed}$ (a $9\%$ increase). This pattern, where gentler accelerations are offset by sharper adjustments, is illustrated in Figure~\vref{fig:Smoothness_692}. In comparison, the \ac{flow-glosa} controller offers more balanced improvements, reducing average acceleration by approximately $15\%$ to $20\%$ from the Standard with only a minimal corresponding increase in average jerk, thereby maintaining a more stable overall profile.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_HBEFA4_Cars692.pdf}
     \caption{Results under the HBEFA4 emission model.}
     \label{fig:Smoothness_HBEFA4_692}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_PHEMLIGHT5_Cars692.pdf}
     \caption{Results under the PHEMlight5 emission model.}
     \label{fig:Smoothness_PHEMlight5_692}
@@ -22,17 +22,20 @@ Under the \ac{eco-glosa} controller, an inverse relationship between average acc
   \label{fig:Smoothness_692}
 \end{figure}
 
-\paragraph{\ac{eco-glosa} at High Volume ($2769~\unit{\veh\per\hour}$).}
-At this demand level, the HBEFA4 model shows fluctuating acceleration values under \ac{eco-glosa}, which rise from the Standard $0.36~\unit{\metre\per\second\squared}$ to $0.41~\unit{\metre\per\second\squared}$ before gradually declining. With the PHEMlight5 model, however, the outcome is more favourable; while not monotonic, the acceleration improves from $0.36~\unit{\metre\per\second\squared}$ to $0.33~\unit{\metre\per\second\squared}$ at full penetration. More significantly, jerk declines to $0.66~\unit{\metre\per\second\cubed}$, a value $13\%$ below the Standard of $0.76~\unit{\metre\per\second\cubed}$ (Figure~\vref{fig:Smoothness_PHEMlight5_2769}). The persistently lower jerk at high \ac{mpr} suggests that once vehicles navigate the initial jam, they maintain smoother trajectories.
+\paragraph{Emerging Congestion ($1385$--$2077~\unit{\veh\per\hour}$).}
+As demand approaches the network's capacity, the trends established at lower volumes continue. Under \ac{eco-glosa}, the trade-off between decreasing acceleration and increasing jerk persists. For the \ac{flow-glosa} controller, both smoothness metrics remain stable and generally improve upon the Standard scenario. At $2077~\unit{\veh\per\hour}$, for instance, \ac{flow-glosa} reduces the baseline acceleration of $0.34~\unit{\metre\per\second\squared}$ down to $0.26~\unit{\metre\per\second\squared}$ at full penetration, while keeping jerk levels steady. This indicates its ability to maintain smooth traffic flow even as the system becomes emphasized.
 
-\begin{figure}[htb]
+\paragraph{High Demand ($2769~\unit{\veh\per\hour}$).}
+At the jam threshold, driving smoothness under \ac{eco-glosa} becomes highly dependent on the emission model (Figure~\vref{fig:Smoothness_2769}). The HBEFA4 model shows fluctuating acceleration values, whereas the PHEMlight5 model achieves a more favourable outcome. This divergence occurs because vehicles under the PHEMlight5 model adopt more conservative, slower speeds to minimise acceleration events, as established in the previous sections. This inherently cautious behaviour prevents the wide fluctuations observed with the HBEFA4 model. Consequently, jerk declines to $0.66~\unit{\metre\per\second\cubed}$, a value $13\%$ below the Standard of $0.76~\unit{\metre\per\second\cubed}$. This suggests that once vehicles navigate the initial stop-and-go waves, their subsequent trajectories are smoother. Throughout this volatile regime, \ac{flow-glosa} continues to provide stable and predictable smoothness benefits.
+
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_HBEFA4_Cars2769.pdf}
     \caption{Performance with the HBEFA4 emission model.}
     \label{fig:Smoothness_HBEFA4_2769}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_PHEMLIGHT5_Cars2769.pdf}
     \caption{Performance with the PHEMlight5 emission model.}
     \label{fig:Smoothness_PHEMlight5_2769}
@@ -41,17 +44,17 @@ At this demand level, the HBEFA4 model shows fluctuating acceleration values und
   \label{fig:Smoothness_2769}
 \end{figure}
 
-\paragraph{\ac{eco-glosa} at Full Saturation ($3462~\unit{\veh\per\hour}$).}
-In the fully saturated regime, both models show clear improvements in smoothness as \ac{mpr} increases. For HBEFA4, acceleration decreases from $0.55$ to $0.38~\unit{\metre\per\second\squared}$ ($31\%$ reduction), and jerk from $0.57$ to $0.51~\unit{\metre\per\second\cubed}$ ($11\%$ reduction) at $100\%$ \ac{mpr}. The PHEMlight5 model shows comparable gains, with acceleration falling to $0.35~\unit{\metre\per\second\squared}$ and jerk to $0.52~\unit{\metre\per\second\cubed}$. However, these smoothness improvements must be interpreted within the context of the traffic jam. As established in Sections~\vref{sec:Results_MeanSpeed} and \vref{sec:Results_Stops}, the controller fails to increase the low average speed or reduce the high stop frequency. Therefore, the data does not indicate a dissolution of the jam. Instead, it suggests that the controller successfully modifies the \enquote{character} of the stop-and-go waves. The aggressive, high-acceleration manoeuvres typical of a congested state are replaced by a smoother, less frantic \enquote{creeping} behaviour. While this change enhances ride comfort, the persistent gridlock confirms that the \ac{eco-glosa} strategy cannot overcome the fundamental capacity limitations at this extreme demand level.
+\paragraph{Saturated Regime ($3462~\unit{\veh\per\hour}$).}
+In the fully saturated regime, where the system is already gridlocked, \ac{eco-glosa} yields clear improvements in both smoothness metrics as \ac{mpr} increases. For HBEFA4, acceleration decreases from $0.55$ to $0.38~\unit{\metre\per\second\squared}$ and jerk from $0.57$ to $0.51~\unit{\metre\per\second\cubed}$. However, this must be interpreted within the context of a persistent traffic jam. The data does not indicate a dissolution of the queue, but rather suggests that the controller successfully modifies the \enquote{character} of the stop-and-go waves from aggressive manoeuvres to a smoother, less frantic \enquote{creeping} behaviour. In contrast, the \ac{flow-glosa} controller's dynamics shift significantly as it prevents gridlock. It exhibits a notable jerk spike from $0.59~\unit{\metre\per\second\cubed}$ to $0.71~\unit{\metre\per\second\cubed}$ at $60\%$ \ac{mpr}. This transient, which is a necessary trade-off for preserving network capacity, precisely corresponds to the point at which traffic waves are absent and cars can travel at free-flowing speeds.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
-  \begin{subfigure}[b]{0.45\textwidth}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_HBEFA4_Cars3462.pdf}
     \caption{Simulation results using the HBEFA4 model.}
     \label{fig:Smoothness_HBEFA4_3462}
-  \end{subfigure}\hfill
-  \begin{subfigure}[b]{0.45\textwidth}
+  \end{subfigure}
+  \begin{subfigure}[b]{0.98\textwidth}
     \includegraphics[width=\textwidth]{data/img/DrivingSmoothness/DrivingSmoothness_PHEMLIGHT5_Cars3462.pdf}
     \caption{Simulation results using the PHEMlight5 model.}
     \label{fig:Smoothness_PHEMlight5_3462}
@@ -60,10 +63,16 @@ In the fully saturated regime, both models show clear improvements in smoothness
   \label{fig:Smoothness_3462}
 \end{figure}
 
-\paragraph{\ac{flow-glosa} Comparison.}
-The \ac{flow-glosa} controller offers acceleration improvements comparable to \ac{eco-glosa} but generally maintains a more stable and consistently lower jerk profile, except in specific high-saturation scenarios. At low to medium volumes, its application reduces average acceleration by approximately $15\%$ to $20\%$ from the Standard, with only a minimal corresponding increase in average jerk.
-\mynewline
-The controller's dynamics shift significantly under full saturation ($3462~\unit{\veh\per\hour}$). It exhibits a notable jerk spike from $0.59~\unit{\metre\per\second\cubed}$ to $0.71~\unit{\metre\per\second\cubed}$ at an \ac{mpr} of $60\%$. This transient corresponds precisely to the point where the traffic jam dissolves and vehicles begin to resume free-flow speeds. A second, more pronounced peak appears at $80\%$ \ac{mpr}, which does not stem from an incoming jam but rather from platoon-based micro-adjustments. With such a high share of equipped vehicles, tight clusters form and must continually react to signal timings. Minor mismatches can force abrupt, platoon-wide decelerations and subsequent re-accelerations, which drives the observed increase in average jerk.
+\paragraph{Implications.}
+The analysis reveals two distinct approaches to driving smoothness. The \ac{eco-glosa} controller consistently attempts to smooth trajectories regardless of the traffic state. In unsaturated conditions, this results in a trade-off where lower average accelerations are achieved at the cost of higher jerk. In saturated conditions, this same logic improves ride comfort by changing the nature of the traffic jam to a smoother progressive motion, but it fails to address the underlying congestion. The \ac{flow-glosa} controller, prioritising throughput, provides balanced smoothness improvements in unsaturated states and accepts a temporary spike in jerk as a necessary by-product of successfully preventing network collapse under saturated conditions. It is important to contextualise these smoothness metrics, however. The high jerk values observed --- both those from the frequent micro-adjustments in the \ac{eco-glosa} strategy and the transient spike from \ac{flow-glosa} --- are likely artifacts of the simulation. In real-world high-demand or congested conditions, human drivers would not replicate such rapid, small-scale accelerations, meaning these specific values are primarily relevant for comparing controller behaviour within the simulation environment rather than predicting on-road performance.
+
+\paragraph{Key Takeaways.}
+\begin{enumerate}
+    \item \textbf{Unsaturated Conditions:} In low to intermediate demand, \ac{eco-glosa} reduces average acceleration at the cost of higher average jerk. \ac{flow-glosa} provides a more balanced improvement, reducing acceleration while keeping jerk stable.
+    \item \textbf{Saturated \ac{eco-glosa} Performance:} In fully saturated, gridlocked conditions, \ac{eco-glosa} significantly improves driving smoothness. It does not prevent the traffic jam but transforms its dynamics from rapidly moving stop-and-go waves into a more comfortable, low-acceleration progressive flow.
+    \item \textbf{Saturated \ac{flow-glosa} Performance:} The \ac{flow-glosa} controller's primary objective is to prevent gridlock. This can result in a transient spike in jerk, which signifies the successful absorption of traffic waves as the system transitions from a near-congested to a free-flow state.
+    \item \textbf{Controller Philosophy Trade-off:} The results highlight a fundamental trade-off. \ac{eco-glosa} optimises for smooth driving within a given traffic state, even if that state is congested. \ac{flow-glosa} optimises to maintain a smooth, uncongested state, accepting momentary lapses in smoothness to achieve this goal.
+\end{enumerate}
 
 \begin{table}[htb]
   \centering
