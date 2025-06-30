@@ -36,31 +36,6 @@ The longitudinal driving behaviour for all vehicles is governed by the \ac{eidm}
 
 \begin{table}[htb]
   \centering
-  \caption[Variable Vehicle Fleet Parameters]{Variable vehicle parameters used to synthesize the heterogeneous fleet in \ac{sumo}. Each parameter is drawn independently of a uniform distribution over the specified range at vehicle spawn time to ensure a realistic mix of driver behaviours and vehicle types. Derived from Lenz \cite{Lenz2024}.}
-  \label{tab:VariableFleetParams}
-  \resizebox{\textwidth}{!}{%
-    \begin{tabular}{l l c c}
-      \toprule
-      \textbf{Parameter} & \textbf{Explanation} & \textbf{Min Value} & \textbf{Max Value} \\
-      \midrule
-      minGap & Minimum vehicle gap at standstill & $0.5\unit{m}$ & $4\unit{m}$ \\
-      accel & Maximum acceleration & $0.97\unit{m\,s^{-2}}$ & $4\unit{m\,s^{-2}}$ \\
-      startupDelay & Time delay until vehicle starts moving & $0.0\unit{s}$ & $2.0\unit{s}$ \\
-      tau & Time headway maintained to the preceding vehicle & $0.5\unit{s}$ & $1.5\unit{s}$ \\
-      delta & Influences how the vehicle reacts to speed differences & $1.0$ & $4.97$ \\
-      treaction & Driver's reaction time & $0.2\unit{s}$ & $0.9\unit{s}$ \\
-      tacmax & Time the vehicle needs to reach maximum acceleration & $0.5\unit{s}$ & $3.0\unit{s}$ \\
-      Mflatness & \enquote{Flatness} of the acceleration and deceleration behavior & $1.0$ & $5.0$ \\
-      Mbegin & Parameter for starting behavior & $0.1$ & $1.49$ \\
-      length & Length of the vehicle & $2.2\unit{m}$ & $9.3\unit{m}$ \\
-      width & Width of the vehicle & $1.5\unit{m}$ & $2.5\unit{m}$ \\
-      \bottomrule
-    \end{tabular}%
-  }
-\end{table}
-
-\begin{table}[htb]
-  \centering
   \caption[Fixed Vehicle Fleet Parameters]{Fixed vehicle parameters shared by all vehicles in the simulation fleet. These values define baseline behaviours and physical constraints, ensuring consistent dynamics across the entire population. Derived from Lenz \cite{Lenz2024}.}
   \label{tab:FixedFleetParams}
   \resizebox{\textwidth}{!}{%
@@ -79,6 +54,31 @@ The longitudinal driving behaviour for all vehicles is governed by the \ac{eidm}
       sigmagap & Inaccuracy of the gap to the preceding vehicle & $0.1$ \\
       jerkmax & Maximum rate of change of acceleration & $3\unit{m\,s^{-3}}$ \\
       epsilonacc & Inaccuracy of acceleration estimation & $1.0$ \\
+      \bottomrule
+    \end{tabular}%
+  }
+\end{table}
+
+\begin{table}[htb]
+  \centering
+  \caption[Variable Vehicle Fleet Parameters]{Variable vehicle parameters used to synthesize the heterogeneous fleet in \ac{sumo}. Each parameter is drawn independently of a uniform distribution over the specified range at vehicle spawn time to ensure a realistic mix of driver behaviours and vehicle types. Derived from Lenz \cite{Lenz2024}.}
+  \label{tab:VariableFleetParams}
+  \resizebox{\textwidth}{!}{%
+    \begin{tabular}{l l c c}
+      \toprule
+      \textbf{Parameter} & \textbf{Explanation} & \textbf{Min Value} & \textbf{Max Value} \\
+      \midrule
+      minGap & Minimum vehicle gap at standstill & $0.5\unit{m}$ & $4\unit{m}$ \\
+      accel & Maximum acceleration & $0.97\unit{m\,s^{-2}}$ & $4\unit{m\,s^{-2}}$ \\
+      startupDelay & Time delay until vehicle starts moving & $0.0\unit{s}$ & $2.0\unit{s}$ \\
+      tau & Time headway maintained to the preceding vehicle & $0.5\unit{s}$ & $1.5\unit{s}$ \\
+      delta & Influences how the vehicle reacts to speed differences & $1.0$ & $4.97$ \\
+      treaction & Driver's reaction time & $0.2\unit{s}$ & $0.9\unit{s}$ \\
+      tacmax & Time the vehicle needs to reach maximum acceleration & $0.5\unit{s}$ & $3.0\unit{s}$ \\
+      Mflatness & \enquote{Flatness} of the acceleration and deceleration behavior & $1.0$ & $5.0$ \\
+      Mbegin & Parameter for starting behavior & $0.1$ & $1.49$ \\
+      length & Length of the vehicle & $2.2\unit{m}$ & $9.3\unit{m}$ \\
+      width & Width of the vehicle & $1.5\unit{m}$ & $2.5\unit{m}$ \\
       \bottomrule
     \end{tabular}%
   }

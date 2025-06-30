@@ -1,6 +1,6 @@
 \section{Problem Statement and Project Tasks}
 \label{sec:Problem_Statement_and_Project_Tasks}
-In the following, we first articulate the fundamental research gaps and limitations of current \ac{glosa} implementations that motivate this work. This problem statement will identify both conceptual and methodological shortcomings, ranging from energy-efficiency considerations to scalability in mixed-traffic scenarios, that the project tasks are designed to address.
+First, this section articulates the fundamental research gaps and limitations of current \ac{glosa} implementations that motivate this work. The project tasks are intended to address both conceptual and methodological deficiencies, including scalability in mixed-traffic scenarios and energy-efficiency considerations, as outlined in this problem statement.
 
 \subsection{Problem Statement}
 \label{subsec:Problem_Statement}
@@ -14,8 +14,8 @@ To address these gaps, this thesis will pursue the following tasks:
     \item \textbf{Implementation in SUMO.} Create the \ac{eco-glosa} algorithm in Python and use the \ac{traci} interface to integrate it with \ac{sumo}.
     \item \textbf{Scenario Reconstruction.} Recreate the Stuttgart–Neckartor reference scenario in \ac{sumo}, incorporating measured vehicle trajectories and the real signal-timing plan.
     \item \textbf{Parameter Specification.} Define a comprehensive set of simulation parameters, including \ac{glosa} penetration rates (0–100\%) and traffic densities ($\sim 70\text{--}3500\unit{\veh\per\hour}$).
-    \item \textbf{Simulation Experiments.} Execute three simulation scenarios, which are Standard (no \ac{glosa}), Baseline \ac{flow-glosa}, and Eco \ac{eco-glosa}, across the specified parameter grid.
-    \item \textbf{Data Collection and Metrics.} Record key performance indicators such as average \ac{co2} and \ac{nox} emissions per kilometre, vehicle class–specific emission levels, average speed, acceleration, jerk, number of stops, and green phase flow efficiency.
+    \item \textbf{Simulation Experiments.} Execute three simulation scenarios, which are Standard (no \ac{glosa}), Baseline \ac{flow-glosa}, and \ac{eco-glosa}, across the specified parameter grid.
+    \item \textbf{Data Collection and Metrics.} Measure key performance indicators such as average \ac{co2} and \ac{nox} emissions per kilometre, vehicle class–specific emission levels, average speed, acceleration, jerk, number of stops, and green phase flow efficiency.
     \item \textbf{Comparative and Break-even Analysis.} Conduct a direct comparison of performance metrics across all scenarios to quantify the trade-offs between the control strategies. A break-even analysis is performed to identify the thresholds at which \ac{eco-glosa} becomes more fuel-efficient than the alternative scenarios.
     \item \textbf{Sensitivity Analysis.}  Evaluate how results vary when using different fuel‐consumption models (e.g. PHEMlight5 vs. HBEFA4).
 \end{enumerate}

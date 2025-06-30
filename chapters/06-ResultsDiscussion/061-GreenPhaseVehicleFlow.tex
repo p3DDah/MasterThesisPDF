@@ -3,7 +3,7 @@
 
 The per-cycle vehicle flow for demand levels ranging from $69$ to $3462~\unit{\veh\per\hour}$ across \acp{mpr} is summarized in Table~\vref{tab:GreenPhaseFlow}. \enquote{Standard} ($0\%$) denotes no \ac{glosa}, and \enquote{Baseline} denotes \ac{flow-glosa}. Figure~\vref{fig:combined_flow} visualise the curves for HBEFA4 and PHEMlight5 at $2077$, $2769$ and $3462~\unit{\veh\per\hour}$. At low to moderate demand ($69$--$692~\unit{\veh\per\hour}$), both \ac{eco-glosa} and \ac{flow-glosa} remain within $\pm0.04\unit{\veh\per\hour}$ of the Standard across the full \ac{mpr} range. This implies that speed advisories, regardless of whether they are emission- or flow-optimized, do not significantly impact green-phase capacity in the presence of low traffic densities. Beyond the $2077~\unit{\veh\per\hour}$ breakpoint, the throughput of the \ac{eco-glosa} controller declines sharply. For instance, at a demand of $2769~\unit{\veh\per\hour}$ under the PHEMlight5 model, the flow drops from $46.03$ vehicles at Standard to $35.90$ vehicles at $90\%$ \ac{mpr}, a reduction of $22\%$. A similar decline occurs at $3462~\unit{\veh\per\hour}$ with the HBEFA4 model, where throughput falls from $49.03$ to $37.27$ vehicles at full \ac{mpr}. This provides clear evidence of queue formation and spill‐back occurring within a single green phase. In contrast, the \ac{flow-glosa} baseline curves exhibit modest throughput gains at high penetration under heavy demand, increasing flow above the Standard by up to $17.5\%$ at $3462~\unit{\veh\per\hour}$. The findings of this study confirm, that \ac{eco-glosa} does not affect the flow at low densities, but its emission-driven advisories incur substantial capacity penalties during periods of high demand. Conversely, \ac{flow-glosa} not only maintains, but also improves green-phase capacity at full penetration.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
   \centering
   % first two subfigures
   \begin{subfigure}[t]{0.98\textwidth}
@@ -22,7 +22,7 @@ The per-cycle vehicle flow for demand levels ranging from $69$ to $3462~\unit{\v
   \label{fig:combined_flow}
 \end{figure}
 
-\begin{figure}[htb]\ContinuedFloat
+\begin{figure}[htbp]\ContinuedFloat
   \centering
   % remaining subfigure on next page
   \begin{subfigure}[t]{0.98\textwidth}
@@ -37,7 +37,7 @@ The per-cycle vehicle flow for demand levels ranging from $69$ to $3462~\unit{\v
 
 The primary cause for this behaviour is an inherent design constraint of the \ac{eco-glosa} algorithm: it only provides speed advisories that are equal to or less than the vehicle's initial speed. At high traffic densities ($2769~\unit{\veh\per\hour}$ and above), this conservative approach systematically reduces the average speed of equipped vehicles. As the penetration rate increases, the overall platoon velocity decreases, leading to platoon compression. Consequently, the number of vehicles arriving at the intersection exceeds the capacity that can be discharged during the green phase, resulting in queue formation and the onset of congestion. In these dense traffic conditions, unequipped vehicles have limited ability to manoeuvre or bypass the slower-moving equipped vehicles, forcing them to adopt the reduced platoon speed and further contributing to the decline in throughput. This progressive speed reduction is confirmed by the average vehicle speed data presented in the following section.
 \mynewline
-This phenomenon is exacerbated under the PHEMlight5 emission model. PHEMlight5 assigns a higher cost penalty to even minor acceleration events. To minimise these costs, the \ac{eco-glosa} controller advises even more conservative speed profiles, which accelerates the onset of congestion at lower demand levels, as observed at $2769~\unit{\veh\per\hour}$.
+This phenomenon is changed under the PHEMlight5 emission model. PHEMlight5 assigns a higher cost penalty to even minor acceleration events. To minimise these costs, the \ac{eco-glosa} controller advises even more conservative speed profiles, which accelerates the onset of congestion at lower demand levels, as observed at $2769~\unit{\veh\per\hour}$.
 Furthermore, this mechanism explains the severe, non-recoverable congestion indicated by outliers in the results of HBEFA4 at a demand of $2769~\unit{\veh\per\hour}$. When a vehicle, already slowed by incipient congestion, receives a new advisory, \ac{eco-glosa} is unable to recommend a higher speed even if conditions ahead improve. This vehicle becomes a persistent moving bottleneck, initiating a cascading failure by forcing subsequent vehicles to reduce their speed. This domino effect progressively degrades the overall traffic flow as newly arriving \ac{eco-glosa} vehicles receive increasingly lower speed advisories.
 \mynewline
 In contrast, the \ac{flow-glosa} controller is designed to maximise throughput and is permitted to advise acceleration. This allows it to issue higher speed advisories to slower vehicles, enabling them to catch up to the green wave and increase the vehicle discharge rate per cycle. This fundamental design difference explains why \ac{flow-glosa} can improve capacity where \ac{eco-glosa}, by design, can only maintain or reduce it.

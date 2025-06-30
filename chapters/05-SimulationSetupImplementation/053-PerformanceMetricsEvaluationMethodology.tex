@@ -6,7 +6,7 @@ The assessment framework is designed to expose the trade-off between smoother tr
 \paragraph{Microscopic Traffic Efficiency.}
 The quality of longitudinal driving behaviour is quantified using four primary indicators:
 
-\begin{enumerate}[label=\textbf{(\roman*)}]
+\begin{enumerate}
     \item \textbf{Stops per Vehicle:} The stop frequency, \gls{nstop}, is a key metric for traffic disruption. A stop is defined as an event where a vehicle's speed drops below a threshold of $2\unit{\metre\per\second}$ after having been above it. For a single vehicle $i$, the total number of stops is calculated as:
     \begin{equation}
         N_{\mathrm{stop},i} = \sum_{k=2}^{K}{\mathbbm{1}}(v_{i,k} < 2 \land v_{i,k-1} \ge 2)
@@ -41,24 +41,22 @@ The environmental impact is characterised by per-vehicle pollutant rates, with \
 \begin{equation}
     e_{i} = \frac{1}{1000 \cdot L} \sum_{k=s_i}^{e_i} \dot{m}^{\mathrm{CO_2}}_{k} \cdot \Delta t, \quad \text{where } L = 1.2\,\mathrm{km}
 \end{equation}
-The same form applies to \ac{nox} emissions. The analysis is performed in parallel for both the HBEFA4 and PHEMlight5 emission models.
+The same form applies to \ac{nox} emissions. The analysis is performed for both, the HBEFA4 and PHEMlight5 emission models.
 
 \paragraph{Relative Performance and Break-Even Analysis.}
 To facilitate comparisons, each metric $y$ is expressed as a percentage deviation from the uncontrolled baseline (0\% \ac{mpr}). A break-even analysis is conducted by directly comparing the performance of the \ac{eco-glosa} and \ac{flow-glosa} controllers at each discrete combination of traffic flow and \ac{mpr}. This identifies which controller provides a superior outcome under specific conditions.
 
 \paragraph{Computational Viability.}
-The practical feasibility of each algorithm is assessed by recording and comparing the absolute wall-clock time required to complete each simulation scenario. The incremental cost of the eco-driving algorithm is evaluated by comparing its runtime, $T_{\mathrm{traci,eco}}$, against that of the less complex flow-optimised baseline, $T_{\mathrm{traci,flow}}$.
-
+The practical feasibility of each algorithm is assessed by recording and comparing the absolute wall-clock time required to complete each simulation scenario. The analysis is twofold. First, the incremental cost of the eco-driving algorithm is evaluated by comparing its runtime, $T_{\mathrm{traci,eco}}$, against that of the less complex \ac{traci}-based flow-optimised baseline, $T_{\mathrm{traci,flow}}$. Second, to quantify the overhead of the external control script, the runtime of the \ac{traci}-based \ac{flow-glosa} is compared against the native \ac{sumo} \ac{glosa} implementation, $T_{\mathrm{sumo,flow}}$.
 \paragraph{Visualisation Strategy.}
 The results are conveyed using a harmonised set of graphical summaries:
 \begin{enumerate}[label=\textbf{(\alph*)},leftmargin=*]
     \item \textbf{Line Charts:} Key metrics such as mean speed, stop frequency, and \ac{co2} emissions are plotted as functions of \ac{mpr}. Each traffic demand level is shown in a separate panel to facilitate direct comparison across different levels of congestion.
     \item \textbf{Heat Maps:} The relative performance difference in \ac{co2} emissions between the two controllers is displayed on a two-dimensional grid of traffic flow versus penetration rate. This provides a clear overview of the operating regimes where each strategy delivers a net environmental benefit.
-    \item \textbf{Break-Even Boundary:} On the 2D heat maps, the break-even penetration rate, $p^{\star}$, is traced as a boundary line. The line is solid black where the performance crossover is clear and decisive, and a dashed gray line where the transition is ambiguous or the performance difference is negligible.
 \end{enumerate}
 As each data point is derived from a single deterministic simulation run, no statistical error bars are presented.
 
 \paragraph{Interpretation Focus.}
 The subsequent analysis of results concentrates on two primary objectives: (i) to quantify the absolute and relative reductions in \ac{co2} emissions achieved by the eco-driving algorithm, and (ii) to identify the specific penetration-demand corridors where these ecological benefits can be achieved without significantly degrading traffic throughput. By normalizing all performance metrics against a baseline and indexing them by market penetration, this evaluation methodology yields transparent and scalable insights, ensuring the findings provide a robust foundation for future work involving new algorithms or network geometries.
 \mynewline
-The remainder of this chapter is dedicated to a detailed discussion of these results, structured by the key performance indicators. Section~\vref{sec:Results_GreenPhaseFlow} begins by evaluating the intersection's macroscopic throughput. The analysis then moves to microscopic traffic efficiency, examining the average vehicle speed in Section~\vref{sec:Results_MeanSpeed} and the vehicle stop frequency in Section~\vref{sec:Results_Stops}. Driving smoothness is assessed in Section~\vref{sec:Results_Smoothness} by analysing both the mean absolute acceleration and mean absolute jerk. Subsequently, Section~\vref{sec:Results_Emissions} details the environmental impact, focusing on \ac{co2} and \ac{nox} emissions. The core trade-offs are synthesised in Section~\vref{sec:Results_BreakEven}, which presents the break-even analysis. Finally, the practical feasibility is evaluated in Section~\vref{sec:Results_Computational} by comparing the computational runtimes of the two algorithms.
+The remainder of this chapter is dedicated to a detailed discussion of these results, structured by the key performance indicators.

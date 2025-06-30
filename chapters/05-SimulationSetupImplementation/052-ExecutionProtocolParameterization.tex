@@ -13,7 +13,7 @@ Each run evaluates a unique combination of algorithm, traffic flow, market penet
     
     \item \textbf{Market Penetration.} The \ac{glosa} \ac{mpr} is varied from $0\%$ to $100\%$ in $10$-percentage-point increments. A Bernoulli draw at spawn time classifies each vehicle as equipped or non-equipped.
 
-    \item \textbf{Fuel Model.} To assess sensitivity to the underlying emission calculations, each scenario is executed twice: once using the polynomial-based \ac{hbefa}4 model and once using the more detailed, physics-based \textsc{PHEMlight}5 model, as specified in Section~\ref{subsubsec:detailed_emission_models}.
+    \item \textbf{Fuel Model.} To assess sensitivity to the underlying emission calculations, each scenario is executed twice: once using the polynomial-based HBEFA4 model and once using the more detailed, physics-based PHEMlight5 model, as specified in Section~\ref{subsubsec:detailed_emission_models}.
 
     \item \textbf{Communication range.} Prior work by Lenz \cite{Lenz2024} found no statistically significant difference between $500~\unit{\meter}$ and $1000~\unit{\meter}$ communication horizons; therefore only the $500~\unit{\meter}$ radius is tested. The advisory is sent whenever an equipped vehicle’s distance to the stop line is $\gls{dup} \leq 500~\unit{\meter}$ upstream (i.e., up to $500~\unit{\meter}$ before the stop line) and $\gls{ddown} \leq 200~\unit{\meter}$ downstream (i.e., up to $200~\unit{\meter}$ after the stop line).
 \end{enumerate}
@@ -49,7 +49,7 @@ All other simulation and controller settings, detailed in Table~\ref{tab:Constan
       \textbf{Parameter} & \textbf{Symbol} & \textbf{Value} & \textbf{Description} \\
       \midrule
       Signal Switch Time Buffer & - & $2.1\unit{s}$ & Fixed safety time to account for signal actuation delays. \\
-      Optimizer Slack Time & \gls{tslack} & $[0.1, 5]\unit{s}$ & Uniformly sampled uncertainty in residual phase duration. \\
+      Optimizer Slack Time & \gls{tslack} & $[0.1, 5]\unit{s}$ & Maximum bound for the slack time. \\
       Downstream Horizon & $\gls{ddown}$ & $200\unit{m}$ & Fixed recovery distance for the post-junction trajectory segment. \\
       Yellow Phase Buffer & \gls{epsyellow} & $0.5\unit{s}$ & Safety margin to prevent advising trajectories through an amber phase. \\
       Optimizer Search Step & $\gls{deltaa}$ & $0.01\unit{m\,s^{-2}}$ & Numerical search increment for the acceleration line search. \\

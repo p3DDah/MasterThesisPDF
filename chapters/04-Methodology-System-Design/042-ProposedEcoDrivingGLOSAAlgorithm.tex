@@ -30,14 +30,18 @@ This fundamental concept is depicted in Figure~\vref{fig:EcoGlosaConcept}'s conc
 \end{figure}
 
 The primary contributions of this work, which differentiate it from the foundational paper, are as follows:
+\begin{itemize}
+    \item \textbf{Flexible Emission-Based Cost Function:} While the original work utilized VT-CPFM polynomial coefficients in its cost functional, this implementation replaces the single-model integrand with a flexible emission lookup module. This supports multiple high-fidelity models, including HBEFA4’s polynomial representation and PHEMlight5’s surface interpolation (as described in Section~\vref{subsubsec:detailed_emission_models}), allowing the optimizer to use more accurate, real-world data.
+    
+    \item \textbf{Expanded Two-Variable Optimization:} The optimization problem is extended to find the optimal pair of constant accelerations, $(\gls{aup}, \gls{adown})$, for the upstream and downstream segments, respectively. This is solved using a two-stage approach that combines a coarse brute-force grid search with a subsequent local hill-climbing refinement over the joint acceleration space. This contrasts with the original paper's focus on a single-variable refinement of the upstream acceleration only.
 
-\paragraph{Flexible Emission-Based Cost Function:} While the original work utilized VT-CPFM polynomial coefficients in its cost functional, this implementation replaces the single-model integrand with a flexible emission lookup module. This supports multiple high-fidelity models, including HBEFA4’s polynomial representation and PHEMlight5’s surface interpolation (as described in Section~\vref{subsubsec:detailed_emission_models}), allowing the optimizer to use more accurate, real-world data.
+    \item \textbf{Real-Time \ac{glosa} Integration:} The entire optimization framework is embedded within a real-time \ac{glosa} context, using the \ac{traci} interface to receive live signal phasing and timing data from \ac{sumo}. This enables dynamic, multi-cycle phase scanning for online computation of the time-to-switch (\gls{tts}) and dynamic adjustment of the optimization horizon, eliminating the need for offline processing.
 
-\paragraph{Expanded Two-Variable Optimization:} The optimization problem is extended to find the optimal pair of constant accelerations, $(\gls{aup}, \gls{adown})$, for the upstream and downstream segments, respectively. This is solved using a two-stage approach that combines a coarse brute-force grid search with a subsequent local hill-climbing refinement over the joint acceleration space. This contrasts with the original paper's focus on a single-variable refinement of the upstream acceleration only.
+    \item \textbf{Practical Safety and Control Constraints:} Since the controller advises a \ac{sumo} vehicle rather than commanding direct acceleration inputs, several practical constraints are introduced. The algorithm's output is an advisory speed that is translated into a \gls{sf}, which is validated against permissible bounds $[\gls{minsf}, \gls{maxsf}]$. Furthermore, a minimum advisory speed, \gls{vmin}, is enforced post-optimization to ensure safe and realistic vehicle behaviour, a constraint not present in the original work.
+\end{itemize}
 
-\paragraph{Real-Time \ac{glosa} Integration:} The entire optimization framework is embedded within a real-time \ac{glosa} context, using the \ac{traci} interface to receive live signal phasing and timing data from \ac{sumo}. This enables dynamic, multi-cycle phase scanning for online computation of the time-to-switch (\gls{tts}) and dynamic adjustment of the optimization horizon, eliminating the need for offline processing.
 
-\paragraph{Practical Safety and Control Constraints:} Since the controller advises a \ac{sumo} vehicle rather than commanding direct acceleration inputs, several practical constraints are introduced. The algorithm's output is an advisory speed that is translated into a \gls{sf}, which is validated against permissible bounds $[\gls{minsf}, \gls{maxsf}]$. Furthermore, a minimum advisory speed, \gls{vmin}, is enforced post-optimization to ensure safe and realistic vehicle behaviour, a constraint not present in the original work.
+
 
 While the foundational work by Ala et al. \cite{Ala2016} incorporated queue dissipation via shock-wave estimates, the experiments in this thesis disable explicit queue modelling to focus purely on the performance of the speed advisory component across different traffic densities. Collectively, these enhancements allow the proposed \ac{eco-glosa} algorithm to retain the methodological backbone of the original framework while achieving greater flexibility, realism, and fuel-efficiency in a real-time simulation setting.
 
@@ -69,7 +73,7 @@ This part goes into detail about how the proposed eco-driving controller is stru
     \label{fig:bigfig_part2}
   \end{subfigure}
   \caption[High-level flowchart of the \ac{eco-glosa} algorithm]{
-    Full high-level flowchart of the proposed \ac{eco-glosa} controller’s logic. 
+    High-level flowchart of the proposed \ac{eco-glosa} controller’s logic. 
     Yellow diamonds represent decision points based on real-time simulation data, 
     blue rectangles denote computational or state-update actions, 
     and the red rectangle indicates the fallback heuristic triggered when the primary optimization fails.
